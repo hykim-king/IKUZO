@@ -1,5 +1,23 @@
+ 
+<%@page import="com.pcwk.ehr.mypage_loanlist.SearchDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.pcwk.ehr.mypage_loanlist.LoanListDTO"%>
+<%@page import="com.pcwk.ehr.mypage_loanlist.LoanList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>   
+<%
+      LoanList dao = new LoanList();
+            SearchDTO searchVO = new SearchDTO();
+            searchVO.setPageNo(1);
+            searchVO.setPageSize(10);
+
+
+            List<LoanListDTO> list = dao.doRetrieve(searchVO);
+
+            for(LoanListDTO vo :list) {
+                System.out.println(vo);
+            }
+      %>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,18 +89,20 @@
         </tr>
     </thead>
     <tbody>
+  
+     <%
+       for(LoanListDTO vo :list) {
+       %>
         <tr>
-            <td class="checkbox">01</td>
-            <td class="user_id">도서1</td>
-            <td class="user_name">장르1</td>
-            <td class="rent_author">작가1</td>
+            <td class="rent_num"><%=vo.getNum()%></td>  
+            <td class="user_id"><%=vo.getBookName()%></td>
+            <td class="user_name"><%=vo.getGenreName()%></td>
+            <td class="rent_author"><%=vo.getAuthor()%></td>
         </tr>
-        <tr>
-            <td class="checkbox">02</td>
-            <td class="user_id">도서2</td>
-            <td class="user_name">장르2</td>
-            <td class="rent_author">작가2</td>
-        </tr>                                   
+      <% } %>  
+  
+  
+                                    
     </tbody>
 </table>
 
