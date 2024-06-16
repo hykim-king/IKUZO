@@ -1,4 +1,4 @@
-package com.pcwk.ehr.board;
+package com.pcwk.ehr.managebook;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,41 +25,21 @@ import com.pcwk.ehr.cmn.StringUtil;
  * Servlet implementation class BoardController
  */
 //@WebServlet(description = "게시판 컨트롤러", urlPatterns = { "/board/board.do" })
-public class BoardController extends HttpServlet implements ControllerV, PLog{
+public class manageBookController extends HttpServlet implements ControllerV, PLog{
 	private static final long serialVersionUID = 1L;
     
-	BoardService service;
+	manageBookService service;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardController() {
+    public manageBookController() {
 		log.debug("-----------------");
-    	log.debug("BoardController()");
+    	log.debug("manage02Controller()");
     	log.debug("-----------------");
     	
-    	service = new BoardService();
+    	service = new manageBookService();
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	/*
-	 * protected void doGet(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException {
-	 * log.debug("-----------------"); log.debug("doGet()");
-	 * log.debug("-----------------"); doWork(request, response); }
-	 */
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	/*
-	 * protected void doPost(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException {
-	 * log.debug("-----------------"); log.debug("doPost()");
-	 * log.debug("-----------------"); doWork(request, response); }
-	 */
-
+    
 	public JView doRetrieve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("-----------------");
     	log.debug("doRetrieve()");
@@ -67,6 +47,8 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
     	
     	// JSP viewName 저장(경로)
     	JView viewName = null;
+    	
+    	HttpSession session = request.getSession();
     	
     	SearchDTO inVO = new SearchDTO();
     	//http://localhost:8080/WEB02/board/board.do?work_div=doRetrieve&page_no=2&page_size=20
@@ -91,11 +73,11 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
     	log.debug("inVO : {}", inVO);
     	
     	// service call
-    	List<BoardDTO> list = service.doRetrieve(inVO);
+    	List<manageBookDTO> list = service.doRetrieve(inVO);
     	
     	// reutrn 데이터 확인
     	int i = 0;
-    	for (BoardDTO vo : list) {
+    	for (manageBookDTO vo : list) {
     		log.debug("i : {}, vo : {}", ++i, vo);			
 		}
     	
@@ -108,14 +90,14 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
 		// RequestDispatcher dispacher = request.getRequestDispatcher("/board/board_list.jsp");
 		// dispacher.forward(request, response);		     
     	
-    	return viewName = new JView("/board/board_list.jsp");
+    	return viewName = new JView("/jsp/manage02.jsp");
 	}
-
+	
 	private JView moveToReg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("-----------------");
-    	log.debug("moveToReg()");
-    	log.debug("-----------------");
-    	
+		log.debug("moveToReg()");
+		log.debug("-----------------");
+		
 		return new JView("/board/board_reg.jsp");
 	}
 	
@@ -123,7 +105,7 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
 		log.debug("-----------------");
 		log.debug("doSave()");
 		log.debug("-----------------");
-		BoardDTO inVO = new BoardDTO();
+		manageBookDTO inVO = new manageBookDTO();
 		String title = StringUtil.nvl(request.getParameter("title"), "");
 		String regId = StringUtil.nvl(request.getParameter("regId"), "");
 		String content = StringUtil.nvl(request.getParameter("contents"), "");
@@ -132,10 +114,10 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
 		log.debug("regId : ", regId);
 		log.debug("content : " ,content);
 		
-		inVO.setTitle(title);
-		inVO.setContents(content);
-		inVO.setRegId(regId);
-		inVO.setModId(regId);
+		/*
+		 * inVO.setTitle(title); inVO.setContents(content); inVO.setRegId(regId);
+		 * inVO.setModId(regId)
+		 */;
 		
 		int flag = this.service.doSave(inVO);
 		log.debug("flag : {}", flag);
@@ -151,7 +133,7 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
 		log.debug("-----------------");
 		log.debug("ajaxDoSave()");
 		log.debug("-----------------");
-		BoardDTO inVO = new BoardDTO();
+		manageBookDTO inVO = new manageBookDTO();
 		String title = StringUtil.nvl(request.getParameter("title"), "");
 		String regId = StringUtil.nvl(request.getParameter("regId"), "");
 		String content = StringUtil.nvl(request.getParameter("contents"), "");
@@ -160,10 +142,10 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
 		log.debug(regId);
 		log.debug(content);
 		
-		inVO.setTitle(title);
-		inVO.setContents(content);
-		inVO.setRegId(regId);
-		inVO.setModId(regId);
+		/*
+		 * inVO.setTitle(title); inVO.setContents(content); inVO.setRegId(regId);
+		 * inVO.setModId(regId);
+		 */
 		
 		int flag = this.service.doSave(inVO);
 		log.debug("flag : {}", flag);
@@ -193,108 +175,6 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
 		return null;
 	}
 	
-	public JView doSelectOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		log.debug("-----------------");
-    	log.debug("doSelectOne()");
-    	log.debug("-----------------");
-    	BoardDTO inVO = new BoardDTO();
-    	String seq = StringUtil.nvl(request.getParameter("seq"), "0");
-    	
-    	inVO.setSeq(Integer.parseInt(seq));
-    	log.debug("inVO" + inVO);
-    	
-    	BoardDTO outVO = this.service.selectOneReadCnt(inVO);
-    	log.debug("outVO" + outVO);
-    	
-    	// UI 데이터 전달
-    	request.setAttribute("outVO", outVO);
-    	
-		return new JView("/board/board_mng.jsp");
-	}
-	
-	// doDelete HttpServlet에 존재해서 doDel로 메서드 이름 변경
-	public JView doDel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		log.debug("-----------------");
-    	log.debug("doDel()");
-    	log.debug("-----------------");
-    	
-    	BoardDTO inVO = new BoardDTO();
-    	String seq = StringUtil.nvl(request.getParameter("seq"), "0");
-    	
-    	inVO.setSeq(Integer.parseInt(seq));
-    	log.debug("inVO" + inVO);
-    	
-    	int flag = service.doDelete(inVO);
-    	log.debug("flag : {}", flag);
-    	
-    	String message = "";
-    	if (1 == flag) {
-			message = "삭제 성공";
-		}else {
-			message = "삭제 실패입니다";
-		}
-    	
-    	MessageVO messageVO = new MessageVO();    	
-    	messageVO.setMessageId(String.valueOf(flag));
-    	messageVO.setMsgContents(message);
-    	log.debug("messageVO : {}", messageVO);
-    	
-    	Gson gson = new Gson();
-    	String jsonString = gson.toJson(messageVO);
-    	log.debug("jsonString : {}", jsonString);
-    	
-    	response.setContentType("text/html; charset=UTF-8");
-    	
-    	PrintWriter out = response.getWriter();
-    	out.print(jsonString);
-    	
-		return new JView("");
-	}
-	
-	public JView doUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		log.debug("-----------------");
-    	log.debug("doUpdate()");
-    	log.debug("-----------------");
-		
-		BoardDTO inVO = new BoardDTO();
-		String seq = StringUtil.nvl(request.getParameter("seq"), "0");
-		String title = StringUtil.nvl(request.getParameter("title"), "");
-		String contents = StringUtil.nvl(request.getParameter("contents"), "");
-		String modId = StringUtil.nvl(request.getParameter("modId"), "");
-    	
-		inVO.setSeq(Integer.parseInt(seq));
-		inVO.setTitle(title);
-		inVO.setContents(contents);
-		inVO.setModId(modId);
-		
-    	log.debug("inVO" + inVO);
-    	
-    	int flag = service.doUpdate(inVO);
-    	log.debug("flag : {}", flag);
-    	
-    	String message = "";
-    	if (1 == flag) {
-			message = "수정 성공";
-		}else {
-			message = "수정 실패입니다";
-		}
-		
-    	MessageVO messageVO = new MessageVO();
-    	messageVO.setMessageId(String.valueOf(flag));
-    	messageVO.setMsgContents(message);
-    	
-    	Gson gson = new Gson();
-    	String jsonString = gson.toJson(messageVO);
-    	
-    	log.debug("jsonString : " + jsonString);
-    	response.setContentType("text/html; charset=UTF-8");
-    	
-    	PrintWriter out = response.getWriter();
-    	out.print(jsonString);
-    	
-		return new JView("");
-	}
-	
 	@Override
 	public JView doWork(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("-----------------");
@@ -308,15 +188,6 @@ public class BoardController extends HttpServlet implements ControllerV, PLog{
     	log.debug("workDiv : {}", workDiv);
     	
     	switch (workDiv) {
-    	case "doUpdate":
-    		viewName = doUpdate(request, response);
-    		break;
-    	case "doDelete":
-    		viewName = doDel(request, response);
-    		break;
-    	case "doSelectOne":
-    		viewName = doSelectOne(request, response);
-    		break;
     	case "ajaxdoSave":
     		viewName = ajaxdoSave(request, response);
     		break;

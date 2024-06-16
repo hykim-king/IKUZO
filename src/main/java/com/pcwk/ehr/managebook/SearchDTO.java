@@ -1,4 +1,4 @@
-package com.pcwk.ehr.board;
+package com.pcwk.ehr.managebook;
 
 import com.pcwk.ehr.cmn.DTO;
 

@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcwk.ehr.board.BoardController;
+import com.pcwk.ehr.managebook.manageBookController;
+import com.pcwk.ehr.manageuser.manageUserController;
 
 /**
  * Servlet implementation class FrontControllerV
@@ -27,12 +28,13 @@ public class FrontControllerV extends HttpServlet implements PLog {
     public FrontControllerV() {  
     	log.debug("FrontControllerV()");
     	
-    	controllerMap.put("/IKUZO/board/board.do", new BoardController());
+    	controllerMap.put("/IKUZO/ikuzo/manage01.do", new manageUserController()); // 회원관리자 페이지
+    	controllerMap.put("/IKUZO/ikuzo/manage02.do", new manageBookController()); // 도서관리자 페이지    	
+    	
     	
 		/*
 		 * controllerMap.put("/WEB02/board/board.do", new BoardController());
 		 * controllerMap.put("/WEB02/connect/connect.do", new Controller());
-		 * 
 		 * controllerMap.put("/WEB02/cookie/cookie.do", new CookieController());
 		 * controllerMap.put("/WEB02/login/login.do", new LoginController());
 		 */
