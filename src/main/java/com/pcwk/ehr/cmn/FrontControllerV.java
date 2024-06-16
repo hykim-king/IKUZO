@@ -30,14 +30,20 @@ public class FrontControllerV extends HttpServlet implements PLog {
     	
     	controllerMap.put("/IKUZO/ikuzo/manage01.do", new manageUserController()); // 회원관리자 페이지
     	controllerMap.put("/IKUZO/ikuzo/manage02.do", new manageBookController()); // 도서관리자 페이지    	
-    	
-    	
-		/*
-		 * controllerMap.put("/WEB02/board/board.do", new BoardController());
-		 * controllerMap.put("/WEB02/connect/connect.do", new Controller());
-		 * controllerMap.put("/WEB02/cookie/cookie.do", new CookieController());
-		 * controllerMap.put("/WEB02/login/login.do", new LoginController());
-		 */
+
+//    	controllerMap.put("/IKUZO/ikuzo/board01.do", new /*해당 컨트롤러 이름*/Controller()); // 관리자게시판 페이지    	
+//    	controllerMap.put("/IKUZO/ikuzo/board02.do", new /*해당 컨트롤러 이름*/Controller()); // 회원게시판 페이지    	
+//
+//    	controllerMap.put("/IKUZO/ikuzo/blist.do", new /*해당 컨트롤러 이름*/Controller()); // 도서 목록 페이지    	
+//    	
+//    	controllerMap.put("/IKUZO/ikuzo/index.do", new /*해당 컨트롤러 이름*/Controller()); // 메인 페이지    	
+//    	
+//    	controllerMap.put("/IKUZO/ikuzo/mypage01.do", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [대출목록]    	
+//    	controllerMap.put("/IKUZO/ikuzo/mypage02.do", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [즐겨찾기]
+//
+//    	controllerMap.put("/IKUZO/ikuzo/login.do", new /*해당 컨트롤러 이름*/Controller()); // 로그인 페이지
+//    	controllerMap.put("/IKUZO/ikuzo/idfind.do", new /*해당 컨트롤러 이름*/Controller()); // 계정 찾기 페이지
+//    	controllerMap.put("/IKUZO/ikuzo/pwreset.do", new /*해당 컨트롤러 이름*/Controller()); // 비밀번호 초기화 페이지
     }
 
 	/**
