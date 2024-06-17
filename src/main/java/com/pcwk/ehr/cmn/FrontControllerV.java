@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pcwk.ehr.managebook.manageBookController;
 import com.pcwk.ehr.manageuser.manageUserController;
+import com.pcwk.ehr.mypage.LoanListController;
 
 /**
  * Servlet implementation class FrontControllerV
@@ -38,7 +39,7 @@ public class FrontControllerV extends HttpServlet implements PLog {
 //    	
 //    	controllerMap.put("/IKUZO/ikuzo/index.do", new /*해당 컨트롤러 이름*/Controller()); // 메인 페이지    	
 //    	
-//    	controllerMap.put("/IKUZO/ikuzo/mypage01.do", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [대출목록]    	
+    	controllerMap.put("/IKUZO/ikuzo/mypage01.do", new LoanListController()); // 마이 페이지 [대출목록]    	
 //    	controllerMap.put("/IKUZO/ikuzo/mypage02.do", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [즐겨찾기]
 //
 //    	controllerMap.put("/IKUZO/ikuzo/login.do", new /*해당 컨트롤러 이름*/Controller()); // 로그인 페이지
