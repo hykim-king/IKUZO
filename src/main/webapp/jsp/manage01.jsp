@@ -5,10 +5,10 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common.jsp" %>       
 <%
-       	List<manageUserDTO> list =(List<manageUserDTO>)request.getAttribute("list");
+   	List<manageUserDTO> list =(List<manageUserDTO>)request.getAttribute("list");
 
-         SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
-       %> 
+    SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
+%> 
 searchCon : <%=searchCon%>
 cPath:<%=cPath%>
 <!DOCTYPE html>
