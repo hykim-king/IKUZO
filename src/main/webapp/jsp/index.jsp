@@ -1,7 +1,7 @@
 <%@page import="com.pcwk.ehr.mainpage.MainBoardDTO"%>
-<%@page import="java.util.List"%>
-<%@page import="com.pcwk.ehr.mypage.SearchDTO"%>
+<%@page import="com.pcwk.ehr.mainpage.SearchDTO"%>
 <%@page import="com.pcwk.ehr.mainpage.MainBoardDao"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common.jsp" %>
