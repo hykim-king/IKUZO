@@ -1,5 +1,5 @@
+<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
 <%@page import="com.pcwk.ehr.mainpage.MainBoardDTO"%>
-<%@page import="com.pcwk.ehr.mainpage.SearchDTO"%>
 <%@page import="com.pcwk.ehr.mainpage.MainBoardDao"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
