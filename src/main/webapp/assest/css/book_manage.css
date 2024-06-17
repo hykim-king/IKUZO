@@ -15,11 +15,11 @@ section{
     list-style: none;
 }
 @media (min-width: 1200px) {
-    .inner-container{
-        width: 70%;
-        height : auto;
-        margin: 0 auto;
-    }
+   .inner-container{
+       width: 70%;
+       height : auto;
+       margin: 0 auto;
+   }
 }
 
 /* 페이지 선택 시작 */

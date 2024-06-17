@@ -13,16 +13,16 @@ import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.WorkDiv;
 
-public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
+public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 
 	private ConnectionMaker connectionMaker;
 	
-	public manageUserDao() {
+	public ManageUserDao() {
 		connectionMaker = new ConnectionMaker();
 	}
 
 	@Override
-	public List<manageUserDTO> doRetrieve(DTO search) {
+	public List<ManageUserDTO> doRetrieve(DTO search) {
 		// 1. DriverManager
 		// 2. Connection
 		// 3. Statement/preparedStatement
@@ -43,7 +43,7 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 		PreparedStatement pstmt = null; // SQL+PARAM
 		ResultSet	rs			= null; // SQL문의 결과
 		
-		List<manageUserDTO> list = new ArrayList<manageUserDTO>();
+		List<ManageUserDTO> list = new ArrayList<ManageUserDTO>();
 
 		sb.append("SELECT * FROM (																							\n");
 		sb.append("    SELECT ROWNUM AS num, subquery.*                                                                    \n");
@@ -164,7 +164,7 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 			log.debug("5.rs:\n" + rs);
 			while (rs.next()) {
 				// 건수 최대값만 정해짐
-				manageUserDTO outVO = new manageUserDTO();
+				ManageUserDTO outVO = new ManageUserDTO();
 				
 				outVO.setRnum(rs.getInt("num"));
 				outVO.setUserId(rs.getString("USER_ID"));
@@ -187,7 +187,7 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 	}
 
 	@Override
-	public int doDelete(manageUserDTO param) {
+	public int doDelete(ManageUserDTO param) {
 		int flag = 0;
 		Connection conn = connectionMaker.getConnection();
 		
@@ -223,8 +223,8 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 	}
 	
 	@Override
-	public manageUserDTO doSelectOne(manageUserDTO param) {
-		manageUserDTO outVO = null; // 단건조회 결과
+	public ManageUserDTO doSelectOne(ManageUserDTO param) {
+		ManageUserDTO outVO = null; // 단건조회 결과
 		Connection conn = connectionMaker.getConnection();
 		PreparedStatement pstmt = null; // SQL+PARAM
 		ResultSet	rs			= null; // SQL문의 결과
@@ -265,7 +265,7 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 			log.debug("5.rs:\n" + rs);
 			
 			if(rs.next()) {
-				outVO = new manageUserDTO();
+				outVO = new ManageUserDTO();
 				
 				outVO.setUserId(rs.getString("USER_ID"));
 				outVO.setUserName(rs.getString("USER_NAME"));
@@ -288,7 +288,7 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 	} // doSelectOne 끝
 
 	@Override
-	public int doUpdate(manageUserDTO param) {
+	public int doUpdate(ManageUserDTO param) {
 		int flag = 0;
 		Connection conn = connectionMaker.getConnection();
 		
@@ -323,7 +323,7 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 		return flag;
 	}
 
-	public int doUpdateBack(manageUserDTO param) {
+	public int doUpdateBack(ManageUserDTO param) {
 		int flag = 0;
 		Connection conn = connectionMaker.getConnection();
 		
@@ -372,7 +372,7 @@ public class manageUserDao implements WorkDiv<manageUserDTO>, PLog {
 	}
 
 	@Override
-	public int doSave(manageUserDTO param) {
+	public int doSave(ManageUserDTO param) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

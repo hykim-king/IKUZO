@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.pcwk.ehr.cmn.PLog;
 
-public class manageUserDaoMain implements PLog{
+public class ManageUserDaoMain implements PLog{
 
-	manageUserDao dao;
-	manageUserDTO board01;
+	ManageUserDao dao;
+	ManageUserDTO board01;
 	
-	public manageUserDaoMain() {
-		dao = new manageUserDao();
+	public ManageUserDaoMain() {
+		dao = new ManageUserDao();
 		
-		board01 = new manageUserDTO(1, "user1", "user1", "N", "없음", "24/06/11", "null", 0, 41);
+		board01 = new ManageUserDTO(1, "user1", "user1", "N", "없음", "24/06/11", "null", 0, 41);
 	}
 	
 	public void doSave(){
@@ -38,7 +38,7 @@ public class manageUserDaoMain implements PLog{
 	
 	public void doSelectOne(){
 		log.debug("doSelectOne()");
-		manageUserDTO outVO = dao.doSelectOne(board01);
+		ManageUserDTO outVO = dao.doSelectOne(board01);
 		if (null != outVO) {
 			log.debug("검색 성공 : {}", outVO);
 		}else {
@@ -63,11 +63,11 @@ public class manageUserDaoMain implements PLog{
 		searchVO.setSearchDiv("50");
 		searchVO.setSearchWord("80");
 		
-		List<manageUserDTO> list = dao.doRetrieve(searchVO);
+		List<ManageUserDTO> list = dao.doRetrieve(searchVO);
 		
 		int i =0;
 		
-		for (manageUserDTO vo :list) {
+		for (ManageUserDTO vo :list) {
 			log.debug("i: {}, vo: {}", ++i, vo);
 		}
 	} // doRetrieve 끝
@@ -93,7 +93,7 @@ public class manageUserDaoMain implements PLog{
 	} // doUpdateBack 끝 	
 	
 	public static void main(String[] args) {
-		manageUserDaoMain m = new manageUserDaoMain();
+		ManageUserDaoMain m = new ManageUserDaoMain();
 		//m.doUpdate();
 		//m.doUpdateBack();
 		//m.doDelete();

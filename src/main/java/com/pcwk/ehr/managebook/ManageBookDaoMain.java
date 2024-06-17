@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.pcwk.ehr.cmn.PLog;
 
-public class manageBookDaoMain implements PLog{
+public class ManageBookDaoMain implements PLog{
 
-	manageBookDao dao;
-	manageBookDTO board01;
+	ManageBookDao dao;
+	ManageBookDTO board01;
 	
-	public manageBookDaoMain() {
-		dao = new manageBookDao();
+	public ManageBookDaoMain() {
+		dao = new ManageBookDao();
 		
-		board01 = new manageBookDTO(1, "TEST1", 10, "소설", "AUTHOR1_2", "COMPANY", "Y", 1234567890123l, "24/06/12", "INTRO_2", "없음", "없음", "없음", "Y", 41, "admin2", "SYSDATE", "admin2", "SYSDATE");
+		board01 = new ManageBookDTO(1, "TEST1", 10, "소설", "AUTHOR1_2", "COMPANY", "Y", 1234567890123l, "24/06/12", "INTRO_2", "없음", "없음", "없음", "Y", 41, "admin2", "SYSDATE", "admin2", "SYSDATE");
 		// board01 = new manage2DTO(도서번호, "제목", "장르", "장르코드", "장르명", "작가", "출판사", "대출가능여부", ISBN[long], 출판일, 도서소개, "대출일", "반납예정일", "반납일", "대출연장카운트", "대출코드", "등록자", "등록일", "수정자", "수정일");
 	}
 	
@@ -39,7 +39,7 @@ public class manageBookDaoMain implements PLog{
 	
 	public void doSelectOne(){
 		log.debug("doSelectOne()");
-		manageBookDTO outVO = dao.doSelectOne(board01);
+		ManageBookDTO outVO = dao.doSelectOne(board01);
 		if (null != outVO) {
 			log.debug("검색 성공 : {}", outVO);
 		}else {
@@ -57,11 +57,11 @@ public class manageBookDaoMain implements PLog{
 //		searchVO.setSearchDiv("50");
 //		searchVO.setSearchWord("80");
 		
-		List<manageBookDTO> list = dao.doRetrieve(searchVO);
+		List<ManageBookDTO> list = dao.doRetrieve(searchVO);
 		
 		int i =0;
 		
-		for (manageBookDTO vo :list) {
+		for (ManageBookDTO vo :list) {
 			log.debug("i: {}, vo: {}", ++i, vo);
 		}
 	} // doRetrieve 끝
@@ -87,7 +87,7 @@ public class manageBookDaoMain implements PLog{
 	} // doUpdate 끝 	
 	
 	public static void main(String[] args) {
-		manageBookDaoMain m = new manageBookDaoMain();
+		ManageBookDaoMain m = new ManageBookDaoMain();
 		m.doDueDateUpdate();
 		//m.doUpdate();
 		//m.doDelete();

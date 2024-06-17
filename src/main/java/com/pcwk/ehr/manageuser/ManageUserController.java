@@ -25,19 +25,19 @@ import com.pcwk.ehr.cmn.StringUtil;
  * Servlet implementation class BoardController
  */
 //@WebServlet(description = "게시판 컨트롤러", urlPatterns = { "/board/board.do" })
-public class manageUserController extends HttpServlet implements ControllerV, PLog{
+public class ManageUserController extends HttpServlet implements ControllerV, PLog{
 	private static final long serialVersionUID = 1L;
     
-	manageUserService service;
+	ManageUserService service;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public manageUserController() {
+    public ManageUserController() {
 		log.debug("-----------------");
     	log.debug("manage01Controller()");
     	log.debug("-----------------");
     	
-    	service = new manageUserService();
+    	service = new ManageUserService();
     }
     
 	public JView doRetrieve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -73,11 +73,11 @@ public class manageUserController extends HttpServlet implements ControllerV, PL
     	log.debug("inVO : {}", inVO);
     	
     	// service call
-    	List<manageUserDTO> list = service.doRetrieve(inVO);
+    	List<ManageUserDTO> list = service.doRetrieve(inVO);
     	
     	// reutrn 데이터 확인
     	int i = 0;
-    	for (manageUserDTO vo : list) {
+    	for (ManageUserDTO vo : list) {
     		log.debug("i : {}, vo : {}", ++i, vo);			
 		}
     	
@@ -93,47 +93,50 @@ public class manageUserController extends HttpServlet implements ControllerV, PL
     	return viewName = new JView("/jsp/manage01.jsp");
 	}
 	
-	private JView moveToReg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	// doDelete HttpServlet에 존재해서 doDel로 메서드 이름 변경
+	public JView doDel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		log.debug("-----------------");
-		log.debug("moveToReg()");
-		log.debug("-----------------");
-		
-		return new JView("/board/board_reg.jsp");
-	}
-	
-	private JView doSave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		log.debug("-----------------");
-		log.debug("doSave()");
-		log.debug("-----------------");
-		manageUserDTO inVO = new manageUserDTO();
-		String title = StringUtil.nvl(request.getParameter("title"), "");
-		String regId = StringUtil.nvl(request.getParameter("regId"), "");
-		String content = StringUtil.nvl(request.getParameter("contents"), "");
-		
-		log.debug("title : ", title);
-		log.debug("regId : ", regId);
-		log.debug("content : " ,content);
-		
-		/*
-		 * inVO.setTitle(title); inVO.setContents(content); inVO.setRegId(regId);
-		 * inVO.setModId(regId)
-		 */;
-		
-		int flag = this.service.doSave(inVO);
-		log.debug("flag : {}", flag);
-		
-		if (1 == flag) {
-			return new JView("/board/board.do?work_div=doRetrieve");
+    	log.debug("doDel()");
+    	log.debug("-----------------");
+    	
+    	ManageUserDTO inVO = new ManageUserDTO();
+    	String userId = StringUtil.nvl(request.getParameter("userId"), "0");
+    	
+    	inVO.setUserId(userId);
+    	log.debug("inVO" + inVO);
+    	
+    	int flag = service.doDelete(inVO);
+    	log.debug("flag : {}", flag);
+    	
+    	String message = "";
+    	if (1 == flag) {
+			message = "삭제 성공";
+		}else {
+			message = "삭제 실패입니다";
 		}
-		
-		return null;
+    	
+    	MessageVO messageVO = new MessageVO();    	
+    	messageVO.setMessageId(String.valueOf(flag));
+    	messageVO.setMsgContents(message);
+    	log.debug("messageVO : {}", messageVO);
+    	
+    	Gson gson = new Gson();
+    	String jsonString = gson.toJson(messageVO);
+    	log.debug("jsonString : {}", jsonString);
+    	
+    	response.setContentType("text/html; charset=UTF-8");
+    	
+    	PrintWriter out = response.getWriter();
+    	out.print(jsonString);
+    	
+		return new JView("");
 	}
 	
 	public JView ajaxdoSave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		log.debug("-----------------");
 		log.debug("ajaxDoSave()");
 		log.debug("-----------------");
-		manageUserDTO inVO = new manageUserDTO();
+		ManageUserDTO inVO = new ManageUserDTO();
 		String title = StringUtil.nvl(request.getParameter("title"), "");
 		String regId = StringUtil.nvl(request.getParameter("regId"), "");
 		String content = StringUtil.nvl(request.getParameter("contents"), "");
@@ -188,18 +191,15 @@ public class manageUserController extends HttpServlet implements ControllerV, PL
     	log.debug("workDiv : {}", workDiv);
     	
     	switch (workDiv) {
+    	case "doRetrieve":
+    		viewName = doRetrieve(request, response);
+    		break;  
+    	case "doDelete":
+    		viewName = doDel(request, response);
+    		break;
     	case "ajaxdoSave":
     		viewName = ajaxdoSave(request, response);
     		break;
-    	case "doSave":
-    		viewName = doSave(request, response);
-    		break;    	
-    	case "moveToReg":
-    		viewName = moveToReg(request, response);
-    		break;
-		case "doRetrieve":
-			viewName = doRetrieve(request, response);
-			break;
 
 		default:
 			log.debug("작업구분을 확인하세요. workDiv : {}", workDiv);

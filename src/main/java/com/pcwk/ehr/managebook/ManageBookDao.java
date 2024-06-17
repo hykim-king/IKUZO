@@ -13,16 +13,16 @@ import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.WorkDiv;
 
-public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
+public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 
 	private ConnectionMaker connectionMaker;
 	
-	public manageBookDao() {
+	public ManageBookDao() {
 		connectionMaker = new ConnectionMaker();
 	}
 
 	@Override
-	public List<manageBookDTO> doRetrieve(DTO search) {
+	public List<ManageBookDTO> doRetrieve(DTO search) {
 		// 1. DriverManager
 		// 2. Connection
 		// 3. Statement/preparedStatement
@@ -49,7 +49,7 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 		PreparedStatement pstmt = null; // SQL+PARAM
 		ResultSet	rs			= null; // SQL문의 결과
 		
-		List<manageBookDTO> list = new ArrayList<manageBookDTO>();
+		List<ManageBookDTO> list = new ArrayList<ManageBookDTO>();
 
 		sb.append("SELECT *																					\n");
 		sb.append("FROM (                                                                                   \n");
@@ -171,7 +171,7 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 			log.debug("5.rs:\n" + rs);
 			while (rs.next()) {
 				// 건수 최대값만 정해짐
-				manageBookDTO outVO = new manageBookDTO();
+				ManageBookDTO outVO = new ManageBookDTO();
 				
 				outVO.setBookName(rs.getString("BOOK_NAME"));
 				outVO.setGenre(rs.getString("GENRE_NAME"));
@@ -198,7 +198,7 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 	} // doRetrieve 끝
 
 	@Override
-	public int doDelete(manageBookDTO param) {
+	public int doDelete(ManageBookDTO param) {
 		int flag = 0;
 		Connection conn = connectionMaker.getConnection();
 		
@@ -234,8 +234,8 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 	}
 	
 	@Override
-	public manageBookDTO doSelectOne(manageBookDTO param) {
-		manageBookDTO outVO = null; // 단건조회 결과
+	public ManageBookDTO doSelectOne(ManageBookDTO param) {
+		ManageBookDTO outVO = null; // 단건조회 결과
 		Connection conn = connectionMaker.getConnection();
 		PreparedStatement pstmt = null; // SQL+PARAM
 		ResultSet	rs			= null; // SQL문의 결과
@@ -271,7 +271,7 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 			log.debug("5.rs:\n" + rs);
 			
 			if(rs.next()) {
-				outVO = new manageBookDTO();
+				outVO = new ManageBookDTO();
 				
 				outVO.setBookName(rs.getString("BOOK_NAME"));
 				outVO.setGenre(rs.getString("GENRE_NAME"));
@@ -293,7 +293,7 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 	} // doSelectOne 끝
 
 	@Override
-	public int doSave(manageBookDTO param) {
+	public int doSave(ManageBookDTO param) {
 		int flag = 0;
 		Connection conn = connectionMaker.getConnection();
 		PreparedStatement pstmt = null; // SQL + PARAM
@@ -359,7 +359,7 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 	}
 
 	@Override
-	public int doUpdate(manageBookDTO param) {
+	public int doUpdate(ManageBookDTO param) {
 		int flag = 0;
 		Connection conn = connectionMaker.getConnection();
 		
@@ -408,7 +408,7 @@ public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 		return flag;
 	}
 	
-	public int doDueDateUpdate(manageBookDTO param) {
+	public int doDueDateUpdate(ManageBookDTO param) {
 		int flag = 0;
 		Connection conn = connectionMaker.getConnection();
 		

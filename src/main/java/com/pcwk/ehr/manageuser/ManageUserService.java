@@ -5,30 +5,30 @@ import java.util.List;
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
 
-public class manageUserService implements PLog {
+public class ManageUserService implements PLog {
 
-	private manageUserDao dao;
-	public	manageUserService() {
-		dao = new manageUserDao();
+	private ManageUserDao dao;
+	public	ManageUserService() {
+		dao = new ManageUserDao();
 	}
 	
 	// 목록 조회
-	public List<manageUserDTO> doRetrieve(DTO search){
+	public List<ManageUserDTO> doRetrieve(DTO search){
 		return dao.doRetrieve(search);
 	}
 	
 	// 저장
-	public int doSave(manageUserDTO param) {
+	public int doSave(ManageUserDTO param) {
 		return dao.doSave(param);
 	}
 	
 	// 수정
-	public int doUpdate(manageUserDTO param) {
+	public int doUpdate(ManageUserDTO param) {
 		return dao.doUpdate(param);
 	}
 	
 	// 삭제
-	public int doDelete(manageUserDTO param) {
+	public int doDelete(ManageUserDTO param) {
 		return dao.doDelete(param);
 	}	
 } // class

@@ -1,34 +1,49 @@
-<%@page import="com.pcwk.ehr.managebook.manageBookDTO"%>
-<%@page import="com.pcwk.ehr.managebook.manageBookDao"%>
+<%@page import="com.pcwk.ehr.managebook.ManageBookDTO"%>
+<%@page import="com.pcwk.ehr.managebook.ManageBookDao"%>
 <%@page import="com.pcwk.ehr.managebook.SearchDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common.jsp" %>  
 <%
-    List<manageBookDTO> list =(List<manageBookDTO>)request.getAttribute("list");
+  List<ManageBookDTO> list =(List<ManageBookDTO>)request.getAttribute("list");
 
-    SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
-%>      
-<%-- <%
-manageBookDao dao = new manageBookDao();
-SearchDTO searchVO = new SearchDTO();
-searchVO.setPageNo(1);
-searchVO.setPageSize(20);
-
-List<manageBookDTO> list = dao.doRetrieve(searchVO);
-
-for(manageBookDTO vo :list) {
-    System.out.println(vo);
-}
-%>    --%> 
+      SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
+  %>   
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
-<link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/book_manage.css">
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    // 페이지 이동 버튼
+    const manageUserbtn = document.querySelector("#manageUserbtn"); 
+    const manageBookbtn = document.querySelector("#manageBookbtn"); 
+
+    // 이벤트 핸들러 시작
+    manageUserbtn.addEventListener('click', function(event){ // 회원관리 페이지 이동 버튼 클릭
+       moveToMuser();
+    }); // click
+    manageBookbtn.addEventListener('click', function(event){ // 도서관리 페이지 이동 버튼 클릭
+       moveToMbook();
+    }); // click
+    // 이벤트 핸들러 끝
+    
+    // 함수 시작
+    function moveToMuser(){ // 회원관리페이지이동 함수
+      console.log("userbtn");
+      window.location.href = "/IKUZO/ikuzo/manage01.ikuzo?work_div=doRetrieve";
+    }    
+    function moveToMbook(){ // 도서관리페이지이동 함수
+      console.log("bookbtn");
+      window.location.href = "/IKUZO/ikuzo/manage02.ikuzo?work_div=doRetrieve";
+    }    
+    // 함수 끝
+});
+</script>
 </head>
 <body>
 <!-- header 시작  -->  
@@ -46,10 +61,10 @@ for(manageBookDTO vo :list) {
     <div class="page-list-group">
         <div class="page-list-inner">
             <div>
-                <a href="manage01.jsp">회원 관리</a>
+                <a id ="manageUserbtn">회원 관리</a>
             </div>
             <div class="active">
-                <a href="manage02.jsp">도서 관리</a>
+                <a id ="manageBookbtn">도서 관리</a>
             </div>
         </div>    
     </div>
@@ -98,8 +113,8 @@ for(manageBookDTO vo :list) {
     </thead>
     <tbody>
     <%
-       for(manageBookDTO vo :list) {
-       %>
+    for(ManageBookDTO vo :list) {
+    %>
         <tr>
             <td class="checkbox"><input type="checkbox" class="chk"></td>
             <td class="book_name"><%=vo.getBookName()%></td>

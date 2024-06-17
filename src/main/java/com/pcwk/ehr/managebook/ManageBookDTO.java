@@ -2,7 +2,7 @@ package com.pcwk.ehr.managebook;
 
 import com.pcwk.ehr.cmn.DTO;
 
-public class manageBookDTO extends DTO {
+public class ManageBookDTO extends DTO {
 	private int	   bookCode; // 도서번호
 	private String bookName; // 도서제목
 	private int	   bookGenre; // 장르코드
@@ -23,9 +23,9 @@ public class manageBookDTO extends DTO {
 	private String modId; // 수정자
 	private String modDt; // 수정일
 	
-	public manageBookDTO() {} // 빈통
+	public ManageBookDTO() {} // 빈통
 
-	public manageBookDTO(int bookCode, String bookName, int bookGenre, String genre, String author, String publisher,
+	public ManageBookDTO(int bookCode, String bookName, int bookGenre, String genre, String author, String publisher,
 			String rentYn, long isbn, String bookPubDate, String bookInfo, String rentDate, String dueDate,
 			String retunredDate, String noreturnCount, int rentCode, String regId, String regDt, String modId,
 			String modDt) {

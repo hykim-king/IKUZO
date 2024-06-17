@@ -2,25 +2,26 @@
     pageEncoding="UTF-8"%>
       <header id = "header">
     <h1 id="logo">
-      <a>
-        <img alt="logoImg" src="../assest/img/logo.png" id="logoImg">
-      </a>
+      <a href="/IKUZO/webapp/jsp/index.jsp">
+        <img alt="logoImg" src="/IKUZO/assest/img/logo.png" id="logoImg">
+      </a>      
+      <!-- <img alt="image" src="/IKUZO/assest/img/imgT.png" id="image"> -->
     </h1>
 
     <div id="headerMenu" >
       <ul>
         
         <li>
-          <a href="#">로그인</a>
+          <a href="http://localhost:8080/project22/jsp/login.jsp">로그인</a>
         </li>
         <li>
-          <a href="#">회원가입</a>
+          <a href="http://localhost:8080/project22/jsp/join.jsp">회원가입</a>
         </li>
         <li>
-          <a href="#">마이페이지</a>
+          <a href="http://localhost:8080/project22/jsp/myPage01.jsp">마이페이지</a>
         </li>
         <li>
-          <a href="#">관리자페이지</a>
+          <a href="http://localhost:8080/project22/jsp/manage01.jsp">관리자페이지</a>
         </li>
       </ul>
     </div>  
@@ -64,18 +65,18 @@
           <li><a href="#">커뮤니티</a>
           
               <ul id="navSubMenu3">
-                  <li><a href="#">서브메뉴3-1</a></li>
-                  <li><a href="#">서브메뉴3-2</a></li>
-                  <li><a href="#">서브메뉴3-3</a></li>
+                  <li><a href="http://localhost:8080/project22/jsp/board01.jsp">공지사항</a></li>
+                  <li><a href="http://localhost:8080/project22/jsp/board02.jsp">소통마당</a></li>
+                
               </ul>
               
           </li>
           <li><a href="#">나만의 도서관</a>
           
               <ul id="navSubMenu4">
-                  <li><a href="#">서브메뉴4-1</a></li>
-                  <li><a href="#">서브메뉴4-2</a></li>
-                  <li><a href="#">서브메뉴4-3</a></li>
+                  <li><a href="http://localhost:8080/project22/jsp/myPage01.jsp">대출목록</a></li>
+                  <li><a href="http://localhost:8080/project22/jsp/myPage02.jsp">즐겨찾기</a></li>
+               
               </ul>
               
           </li>

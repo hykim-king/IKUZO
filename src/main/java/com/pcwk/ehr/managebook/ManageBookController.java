@@ -25,19 +25,19 @@ import com.pcwk.ehr.cmn.StringUtil;
  * Servlet implementation class BoardController
  */
 //@WebServlet(description = "게시판 컨트롤러", urlPatterns = { "/board/board.do" })
-public class manageBookController extends HttpServlet implements ControllerV, PLog{
+public class ManageBookController extends HttpServlet implements ControllerV, PLog{
 	private static final long serialVersionUID = 1L;
     
-	manageBookService service;
+	ManageBookService service;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public manageBookController() {
+    public ManageBookController() {
 		log.debug("-----------------");
     	log.debug("manage02Controller()");
     	log.debug("-----------------");
     	
-    	service = new manageBookService();
+    	service = new ManageBookService();
     }
     
 	public JView doRetrieve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -73,11 +73,11 @@ public class manageBookController extends HttpServlet implements ControllerV, PL
     	log.debug("inVO : {}", inVO);
     	
     	// service call
-    	List<manageBookDTO> list = service.doRetrieve(inVO);
+    	List<ManageBookDTO> list = service.doRetrieve(inVO);
     	
     	// reutrn 데이터 확인
     	int i = 0;
-    	for (manageBookDTO vo : list) {
+    	for (ManageBookDTO vo : list) {
     		log.debug("i : {}, vo : {}", ++i, vo);			
 		}
     	
@@ -105,7 +105,7 @@ public class manageBookController extends HttpServlet implements ControllerV, PL
 		log.debug("-----------------");
 		log.debug("doSave()");
 		log.debug("-----------------");
-		manageBookDTO inVO = new manageBookDTO();
+		ManageBookDTO inVO = new ManageBookDTO();
 		String title = StringUtil.nvl(request.getParameter("title"), "");
 		String regId = StringUtil.nvl(request.getParameter("regId"), "");
 		String content = StringUtil.nvl(request.getParameter("contents"), "");
@@ -133,7 +133,7 @@ public class manageBookController extends HttpServlet implements ControllerV, PL
 		log.debug("-----------------");
 		log.debug("ajaxDoSave()");
 		log.debug("-----------------");
-		manageBookDTO inVO = new manageBookDTO();
+		ManageBookDTO inVO = new ManageBookDTO();
 		String title = StringUtil.nvl(request.getParameter("title"), "");
 		String regId = StringUtil.nvl(request.getParameter("regId"), "");
 		String content = StringUtil.nvl(request.getParameter("contents"), "");

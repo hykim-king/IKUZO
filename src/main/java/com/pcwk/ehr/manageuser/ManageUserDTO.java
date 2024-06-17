@@ -2,7 +2,7 @@ package com.pcwk.ehr.manageuser;
 
 import com.pcwk.ehr.cmn.DTO;
 
-public class manageUserDTO extends DTO {
+public class ManageUserDTO extends DTO {
 	private int rnum; // 번호
 	private String  userId	 ;//유저 아이디
 	private String  userName ;//유저 이름
@@ -13,9 +13,9 @@ public class manageUserDTO extends DTO {
 	private int extraSum; // 연체금액	
 	private int rentCode; // 대출번호
 	
-	public manageUserDTO() {} // 빈통
+	public ManageUserDTO() {} // 빈통
 
-	public manageUserDTO(int rnum, String userId, String userName, String isAdmin, String rentBookYn, String rentDate,
+	public ManageUserDTO(int rnum, String userId, String userName, String isAdmin, String rentBookYn, String rentDate,
 			String returnedDate, int extraSum, int rentCode) {
 		super();
 		this.rnum = rnum;
