@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pcwk.ehr.cmn.ConnectionMarker;
+import com.pcwk.ehr.cmn.ConnectionMaker;
 import com.pcwk.ehr.cmn.DBUtil;
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
@@ -15,10 +15,10 @@ import com.pcwk.ehr.cmn.WorkDiv;
 
 public class manageBookDao implements WorkDiv<manageBookDTO>, PLog {
 
-	private ConnectionMarker connectionMaker;
+	private ConnectionMaker connectionMaker;
 	
 	public manageBookDao() {
-		connectionMaker = new ConnectionMarker();
+		connectionMaker = new ConnectionMaker();
 	}
 
 	@Override
