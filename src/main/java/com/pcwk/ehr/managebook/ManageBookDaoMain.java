@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.SearchDTO;
 
 public class ManageBookDaoMain implements PLog{
 

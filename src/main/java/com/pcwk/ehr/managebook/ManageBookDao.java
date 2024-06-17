@@ -11,6 +11,7 @@ import com.pcwk.ehr.cmn.ConnectionMaker;
 import com.pcwk.ehr.cmn.DBUtil;
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.cmn.WorkDiv;
 
 public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {

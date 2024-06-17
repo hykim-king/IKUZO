@@ -1,4 +1,4 @@
-<%@page import="com.pcwk.ehr.manageuser.SearchDTO"%>
+<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
 <%@page import="com.pcwk.ehr.manageuser.ManageUserDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

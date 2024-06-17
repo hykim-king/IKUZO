@@ -19,6 +19,7 @@ import com.pcwk.ehr.cmn.ControllerV;
 import com.pcwk.ehr.cmn.JView;
 import com.pcwk.ehr.cmn.MessageVO;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.cmn.StringUtil;
 
 /**
