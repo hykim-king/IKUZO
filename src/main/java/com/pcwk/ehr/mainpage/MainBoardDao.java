@@ -21,7 +21,8 @@ private ConnectionMaker connectionMaker;
 	public MainBoardDao() {
 		connectionMaker=new ConnectionMaker();
 	}
-
+	
+	//메인페이지화면 게시판(공지사항)
 	public List<MainBoardDTO> doRetrieveAdimY(DTO search) {
 		SearchDTO searchVO = (SearchDTO)search;
 		
@@ -76,7 +77,8 @@ private ConnectionMaker connectionMaker;
 		return list;
 	}//--doRetrieveAdimY end
 
-
+	
+	//메인페이지화면 게시판(소통마당)
 	public List<MainBoardDTO> doRetrieveAdimN(DTO search) {
 		SearchDTO searchVO = (SearchDTO)search;
 		
