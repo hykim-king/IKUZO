@@ -16,8 +16,8 @@ cPath:<%=cPath%>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/WEB02/assest/css/bookbook.css">
-<link rel="stylesheet" href="/WEB02/assest/css/book_board.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
 </head>
 <body>
 <!-- header 시작  -->  
@@ -118,6 +118,6 @@ cPath:<%=cPath%>
 <!-- footer 시작  -->
 <%@ include file="footer.jsp" %>
 <!-- footer 끝  -->
-<script src="/WEB02/assest/js/check.js"></script>
+<script src="/IKUZO/assest/js/check.js"></script>
 </body>
 </html>

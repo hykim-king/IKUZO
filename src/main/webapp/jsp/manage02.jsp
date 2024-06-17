@@ -4,8 +4,13 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/jsp/common.jsp" %>       
+<%@ include file="/jsp/common.jsp" %>  
 <%
+    List<manageBookDTO> list =(List<manageBookDTO>)request.getAttribute("list");
+
+    SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
+%>      
+<%-- <%
 manageBookDao dao = new manageBookDao();
 SearchDTO searchVO = new SearchDTO();
 searchVO.setPageNo(1);
@@ -16,14 +21,14 @@ List<manageBookDTO> list = dao.doRetrieve(searchVO);
 for(manageBookDTO vo :list) {
     System.out.println(vo);
 }
-%>    
+%>    --%> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/WEB02/assest/css/bookbook.css">
-<link rel="stylesheet" href="/WEB02/assest/css/book_board.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
 </head>
 <body>
 <!-- header 시작  -->  
@@ -130,6 +135,6 @@ for(manageBookDTO vo :list) {
 <!-- footer 시작  -->
 <%@ include file="footer.jsp" %>
 <!-- footer 끝  -->
-<script src="/WEB02/assest/js/check.js"></script>
+<script src="/IKUZO/assest/js/check.js"></script>
 </body>
 </html>
