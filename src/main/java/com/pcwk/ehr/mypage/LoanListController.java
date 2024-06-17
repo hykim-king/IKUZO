@@ -14,8 +14,9 @@ import javax.servlet.http.HttpSession;
 import com.pcwk.ehr.cmn.ControllerV;
 import com.pcwk.ehr.cmn.JView;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.cmn.StringUtil;
-import com.pcwk.ehr.mypage.SearchDTO;
+
 
 /**
  * Servlet implementation class LoanListController

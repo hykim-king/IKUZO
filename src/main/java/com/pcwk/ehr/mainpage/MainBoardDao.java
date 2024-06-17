@@ -11,9 +11,10 @@ import com.pcwk.ehr.cmn.ConnectionMaker;
 import com.pcwk.ehr.cmn.DBUtil;
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.cmn.WorkDiv;
 import com.pcwk.ehr.mypage.LoanListDTO;
-import com.pcwk.ehr.mypage.SearchDTO;
+
 
 public class MainBoardDao implements WorkDiv<MainBoardDTO>, PLog{
 private ConnectionMaker connectionMaker;
