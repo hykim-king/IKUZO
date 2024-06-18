@@ -1,5 +1,5 @@
+<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
 <%@page import="com.pcwk.ehr.mypage.LoanListDTO"%>
-<%@page import="com.pcwk.ehr.mypage.SearchDTO"%>
 <%@page import="com.pcwk.ehr.mypage.LoanListDao"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -37,14 +37,14 @@ LoanListDao dao = new LoanListDao();
 <!-- 호출 -->  
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-	//조회버튼 객체생성
-	const doRetrieveBtn = document.querySelector("#doRetrieve");
-	
-	//html객체를 자바스크립트에서 생성
-	const searchWord = document.querySelector("#search_word");
-	
-	//이벤트 핸들러
-	
+  //조회버튼 객체생성
+  const doRetrieveBtn = document.querySelector("#doRetrieve");
+  
+  //html객체를 자바스크립트에서 생성
+  const searchWord = document.querySelector("#search_word");
+  
+  //이벤트 핸들러
+  
 });//--addEventListener "DOMContentLoaded" end
 
 
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <!-- header 시작  -->  
 <%@ include file="header.jsp" %>
 <!-- header 끝  -->
-	
+  
 <!-- container -->
 <section class="container">
     <div class="inner-container">
