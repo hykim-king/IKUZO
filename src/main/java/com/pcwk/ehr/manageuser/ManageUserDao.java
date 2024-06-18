@@ -207,6 +207,7 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 			pstmt = conn.prepareStatement(sb.toString());
 			log.debug("4. pstmt : {}", pstmt);
 			
+			// 파라메터 설정
 			pstmt.setString(1, param.getUserId());
 			
 			// DML 수행

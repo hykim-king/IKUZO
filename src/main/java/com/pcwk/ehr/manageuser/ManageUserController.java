@@ -101,9 +101,9 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
     	log.debug("-----------------");
     	
     	ManageUserDTO inVO = new ManageUserDTO();
-    	String userId = StringUtil.nvl(request.getParameter("userId"), "0");
+    	String userIds = StringUtil.nvl(request.getParameter("userIds"), "0");
     	
-    	inVO.setUserId(userId);
+    	inVO.setUserId(userIds);
     	log.debug("inVO" + inVO);
     	
     	int flag = service.doDelete(inVO);
@@ -130,6 +130,44 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
     	PrintWriter out = response.getWriter();
     	out.print(jsonString);
     	
+		return new JView("");
+	}
+	
+	public JView doUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		log.debug("-----------------");
+		log.debug("doUpdate()");
+		log.debug("-----------------");
+		
+		ManageUserDTO inVO = new ManageUserDTO();
+		String userIds = StringUtil.nvl(request.getParameter("userIds"), "0");
+		
+		inVO.setUserId(userIds);
+		log.debug("inVO" + inVO);
+		
+		int flag = service.doUpdate(inVO);
+		log.debug("flag : {}", flag);
+		
+		String message = "";
+		if (1 == flag) {
+			message = "반납 완료";
+		}else {
+			message = "반납 업데이트 실패입니다";
+		}
+		
+		MessageVO messageVO = new MessageVO();    	
+		messageVO.setMessageId(String.valueOf(flag));
+		messageVO.setMsgContents(message);
+		log.debug("messageVO : {}", messageVO);
+		
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(messageVO);
+		log.debug("jsonString : {}", jsonString);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		
+		PrintWriter out = response.getWriter();
+		out.print(jsonString);
+		
 		return new JView("");
 	}
 	
@@ -197,6 +235,9 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
     		break;  
     	case "doDelete":
     		viewName = doDel(request, response);
+    		break;
+    	case "doUpdate":
+    		viewName = doUpdate(request, response);
     		break;
     	case "ajaxdoSave":
     		viewName = ajaxdoSave(request, response);

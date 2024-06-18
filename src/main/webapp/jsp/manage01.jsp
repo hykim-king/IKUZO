@@ -17,8 +17,8 @@ cPath:<%=cPath%>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
-<link rel="stylesheet" href="/IKUZO/assest/css/book_manage.css">
+<link rel="stylesheet" href="/WEB03/assest/css/bookbook.css">
+<link rel="stylesheet" href="/WEB03/assest/css/book_manage.css">
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 	  // isEmpty 함수 정의
@@ -38,6 +38,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // 삭제 버튼
     const deletebtn = document.querySelector("#deletebtn");	
+
+    // 반납 버튼
+    const UpdateBtn = document.querySelector("#UpdateBtn");	
     
     // 이벤트 핸들러 시작
     manageUserbtn.addEventListener('click', function(event){ // 회원관리 페이지 이동 버튼 클릭
@@ -49,16 +52,19 @@ document.addEventListener("DOMContentLoaded", function(){
     deletebtn.addEventListener('click', function(event){ // 회원삭제 버튼 클릭
     	doDeleteUser(); 
     }); // click    
+    UpdateBtn.addEventListener('click', function(event){ // 반납 버튼 클릭
+    	doUpdate();
+    }); // click
     // 이벤트 핸들러 끝
     
     // 함수 시작
     function moveToMuser(){ // 회원관리페이지이동 함수
     	console.log("userbtn");
-      window.location.href = "/IKUZO/ikuzo/manage01.ikuzo?work_div=doRetrieve";
+      window.location.href = "/WEB03/jsp/manage01.ikuzo?work_div=doRetrieve";
     }    
     function moveToMbook(){ // 도서관리페이지이동 함수
     	console.log("bookbtn");
-      window.location.href = "/IKUZO/ikuzo/manage02.ikuzo?work_div=doRetrieve";
+      window.location.href = "/WEB03/jsp/manage02.ikuzo?work_div=doRetrieve";
     }    
     
     // 회원 삭제 함수 시작
@@ -86,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         // userIds를 출력합니다 (필요에 따라 이 배열을 사용할 수 있습니다)
         console.log(userId);        
+        console.log(userIds);        
         
         // userIds 체크 여부
         if(isEmpty(userIds) == true){
@@ -97,12 +104,12 @@ document.addEventListener("DOMContentLoaded", function(){
         // ajax start
         $.ajax({
             type: "GET", 
-            url:"/IKUZO/ikuzo/manage01.ikuzo",
+            url:"/WEB03/jsp/manage01.ikuzo",
             asyn:"true",
             dataType:"html",
             data:{
                 "work_div":"doDelete",
-                "userId": userId
+                "userIds": userId
             },
             success:function(response){//통신 성공
                 console.log("success response:"+response);
@@ -112,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 
                 if(isEmpty(messageVO) == false && "1" === messageVO.messageId){
                   alert(messageVO.msgContents);
-                  window.location.href = "/IKUZO/ikuzo/manage01.ikuzo?work_div=doRetrieve";
+                  window.location.href = "/WEB03/jsp/manage01.ikuzo?work_div=doRetrieve";
                 }else{
                   alert(messageVO.msgContents);
                 }
@@ -123,6 +130,71 @@ document.addEventListener("DOMContentLoaded", function(){
         });    
       }
     // 회원 삭제 함수 끝
+    
+    // 도서 반납 함수 시작
+    function doUpdate(){        
+        console.log('doUpdate');
+        workDiv.value = 'doUpdate';
+        
+        // tbody 내의 모든 행을 가져옵니다
+        const rows = document.querySelectorAll(".notice-board tbody tr");
+        let userId = "";
+        const userIds = [];
+
+        // 각 행을 반복 처리합니다
+        rows.forEach(function(row) {
+            // 현재 행의 체크박스를 찾습니다
+            const checkbox = row.querySelector("td.checkbox input.chk");
+
+            // 체크박스가 체크되어 있는지 확인합니다
+            if (checkbox.checked) {
+                // 현재 행의 user_id를 찾습니다
+                userId = row.querySelector("td.user_id").innerText;
+                userIds.push(userId);
+            }
+        });
+
+        // userIds를 출력합니다 (필요에 따라 이 배열을 사용할 수 있습니다)
+        console.log(userId);        
+        console.log(userIds);        
+        
+        // userIds 체크 여부
+        if(isEmpty(userIds) == true){
+            alert('체크된 회원이 존재하지 않습니다. 잘못된 경로!');
+        }else if(false == confirm('반납 처리하시겠습니까?')){
+        	  return;
+        }  
+        
+        // ajax start
+        $.ajax({
+            type: "GET", 
+            url:"/WEB03/jsp/manage01.ikuzo",
+            asyn:"true",
+            dataType:"html",
+            data:{
+                "work_div":"doUpdate",
+                "userIds": userId
+            },
+            success:function(response){//통신 성공
+                console.log("success response:"+response);
+                const messageVO = JSON.parse(response);
+                console.log("messageVO.messageId:"+ messageVO.messageId);             
+                console.log("messageVO.msgContents:"+ messageVO.msgContents);  
+                
+                if(isEmpty(messageVO) == false && "1" === messageVO.messageId){
+                  alert(messageVO.msgContents);
+                  window.location.href = "/WEB03/jsp/manage01.ikuzo?work_div=doRetrieve";
+                }else{
+                  alert(messageVO.msgContents);
+                }
+            },
+            error:function(data){//실패시 처리
+                    console.log("error:"+data);
+            }
+        });    
+      }
+    // 도서 반납 함수 끝
+    
     // 함수 끝
 });
 </script>
@@ -157,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <a href="#" id ="deletebtn">삭제</a>
         </div>
         <div class="active">
-            <a href="#">반납</a>
+            <a href="#" id ="UpdateBtn">반납</a>
         </div>
         <div>
             <a href="#">반납 취소</a>
@@ -227,6 +299,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <!-- footer 시작  -->
 <%@ include file="footer.jsp" %>
 <!-- footer 끝  -->
-<script src="/IKUZO/assest/js/check.js"></script>
+<script src="/WEB03/assest/js/check.js"></script>
 </body>
 </html>

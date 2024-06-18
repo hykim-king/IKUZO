@@ -56,7 +56,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 		sb.append("FROM (                                                                                   \n");
 		sb.append("    SELECT ROWNUM AS rnum, subquery.*                                                    \n");
 		sb.append("    FROM (                                                                               \n");
-		sb.append("        SELECT a.BOOK_NAME,                                                              \n");
+		sb.append("        SELECT a.BOOK_CODE,                                                              \n");
+		sb.append("               a.BOOK_NAME,                                                             \n");
 		sb.append("               b.GENRE_NAME,                                                             \n");
 		sb.append("               a.AUTHOR,                                                                 \n");
 		sb.append("               a.PUBLISHER,                                                              \n");
@@ -174,6 +175,7 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 				// 건수 최대값만 정해짐
 				ManageBookDTO outVO = new ManageBookDTO();
 				
+				outVO.setBookCode(rs.getInt("BOOK_CODE"));
 				outVO.setBookName(rs.getString("BOOK_NAME"));
 				outVO.setGenre(rs.getString("GENRE_NAME"));
 				outVO.setAuthor(rs.getString("AUTHOR"));

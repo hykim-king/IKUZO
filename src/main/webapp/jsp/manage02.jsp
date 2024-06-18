@@ -6,23 +6,35 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common.jsp" %>  
 <%
-  List<ManageBookDTO> list =(List<ManageBookDTO>)request.getAttribute("list");
+ List<ManageBookDTO> list =(List<ManageBookDTO>)request.getAttribute("list");
 
-      SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
-  %>   
+ SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
+ %>   
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
-<link rel="stylesheet" href="/IKUZO/assest/css/book_manage.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="/WEB03/assest/css/bookbook.css">
+<link rel="stylesheet" href="/WEB03/assest/css/book_manage.css">
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+	  // isEmpty 함수 정의
+    function isEmpty(value) {
+        return (value == null || value.length === 0);
+    }
+	  
     // 페이지 이동 버튼
     const manageUserbtn = document.querySelector("#manageUserbtn"); 
     const manageBookbtn = document.querySelector("#manageBookbtn"); 
 
+    // 작업 구분
+    const workDiv = document.querySelector("#work_div");
+    
+    // 삭제 버튼
+    const deletebtn = document.querySelector("#deleteBtn"); 
+    
     // 이벤트 핸들러 시작
     manageUserbtn.addEventListener('click', function(event){ // 회원관리 페이지 이동 버튼 클릭
        moveToMuser();
@@ -30,17 +42,85 @@ document.addEventListener("DOMContentLoaded", function(){
     manageBookbtn.addEventListener('click', function(event){ // 도서관리 페이지 이동 버튼 클릭
        moveToMbook();
     }); // click
+    deletebtn.addEventListener('click', function(event){ // 도서삭제 버튼 클릭
+       doDeleteBook(); 
+    }); // click 
     // 이벤트 핸들러 끝
     
     // 함수 시작
     function moveToMuser(){ // 회원관리페이지이동 함수
       console.log("userbtn");
-      window.location.href = "/IKUZO/ikuzo/manage01.ikuzo?work_div=doRetrieve";
+      window.location.href = "/WEB03/jsp/manage01.ikuzo?work_div=doRetrieve";
     }    
     function moveToMbook(){ // 도서관리페이지이동 함수
       console.log("bookbtn");
-      window.location.href = "/IKUZO/ikuzo/manage02.ikuzo?work_div=doRetrieve";
-    }    
+      window.location.href = "/WEB03/jsp/manage02.ikuzo?work_div=doRetrieve";
+    } 
+    
+	 // 도서 삭제 함수 시작
+    function doDeleteBook(){        
+        console.log('doDeleteBook');
+        workDiv.value = 'doDelete';
+        
+        // tbody 내의 모든 행을 가져옵니다
+        const rows = document.querySelectorAll(".notice-board tbody tr");
+        let bookCode = "";
+        const bookCodes = [];
+
+        // 각 행을 반복 처리합니다
+        rows.forEach(function(row) {
+            // 현재 행의 체크박스를 찾습니다
+            const checkbox = row.querySelector("td.checkbox input.chk");
+
+            // 체크박스가 체크되어 있는지 확인합니다
+            if (checkbox.checked) {
+                // 현재 행의 book_code를 찾습니다
+                bookCode = row.querySelector("td.book_code").innerText;
+                bookCodes.push(bookCode);
+            }
+        });
+
+        // bookCodes를 출력합니다 (필요에 따라 이 배열을 사용할 수 있습니다)
+        console.log(bookCode);        
+        console.log(bookCodes);        
+        
+        // bookCodes 체크 여부
+        if(isEmpty(bookCodes) == true){
+            alert('체크된 도서가 존재하지 않습니다. 잘못된 경로!');
+        }else if(false == confirm('해당 도서를 삭제 하시겠습니까?')){
+            return;
+        }  
+        
+        // ajax start
+        $.ajax({
+            type: "GET", 
+            url:"/WEB03/jsp/manage02.ikuzo",
+            asyn:"true",
+            dataType:"html",
+            data:{
+                "work_div":"doDelete",
+                "bookCodes": bookCode
+            },
+            success:function(response){//통신 성공
+                console.log("success response:"+response);
+                const messageVO = JSON.parse(response);
+                console.log("messageVO.messageId:"+ messageVO.messageId);             
+                console.log("messageVO.msgContents:"+ messageVO.msgContents);  
+                
+                if(isEmpty(messageVO) == false && "1" === messageVO.messageId){
+                  alert(messageVO.msgContents);
+                  window.location.href = "/WEB03/jsp/manage02.ikuzo?work_div=doRetrieve";
+                }else{
+                  alert(messageVO.msgContents);
+                }
+            },
+            error:function(data){//실패시 처리
+                    console.log("error:"+data);
+            }
+        });    
+      }
+    // 도서 삭제 함수 끝
+    
     // 함수 끝
 });
 </script>
@@ -72,15 +152,16 @@ document.addEventListener("DOMContentLoaded", function(){
 <div class="category-box">
     <div class="category-wrap">
         <div class="redAlert">
-            <a href="#">삭제</a>
+            <a href="#" id ="deleteBtn">삭제</a>
         </div>
         <div class="active">
-            <a href="#">추가</a>
+            <a href="#" id ="updateBtn">추가</a>
         </div>
     </div>
 
     <div class="category-wrap category-wrap2">
         <form action="#">
+        <input type = "hidden" name = "work_div" id = "work_div">
             <select>
                 <option value="" selected="selected">전체</option>
                 <option value="10">도서제목</option>
@@ -116,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function(){
     for(ManageBookDTO vo :list) {
     %>
         <tr>
+            <td class="book_code" style = "display : none;"><%=vo.getBookCode()%></td>
             <td class="checkbox"><input type="checkbox" class="chk"></td>
             <td class="book_name"><%=vo.getBookName()%></td>
             <td class="book_genre"><%=vo.getGenre()%></td>
@@ -150,6 +232,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <!-- footer 시작  -->
 <%@ include file="footer.jsp" %>
 <!-- footer 끝  -->
-<script src="/IKUZO/assest/js/check.js"></script>
+<script src="/WEB03/assest/js/check.js"></script>
 </body>
 </html>

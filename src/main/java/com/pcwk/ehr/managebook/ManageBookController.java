@@ -130,6 +130,46 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
 		return null;
 	}
 	
+	// doDelete HttpServlet에 존재해서 doDel로 메서드 이름 변경
+	public JView doDel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		log.debug("-----------------");
+    	log.debug("doDel()");
+    	log.debug("-----------------");
+    	
+    	ManageBookDTO inVO = new ManageBookDTO();
+    	String bookCodesStr = StringUtil.nvl(request.getParameter("bookCodes"), "0");
+    	int bookCodes = Integer.parseInt(bookCodesStr); // String을 int로 변환
+    	
+    	inVO.setBookCode(bookCodes);
+    	log.debug("inVO" + inVO);
+    	
+    	int flag = service.doDelete(inVO);
+    	log.debug("flag : {}", flag);
+    	
+    	String message = "";
+    	if (1 == flag) {
+			message = "삭제 성공";
+		}else {
+			message = "삭제 실패입니다";
+		}
+    	
+    	MessageVO messageVO = new MessageVO();    	
+    	messageVO.setMessageId(String.valueOf(flag));
+    	messageVO.setMsgContents(message);
+    	log.debug("messageVO : {}", messageVO);
+    	
+    	Gson gson = new Gson();
+    	String jsonString = gson.toJson(messageVO);
+    	log.debug("jsonString : {}", jsonString);
+    	
+    	response.setContentType("text/html; charset=UTF-8");
+    	
+    	PrintWriter out = response.getWriter();
+    	out.print(jsonString);
+    	
+		return new JView("");
+	}
+	
 	public JView ajaxdoSave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		log.debug("-----------------");
 		log.debug("ajaxDoSave()");
@@ -192,6 +232,9 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
     	case "ajaxdoSave":
     		viewName = ajaxdoSave(request, response);
     		break;
+    	case "doDelete":
+    		viewName = doDel(request, response);
+    		break; 	
     	case "doSave":
     		viewName = doSave(request, response);
     		break;    	
