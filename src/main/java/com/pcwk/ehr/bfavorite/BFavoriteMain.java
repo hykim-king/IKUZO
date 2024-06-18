@@ -1,16 +1,16 @@
-package com.pcwk.ehr.b_favorite;
+package com.pcwk.ehr.bfavorite;
 
 import com.pcwk.ehr.cmn.PLog;
 
-public class B_FavoriteMain implements PLog {
+public class BFavoriteMain implements PLog {
 
-	B_FavoriteDAO dao;
-	B_FavoriteDTO fav;
+	BFavoriteDAO dao;
+	BFavoriteDTO fav;
 	
-	public B_FavoriteMain() {
-		dao = new B_FavoriteDAO();
+	public BFavoriteMain() {
+		dao = new BFavoriteDAO();
 		
-		fav = new B_FavoriteDTO(10,"user2",322,"SYSDATE");
+		fav = new BFavoriteDTO(10,"user2",322,"SYSDATE");
 	}
 	
 	public void doSave() {
@@ -33,7 +33,7 @@ public class B_FavoriteMain implements PLog {
 	}
 	
 	public static void main(String[] args) {
-		B_FavoriteMain f = new B_FavoriteMain();
+		BFavoriteMain f = new BFavoriteMain();
 		//f.doSave();
 		//f.doDelete();
 	}

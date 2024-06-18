@@ -1,4 +1,4 @@
-package com.pcwk.ehr.b_rent;
+package com.pcwk.ehr.brent;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

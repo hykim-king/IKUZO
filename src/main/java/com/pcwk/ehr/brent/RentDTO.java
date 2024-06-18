@@ -1,4 +1,4 @@
-package com.pcwk.ehr.b_rent;
+package com.pcwk.ehr.brent;
 import com.pcwk.ehr.cmn.DTO;
 
 public class RentDTO extends DTO {

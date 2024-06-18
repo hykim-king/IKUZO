@@ -1,4 +1,4 @@
-package com.pcwk.ehr.b_favorite;
+package com.pcwk.ehr.bfavorite;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,22 +11,22 @@ import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.WorkDiv;
 
-public class B_FavoriteDAO implements PLog, WorkDiv<B_FavoriteDTO> {
+public class BFavoriteDAO implements PLog, WorkDiv<BFavoriteDTO> {
 
 	private ConnectionMaker connectionMaker;
 	
-	public B_FavoriteDAO() {
+	public BFavoriteDAO() {
 		connectionMaker = new ConnectionMaker();
 	}
 	
 	@Override
-	public List<B_FavoriteDTO> doRetrieve(DTO search) {
+	public List<BFavoriteDTO> doRetrieve(DTO search) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int doSave(B_FavoriteDTO param) {
+	public int doSave(BFavoriteDTO param) {
 		
 		int flag = 0;
 		
@@ -72,13 +72,13 @@ public class B_FavoriteDAO implements PLog, WorkDiv<B_FavoriteDTO> {
 	}
 
 	@Override
-	public int doUpdate(B_FavoriteDTO param) {
+	public int doUpdate(BFavoriteDTO param) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int doDelete(B_FavoriteDTO param) {
+	public int doDelete(BFavoriteDTO param) {
 		log.debug("doDelete()");
 		
 		int flag = 0;
@@ -114,7 +114,7 @@ public class B_FavoriteDAO implements PLog, WorkDiv<B_FavoriteDTO> {
 
 
 	@Override
-	public B_FavoriteDTO doSelectOne(B_FavoriteDTO param) {
+	public BFavoriteDTO doSelectOne(BFavoriteDTO param) {
 		// TODO Auto-generated method stub
 		return null;
 	}

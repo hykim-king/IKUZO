@@ -1,18 +1,18 @@
-package com.pcwk.ehr.b_favorite;
+package com.pcwk.ehr.bfavorite;
 
 import com.pcwk.ehr.cmn.DTO;
 
-public class B_FavoriteDTO extends DTO {
+public class BFavoriteDTO extends DTO {
 	private int    favSeq;  //시퀀스
 	private String userId;  //회원아이디
 	private int    bookCode;//도서번호
 	private String regDt;   //등록일
 	
-	public B_FavoriteDTO() {
+	public BFavoriteDTO() {
 		
 	}
 
-	public B_FavoriteDTO(int favSeq, String userId, int bookCode, String regDt) {
+	public BFavoriteDTO(int favSeq, String userId, int bookCode, String regDt) {
 		super();
 		this.favSeq = favSeq;
 		this.userId = userId;
