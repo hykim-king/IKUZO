@@ -1,22 +1,23 @@
+<%@page import="com.pcwk.ehr.mainpage.MainPageDTO"%>
+<%@page import="com.pcwk.ehr.mainpage.MainPageDao"%>
 <%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
-<%@page import="com.pcwk.ehr.mainpage.MainBoardDTO"%>
-<%@page import="com.pcwk.ehr.mainpage.MainBoardDao"%>
+
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common.jsp" %>
 <%
-MainBoardDao dao = new MainBoardDao();
+MainPageDao dao = new MainPageDao();
    SearchDTO searchVO = new SearchDTO();
    searchVO.setPageNo(1);
    searchVO.setPageSize(10);
 
-   List<MainBoardDTO> listY = dao.doRetrieveAdimY(searchVO);
-   for(MainBoardDTO voY :listY) {
+   List<MainPageDTO> listY = dao.doRetrieveAdimY(searchVO);
+   for(MainPageDTO voY :listY) {
                 System.out.println(voY);
             }
-   List<MainBoardDTO> listN = dao.doRetrieveAdimN(searchVO);
-   for(MainBoardDTO voN :listN) {
+   List<MainPageDTO> listN = dao.doRetrieveAdimN(searchVO);
+   for(MainPageDTO voN :listN) {
                 System.out.println(voN);
             }
 %>
@@ -56,7 +57,7 @@ MainBoardDao dao = new MainBoardDao();
                     <h2>공지사항</h2>
                     <ul>
                     <%
-                    for(MainBoardDTO voY :listY) {
+                    for(MainPageDTO voY :listY) {
                     %>
                         <li>
                             <a><%=voY.getTitle()%></a>
@@ -78,7 +79,7 @@ MainBoardDao dao = new MainBoardDao();
                     <h2>소통마당</h2>
                     <ul>
                     <%
-                    for(MainBoardDTO voN :listN) {
+                    for(MainPageDTO voN :listN) {
                     %>
                         <li>
                             <a><%=voN.getTitle()%></a>

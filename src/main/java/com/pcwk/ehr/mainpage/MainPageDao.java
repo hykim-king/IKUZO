@@ -16,15 +16,15 @@ import com.pcwk.ehr.cmn.WorkDiv;
 import com.pcwk.ehr.mypage.LoanListDTO;
 
 
-public class MainBoardDao implements WorkDiv<MainBoardDTO>, PLog{
+public class MainPageDao implements WorkDiv<MainPageDTO>, PLog{
 private ConnectionMaker connectionMaker;
 	
-	public MainBoardDao() {
+	public MainPageDao() {
 		connectionMaker=new ConnectionMaker();
 	}
 	
 	//메인페이지화면 게시판(공지사항)
-	public List<MainBoardDTO> doRetrieveAdimY(DTO search) {
+	public List<MainPageDTO> doRetrieveAdimY(DTO search) {
 		SearchDTO searchVO = (SearchDTO)search;
 		
 		//검색 조건에 대한 StringBuilder
@@ -35,7 +35,7 @@ private ConnectionMaker connectionMaker;
 		PreparedStatement pstmt = null; // SQL+PARAM
 		ResultSet	rs			= null; // SQL문의 결과
 		
-		List<MainBoardDTO> list = new ArrayList<MainBoardDTO>();
+		List<MainPageDTO> list = new ArrayList<MainPageDTO>();
 		
 		sb.append(" select title,mod_dt              \n"); 
 		sb.append(" from(                            \n");
@@ -59,7 +59,7 @@ private ConnectionMaker connectionMaker;
 			log.debug("5.rs:\n" + rs);
 			while (rs.next()) {
 				// 건수 최대값만 정해짐
-				MainBoardDTO outVO = new MainBoardDTO();
+				MainPageDTO outVO = new MainPageDTO();
 				
 				outVO.setTitle(rs.getString("title"));
 				outVO.setModDt(rs.getString("mod_dt"));
@@ -80,7 +80,7 @@ private ConnectionMaker connectionMaker;
 
 	
 	//메인페이지화면 게시판(소통마당)
-	public List<MainBoardDTO> doRetrieveAdimN(DTO search) {
+	public List<MainPageDTO> doRetrieveAdimN(DTO search) {
 		SearchDTO searchVO = (SearchDTO)search;
 		
 		//검색 조건에 대한 StringBuilder
@@ -91,7 +91,7 @@ private ConnectionMaker connectionMaker;
 		PreparedStatement pstmt = null; // SQL+PARAM
 		ResultSet	rs			= null; // SQL문의 결과
 		
-		List<MainBoardDTO> list = new ArrayList<MainBoardDTO>();
+		List<MainPageDTO> list = new ArrayList<MainPageDTO>();
 		
 		sb.append(" select title,mod_dt              \n"); 
 		sb.append(" from(                            \n");
@@ -115,7 +115,7 @@ private ConnectionMaker connectionMaker;
 			log.debug("5.rs:\n" + rs);
 			while (rs.next()) {
 				// 건수 최대값만 정해짐
-				MainBoardDTO outVO = new MainBoardDTO();
+				MainPageDTO outVO = new MainPageDTO();
 				
 				outVO.setTitle(rs.getString("title"));
 				outVO.setModDt(rs.getString("mod_dt"));
@@ -135,31 +135,31 @@ private ConnectionMaker connectionMaker;
 	}
 
 	@Override
-	public List<MainBoardDTO> doRetrieve(DTO search) {
+	public List<MainPageDTO> doRetrieve(DTO search) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int doSave(MainBoardDTO param) {
+	public int doSave(MainPageDTO param) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int doUpdate(MainBoardDTO param) {
+	public int doUpdate(MainPageDTO param) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int doDelete(MainBoardDTO param) {
+	public int doDelete(MainPageDTO param) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public MainBoardDTO doSelectOne(MainBoardDTO param) {
+	public MainPageDTO doSelectOne(MainPageDTO param) {
 		// TODO Auto-generated method stub
 		return null;
 	}

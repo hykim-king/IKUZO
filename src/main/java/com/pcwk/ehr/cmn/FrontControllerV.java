@@ -1,6 +1,7 @@
 package com.pcwk.ehr.cmn;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import com.pcwk.ehr.join.JoinController;
 import com.pcwk.ehr.managebook.ManageBookController;
 import com.pcwk.ehr.manageuser.ManageUserController;
 
@@ -41,16 +42,14 @@ public class FrontControllerV extends HttpServlet implements PLog {
 //
 //    	controllerMap.put("/IKUZO/ikuzo/blist.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 도서 목록 페이지    	
 //    	
-//    	controllerMap.put("/IKUZO/ikuzo/index.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 메인 페이지    	
-//    	
-
-//    	controllerMap.put("/IKUZO/ikuzo/mypage01.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [대출목록]    	
-//    	controllerMap.put("/IKUZO/ikuzo/mypage02.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [즐겨찾기]
+//    	controllerMap.put("/IKUZO/ikuzo/index.ikuzo", new MainPageController());// 메인 페이지  
+   	
 
     	controllerMap.put("/IKUZO/ikuzo/mypage01.do", new LoanListController()); // 마이 페이지 [대출목록]    	
 //    	controllerMap.put("/IKUZO/ikuzo/mypage02.do", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [즐겨찾기]
 
-//
+
+    	controllerMap.put("/IKUZO/ikuzo/join.ikuzo", new JoinController());//회원가입 페이지
 //    	controllerMap.put("/IKUZO/ikuzo/login.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 로그인 페이지
 //    	controllerMap.put("/IKUZO/ikuzo/idfind.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 계정 찾기 페이지
 //    	controllerMap.put("/IKUZO/ikuzo/pwreset.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 비밀번호 초기화 페이지

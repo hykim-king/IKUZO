@@ -2,7 +2,7 @@ package com.pcwk.ehr.mainpage;
 
 import com.pcwk.ehr.cmn.DTO;
 
-public class MainBoardDTO extends DTO{
+public class MainPageDTO extends DTO{
 	private int    seq       ;//순번
 	private String title     ;//제목
 	private int    readCnt  ;//조회수
@@ -14,10 +14,10 @@ public class MainBoardDTO extends DTO{
 	private String isAdmin  ;//관리자여부(Y:관리자/N:회원)
 	
 	
-	public MainBoardDTO() {}
+	public MainPageDTO() {}
 
 
-	public MainBoardDTO(int seq, String title, int readCnt, String contents, String regId, String regDt, String modId,
+	public MainPageDTO(int seq, String title, int readCnt, String contents, String regId, String regDt, String modId,
 			String modDt, String isAdmin) {
 		super();
 		this.seq = seq;
