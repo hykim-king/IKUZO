@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcwk.ehr.findId.FindIdController;
 import com.pcwk.ehr.join.JoinController;
 import com.pcwk.ehr.managebook.ManageBookController;
 import com.pcwk.ehr.manageuser.ManageUserController;
@@ -51,7 +52,7 @@ public class FrontControllerV extends HttpServlet implements PLog {
 
     	controllerMap.put("/IKUZO/ikuzo/join.ikuzo", new JoinController());//회원가입 페이지
 //    	controllerMap.put("/IKUZO/ikuzo/login.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 로그인 페이지
-//    	controllerMap.put("/IKUZO/ikuzo/idfind.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 계정 찾기 페이지
+    	controllerMap.put("/IKUZO/ikuzo/findId.ikuzo",  new FindIdController()); // 계정 찾기 페이지
 //    	controllerMap.put("/IKUZO/ikuzo/pwreset.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 비밀번호 초기화 페이지
     }
 

@@ -9,5 +9,10 @@
     <li>Tel 02-111-1111</li>
   </ul>
   <address>주소: 서울 마포구 양화로 122</address>
-  <button id="rollUp"><a href="#">위로 ▲</a></button>
+  
+ 
+      <a href="#top">
+      <img alt="iconUp" src="/IKUZO2/img/iconUp.png" id="iconUp">
+      </a>
+      
 </footer>
