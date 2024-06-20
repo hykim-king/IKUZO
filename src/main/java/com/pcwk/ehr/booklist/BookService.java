@@ -1,4 +1,4 @@
-package com.pcwk.ehr.book;
+package com.pcwk.ehr.booklist;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class BookService implements PLog {
 	 * @param search
 	 * @return
 	 */
-	public List<BookDTO> doRetrieve(DTO search){
-		return dao.doRetrieve(search);
+	public List<BookDTO> doRetrieve2(DTO search){
+		return dao.doRetrieve2(search);
 	}
 	
 	/**
@@ -55,6 +55,6 @@ public class BookService implements PLog {
 	 * @return
 	 */
 	public BookDTO doSelectOne(BookDTO param) {
-		return dao.doSelectOne(param);
+		return dao.doSelect(param);
 	}
 }

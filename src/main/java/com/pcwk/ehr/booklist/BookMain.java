@@ -1,4 +1,4 @@
-package com.pcwk.ehr.book;
+package com.pcwk.ehr.booklist;
 
 import java.util.List;
 
@@ -62,7 +62,7 @@ public class BookMain implements PLog {
 	
 	public void doSelect() {
 		log.debug("doSelect()");
-		BookDTO outVO = dao.doSelectOne(book);
+		BookDTO outVO = dao.doSelect(book);
 		if(null != outVO) {
 			log.debug("단건조회 성공 : {}", outVO);
 		}else

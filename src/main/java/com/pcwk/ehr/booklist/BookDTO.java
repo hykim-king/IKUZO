@@ -1,4 +1,4 @@
-package com.pcwk.ehr.book;
+package com.pcwk.ehr.booklist;
 
 import com.pcwk.ehr.cmn.DTO;
 

@@ -12,7 +12,7 @@
   
  
       <a href="#top">
-      <img alt="iconUp" src="/IKUZO2/img/iconUp.png" id="iconUp">
+      <img alt="iconUp" src="/IKUZO/assest/img/iconUp.png" id="iconUp">
       </a>
       
 </footer>

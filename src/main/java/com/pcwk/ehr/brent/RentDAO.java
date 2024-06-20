@@ -43,23 +43,13 @@ public class RentDAO implements PLog, WorkDiv<RentDTO> {
 		sb.append("    user_id,             \n");
 		sb.append("    book_code,           \n");
 		sb.append("    rent_date,           \n");
-		sb.append("    due_date,            \n");
-		sb.append("    returned_date,       \n");
-		sb.append("    noreturn_count,      \n");
-		sb.append("    extra_sum,           \n");
-		sb.append("    reg_id,              \n");
-		sb.append("    mod_id               \n");
+		sb.append("    due_date             \n");
 		sb.append(") VALUES (               \n");
 		sb.append("    r_num_seq.NEXTVAL,   \n");
 		sb.append("    ?,                   \n");
 		sb.append("    ?,                   \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?                    \n");
+		sb.append("    SYSDATE,             \n");
+		sb.append("    SYSDATE +7           \n");
 		sb.append(")                        \n");
 		
 		log.debug("1.sql : {}", sb.toString());
@@ -74,14 +64,7 @@ public class RentDAO implements PLog, WorkDiv<RentDTO> {
 			
 			pstmt.setString(1, param.getUserId());
 			pstmt.setInt(2, param.getBookCode());
-			pstmt.setString(3, param.getRentDate());
-			pstmt.setString(4, param.getDueDate());
-			pstmt.setString(5, param.getReturnedDate());
-			pstmt.setString(6, param.getNoreturnCount());
-			pstmt.setInt(7, param.getExtraSum());
-			pstmt.setString(8, param.getRegId());
-			pstmt.setString(9, param.getModId());
-			
+
 			flag = pstmt.executeUpdate();
 			
 		}catch(SQLException e) {

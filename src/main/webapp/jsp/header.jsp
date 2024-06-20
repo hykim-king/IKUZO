@@ -4,7 +4,7 @@
       <div>
       <h1 id="logo">
       <a href="index.jsp">
-        <img alt="logoImg" src="../img/logoImg.png" id="logoImg">
+        <img alt="logoImg" src="/IKUZO/assest/img/logoImg.png" id="logoImg">
       </a>
        </h1>
       </div>

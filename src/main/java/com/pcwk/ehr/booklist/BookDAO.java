@@ -1,4 +1,4 @@
-package com.pcwk.ehr.book;
+package com.pcwk.ehr.booklist;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -58,7 +58,7 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT tt1.rnum AS num,                                 \n");
-		sb.append("       tt1.book_name,                                   \n");
+		sb.append("       tt1.book_code, tt1.book_name,                                   \n");
 		sb.append("       tt1.genre_name,                                  \n");
 		sb.append("       TO_CHAR(tt1.book_pub_date,'YYYY/MM/DD') AS book_pub_date,\n");
 		sb.append("       tt1.publisher,                                   \n");
@@ -67,7 +67,7 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 		sb.append("  FROM (                                                \n");
 		sb.append("    SELECT ROWNUM AS rnum, T1.*                         \n");
 		sb.append("      FROM (                                            \n");
-		sb.append("        SELECT a.book_name,                             \n");
+		sb.append("        SELECT a.book_code ,a.book_name,                            \n");
 		sb.append("               b.genre_name,                            \n");
 		sb.append("               a.book_pub_date,                         \n");
 		sb.append("               a.publisher,                             \n");
@@ -164,7 +164,7 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 			log.debug("5.rs : {}", rs);
 			while (rs.next()) {
 				BookDTO outVO = new BookDTO();
-				
+				outVO.setBookCode(rs.getInt("book_code"));
 				outVO.setBookName(rs.getString("book_name"));
 				outVO.setBookPubDate(rs.getString("book_pub_date"));
 				outVO.setPublisher(rs.getString("publisher"));
@@ -350,8 +350,7 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 		return flag;
 	}
 
-	@Override
-	public BookDTO doSelectOne(BookDTO param) {
+	public BookDTO doSelect(BookDTO param) {
 		
 		BookDTO outVO = null;
 	    Connection conn	= connectionMaker.getConnection();
@@ -359,6 +358,7 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT                  \n");
+		sb.append("    book_code,          \n");
 		sb.append("    book_genre,         \n");
 		sb.append("    book_name,          \n");
 		sb.append("    isbn,               \n");
@@ -385,6 +385,7 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 			if(rs.next()) {
 				outVO = new BookDTO();
 				
+				outVO.setBookCode(rs.getInt("book_code"));
 				outVO.setBookGenre(rs.getInt("book_genre"));
 				outVO.setBookName(rs.getString("book_name"));
 				outVO.setIsbn(rs.getLong("isbn"));
@@ -421,6 +422,13 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 	public int doReadFile() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	@Override
+	public BookDTO doSelectOne(BookDTO param) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
