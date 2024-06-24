@@ -96,7 +96,7 @@ header {
 
 
 /* 네비게이션 스타일 */
-nav {
+nav.main_nav {
   display: flex;
   justify-content: center; /* 가운데 정렬 */
   height: 82px;
@@ -108,17 +108,17 @@ nav {
 
 }
 
-nav ul {
+nav.main_nav ul {
   list-style: none;
   display: flex;
 }
 
-nav li {
+nav.main_nav li {
   position: relative;
   margin: 0 20px;
 }
 
-nav a {
+nav.main_nav a {
   display: block;
   height: 76px;
   padding: 0 50px; /* 좌우 여백 조정 */
@@ -129,7 +129,7 @@ nav a {
 
 }
 
-nav ul ul {
+nav.main_nav ul ul {
   background-color :#27403d; 
   width: 200px;
   display: none;
@@ -141,18 +141,18 @@ nav ul ul {
   z-index : 255;
 }
 
-nav ul li:hover > ul {
+nav.main_nav ul li:hover > ul {
   display: block;
 
 }
 
-nav ul ul li {
+nav.main_nav ul ul li {
   margin: 0;
   
 }
 
 
-nav ul ul li>a {
+nav.main_nav ul ul li>a {
 color:white;
   
 }

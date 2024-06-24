@@ -4,7 +4,7 @@
 <%@page import="com.pcwk.ehr.managebook.ManageBookDao"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>     
+    pageEncoding="UTF-8"%>          
 <%@ include file="/jsp/common.jsp" %>  
 <%
  List<ManageBookDTO> list =(List<ManageBookDTO>)request.getAttribute("list");
