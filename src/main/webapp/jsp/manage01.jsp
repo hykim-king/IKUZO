@@ -206,28 +206,28 @@ document.addEventListener("DOMContentLoaded", function(){
       frm.submit();   
       
     }
-    // 조회 함수 끝       
-    // 페이징 조회
-    function pageRetrieve(url, pageNo){
-      console.log("url : " + url);
-      console.log("pageNo : " + pageNo);
-      
-      // 폼 요소 선택
-      let frm = document.getElementById("manage_user_frm");   
-      frm.work_div.value = "doRetrieve";
-      
-      // 폼 데이터 설정
-      frm.page_no.value = pageNo;
-       
-      // url
-      frm.action = url;
-      
-      // 폼
-      frm.submit();
-    }
     // 조회 함수 끝
     // 함수 끝
-});
+});         
+// 페이징 조회 시작
+function pageRetrieve(url, pageNo){
+  console.log("url : " + url);
+  console.log("pageNo : " + pageNo);
+  
+  // 폼 요소 선택
+  let frm = document.getElementById("manage_user_frm");   
+  frm.work_div.value = "doRetrieve";
+  
+  // 폼 데이터 설정
+  frm.page_no.value = pageNo;
+   
+  // url
+  frm.action = url;
+  
+  // 폼
+  frm.submit();
+}
+// 페이징 조회 끝
 </script>
 </head>
 <body>
@@ -343,14 +343,6 @@ int pageNo = pageingVO.getPageNo();
 // pageRetrieve(url, 2);
 out.print(StringUtil.renderingPaging(totalCnt, pageNo, pageSize, bottomCnt, "/IKUZO/ikuzo/manage01.ikuzo", "pageRetrieve"));
 %>  
-  <pagination:renderPaging
-    maxNum = "${vo.totalCnt}"
-    currentPageNo = "${vo.pageNo}"
-    rowPerPage = "${vo.pageSize}"
-    bottomCount = "${vo.bottomCount}"
-    url = "/IKUZO/ikuzo/manage01.ikuzo"
-    scriptName = "pageRetrieve"
-  />
 </div>
 <!-- paging end -->
 

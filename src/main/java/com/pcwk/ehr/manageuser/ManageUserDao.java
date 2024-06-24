@@ -36,9 +36,9 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 		StringBuilder sbAnd = new StringBuilder(1000);
 
 		if (null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("10")) {
-			sbWhere.append("AND a.USER_ID LIKE ?||'%' \n");
+			sbWhere.append("WHERE a.USER_ID LIKE ?||'%' \n");
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
-			sbWhere.append("AND a.USER_NAME LIKE ?||'%' \n");			
+			sbWhere.append("WHERE a.USER_NAME LIKE ?||'%' \n");			
 		}
 
 		if (null != searchVO.getIsAdmin() && searchVO.getIsAdmin().equals("10")) {
@@ -55,40 +55,147 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 		
 		List<ManageUserDTO> list = new ArrayList<ManageUserDTO>();
 
-		sb.append("SELECT * FROM (																							\n");
-		sb.append("    SELECT ROWNUM AS RNUM, subquery.*                                                                    \n");
-		sb.append("    FROM (                                                                                               \n");
-		sb.append("        SELECT  a.USER_ID AS USER_ID,                                                                    \n");
-		sb.append("                a.USER_NAME AS USER_NAME,                                                                \n");
-		sb.append("                DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') AS IS_ADMIN,                                     \n");
-		sb.append("                NVL(b.EXTRA_SUM, 0) AS EXTRA_SUM,                                                        \n");
-		sb.append("                CASE                                                                                     \n");
-		sb.append("                    WHEN b.USER_ID IS NOT NULL AND b.returned_date IS NULL THEN '미납'                    \n");
-		sb.append("                    ELSE '없음'                                                                           \n");
-		sb.append("                END AS RENTYN                                                                            \n");
-		sb.append("        FROM    LIB_USER a,                                                                              \n");
-		sb.append("                (SELECT USER_ID, EXTRA_SUM, RETURNED_DATE                                                \n");
-		sb.append("                        FROM (                                                                           \n");
-		sb.append("                            SELECT USER_ID, EXTRA_SUM, RETURNED_DATE,                                    \n");
-		sb.append("                                   ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY DUE_DATE DESC) AS rn \n");
-		sb.append("                            FROM RENT                                                                    \n");
-		sb.append("                        )                                                                                \n");
-		sb.append("                        WHERE rn = 1                                                                     \n");
-		sb.append("                ) b                                                                                      \n");
-		sb.append("        WHERE a.USER_ID = b.USER_ID(+)                                                                   \n");
-//		sb.append("        AND USER_NAME LIKE '최진서%'                                                                       \n");
-//		sb.append("        AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자'			                                	\n");
+		sb.append("SELECT A.*, B.totalCnt																			\n");
+		sb.append("FROM (                                                                                           \n");
+		sb.append("    SELECT RNUM, USER_ID, USER_NAME, IS_ADMIN, EXTRA_SUM, RENTYN                                 \n");
+		sb.append("    FROM (                                                                                       \n");
+		sb.append("        SELECT ROWNUM AS RNUM, subquery.*                                                        \n");
+		sb.append("        FROM (                                                                                   \n");
+		sb.append("            SELECT  a.USER_ID AS USER_ID,                                                        \n");
+		sb.append("                    a.USER_NAME AS USER_NAME,                                                    \n");
+		sb.append("                    DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') AS IS_ADMIN,                         \n");
+		sb.append("                    NVL(b.EXTRA_SUM, 0) AS EXTRA_SUM,                                            \n");
+		sb.append("                    CASE                                                                         \n");
+		sb.append("                        WHEN b.USER_ID IS NOT NULL AND b.returned_date IS NULL THEN '미납'        \n");
+		sb.append("                        ELSE '없음'                                                               \n");
+		sb.append("                    END AS RENTYN                                                                \n");
+		sb.append("            FROM    LIB_USER a                                                                   \n");
+		sb.append("            LEFT JOIN (                                                                          \n");
+		sb.append("                SELECT USER_ID, EXTRA_SUM, RETURNED_DATE                                         \n");
+		sb.append("                FROM (                                                                           \n");
+		sb.append("                    SELECT USER_ID, EXTRA_SUM, RETURNED_DATE,                                    \n");
+		sb.append("                           ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY DUE_DATE DESC) AS rn \n");
+		sb.append("                    FROM RENT                                                                    \n");
+		sb.append("                )                                                                                \n");
+		sb.append("                WHERE rn = 1	                                                                    \n");
+		sb.append("            ) b ON a.USER_ID = b.USER_ID                                                         \n");
+//		sb.append("      	  WHERE USER_NAME LIKE '최진서%'                                                        \n");
+//		sb.append("       	 AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자'			                    \n");
 		sb.append(sbWhere.toString());
-		sb.append(sbAnd.toString());
-		sb.append("        ORDER BY a.MOD_DT 	                                                                            \n");
-		sb.append("    ) subquery                                                                                           \n");
-//		sb.append("		WHERE ROWNUM <= 10                      										 					\n");
-//		sb.append("WHERE ROWNUM <= ( :pageSize * (:pageNo -1)+:pageSize)								 					\n");
-		sb.append("WHERE ROWNUM <= ( ? * (? -1)+?)								 											\n");
-		sb.append(")                                                                                                        \n");
-//		sb.append("	WHERE RNUM >= 1                              															\n");
-//		sb.append("	WHERE RNUM >= ( :pageSize * (:pageNo -1) + 1)												 			\n");
-		sb.append("	WHERE RNUM >= ( ? * (? -1) + 1)										 								\n");
+		sb.append(sbAnd.toString());		
+		sb.append("            ORDER BY a.MOD_DT                                                                    \n");
+		sb.append("        ) subquery                                                                               \n");
+//		sb.append("		WHERE ROWNUM <= 10                      										 		 	\n");
+//		sb.append(" WHERE ROWNUM <= ( :pageSize * (:pageNo -1)+:pageSize)								 		 	\n");
+		sb.append(" WHERE ROWNUM <= ( ? * (? -1)+?)								 								 	\n");
+		sb.append("    )                                                                                            \n");
+//		sb.append("	WHERE RNUM >= 1                              												 	\n");
+//		sb.append("	WHERE RNUM >= ( :pageSize * (:pageNo -1) + 1)												 	\n");
+		sb.append("	WHERE RNUM >= ( ? * (? -1) + 1)										 							\n");
+		sb.append(") A,                                                                                             \n");
+		sb.append("(                                                                                                \n");
+		sb.append("    SELECT COUNT(*) AS totalCnt                                                                  \n");
+		sb.append("    FROM (                                                                                       \n");
+		sb.append("        SELECT DISTINCT a.USER_ID                                                                \n");
+		sb.append("        FROM LIB_USER a                                                                          \n");
+		sb.append("        LEFT JOIN RENT b ON a.USER_ID = b.USER_ID                                                \n");
+//		sb.append("        WHERE USER_NAME LIKE '최진서%'                                                        	\n");
+//		sb.append("        AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자'			                     	\n");
+		sb.append(sbWhere.toString());
+		sb.append(sbAnd.toString());		
+		sb.append("    ) cnt_query                                                                                  \n");
+		sb.append(") B                                                                                             	\n");
+		
+		
+//		sb.append("SELECT A.*, B.totalCnt																		 \n");
+//		sb.append("FROM (                                                                                        \n");
+//		sb.append("    SELECT ROWNUM AS RNUM, subquery.*                                                         \n");
+//		sb.append("    FROM (                                                                                    \n");
+//		sb.append("        SELECT  a.USER_ID AS USER_ID,                                                         \n");
+//		sb.append("                a.USER_NAME AS USER_NAME,                                                     \n");
+//		sb.append("                DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') AS IS_ADMIN,                          \n");
+//		sb.append("                NVL(b.EXTRA_SUM, 0) AS EXTRA_SUM,                                             \n");
+//		sb.append("                CASE                                                                          \n");
+//		sb.append("                    WHEN b.USER_ID IS NOT NULL AND b.returned_date IS NULL THEN '미납'         \n");
+//		sb.append("                    ELSE '없음'                                                                \n");
+//		sb.append("                END AS RENTYN                                                                 \n");
+//		sb.append("        FROM    LIB_USER a                                                                    \n");
+//		sb.append("        LEFT JOIN (                                                                           \n");
+//		sb.append("            SELECT USER_ID, EXTRA_SUM, RETURNED_DATE                                          \n");
+//		sb.append("            FROM (                                                                            \n");
+//		sb.append("                SELECT USER_ID, EXTRA_SUM, RETURNED_DATE,                                     \n");
+//		sb.append("                       ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY DUE_DATE DESC) AS rn  \n");
+//		sb.append("                FROM RENT                                                                     \n");
+//		sb.append("            )                                                                                 \n");
+//		sb.append("            WHERE rn = 1                                                                      \n");
+//		sb.append("        ) b ON a.USER_ID = b.USER_ID                                                          \n");
+////		sb.append("        WHERE USER_NAME LIKE '최진서%'                                                        \n");
+////		sb.append("        AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자'			                     \n");
+//		sb.append(sbWhere.toString());
+//		sb.append(sbAnd.toString());
+//		sb.append("        ORDER BY a.MOD_DT                                                                     \n");
+//		sb.append("    ) subquery                                                                                \n");
+////		sb.append("		WHERE ROWNUM <= 10                      										 		 \n");
+////		sb.append(" WHERE ROWNUM <= ( :pageSize * (:pageNo -1)+:pageSize)								 		 \n");
+//		sb.append(" WHERE ROWNUM <= ( ? * (? -1)+?)								 								 \n");
+////		sb.append("	AND RNUM >= 1                              												 	 \n");
+////		sb.append("	AND RNUM >= ( :pageSize * (:pageNo -1) + 1)												 	 \n");
+//		sb.append("	AND ROWNUM >= ( ? * (? -1) + 1)										 						 \n");
+//		sb.append(") A,                                                                                          \n");
+//		sb.append("(                                                                                             \n");
+//		sb.append("    SELECT COUNT(*) AS totalCnt                                                               \n");
+//		sb.append("    FROM LIB_USER a                                                                           \n");
+//		sb.append("    LEFT JOIN (                                                                               \n");
+//		sb.append("        SELECT USER_ID, EXTRA_SUM, RETURNED_DATE                                              \n");
+//		sb.append("        FROM (                                                                                \n");
+//		sb.append("            SELECT USER_ID, EXTRA_SUM, RETURNED_DATE,                                         \n");
+//		sb.append("                   ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY DUE_DATE DESC) AS rn      \n");
+//		sb.append("            FROM RENT                                                                         \n");
+//		sb.append("        )                                                                                     \n");
+//		sb.append("        WHERE rn = 1                                                                          \n");
+//		sb.append("    ) b ON a.USER_ID = b.USER_ID                                                              \n");
+////		sb.append("    WHERE USER_NAME LIKE '최진서%'                                                        	 \n");
+////		sb.append("    AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자'			                     	 \n");
+//		sb.append(sbWhere.toString());
+//		sb.append(sbAnd.toString());
+//		sb.append(") B                                                                                           \n");
+		
+		
+		
+//		sb.append("SELECT * FROM (																							\n");
+//		sb.append("    SELECT ROWNUM AS RNUM, subquery.*                                                                    \n");
+//		sb.append("    FROM (                                                                                               \n");
+//		sb.append("        SELECT  a.USER_ID AS USER_ID,                                                                    \n");
+//		sb.append("                a.USER_NAME AS USER_NAME,                                                                \n");
+//		sb.append("                DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') AS IS_ADMIN,                                     \n");
+//		sb.append("                NVL(b.EXTRA_SUM, 0) AS EXTRA_SUM,                                                        \n");
+//		sb.append("                CASE                                                                                     \n");
+//		sb.append("                    WHEN b.USER_ID IS NOT NULL AND b.returned_date IS NULL THEN '미납'                    \n");
+//		sb.append("                    ELSE '없음'                                                                           \n");
+//		sb.append("                END AS RENTYN                                                                            \n");
+//		sb.append("        FROM    LIB_USER a,                                                                              \n");
+//		sb.append("                (SELECT USER_ID, EXTRA_SUM, RETURNED_DATE                                                \n");
+//		sb.append("                        FROM (                                                                           \n");
+//		sb.append("                            SELECT USER_ID, EXTRA_SUM, RETURNED_DATE,                                    \n");
+//		sb.append("                                   ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY DUE_DATE DESC) AS rn \n");
+//		sb.append("                            FROM RENT                                                                    \n");
+//		sb.append("                        )                                                                                \n");
+//		sb.append("                        WHERE rn = 1                                                                     \n");
+//		sb.append("                ) b                                                                                      \n");
+//		sb.append("        WHERE a.USER_ID = b.USER_ID(+)                                                                   \n");
+////		sb.append("        AND USER_NAME LIKE '최진서%'                                                                       \n");
+////		sb.append("        AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자'			                                	\n");
+//		sb.append(sbWhere.toString());
+//		sb.append(sbAnd.toString());
+//		sb.append("        ORDER BY a.MOD_DT 	                                                                            \n");
+//		sb.append("    ) subquery                                                                                           \n");
+////		sb.append("		WHERE ROWNUM <= 10                      										 					\n");
+////		sb.append("WHERE ROWNUM <= ( :pageSize * (:pageNo -1)+:pageSize)								 					\n");
+//		sb.append("WHERE ROWNUM <= ( ? * (? -1)+?)								 											\n");
+//		sb.append(")                                                                                                        \n");
+////		sb.append("	WHERE RNUM >= 1                              															\n");
+////		sb.append("	WHERE RNUM >= ( :pageSize * (:pageNo -1) + 1)												 			\n");
+//		sb.append("	WHERE RNUM >= ( ? * (? -1) + 1)										 								\n");
 		
 		log.debug("1.sql: {} \n", sb.toString());
 		log.debug("2.conn: {} \n", conn);
@@ -156,6 +263,7 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 				outVO.setIsAdmin(rs.getString("IS_ADMIN"));
 				outVO.setRentBookYn(rs.getString("RENTYN"));
 				outVO.setExtraSum(rs.getInt("EXTRA_SUM"));
+				outVO.setTotalCnt(rs.getInt("totalCnt"));
 				
 				list.add(outVO);
 			} // while
@@ -279,6 +387,84 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 		
 		return outVO;
 	} // doSelectOne 끝
+	
+//	@Override
+//	public List<ManageUserDTO> doSelectOne(ManageUserDTO param) {
+//		ManageUserDTO outVO = null; // 단건조회 결과
+//
+//		SearchDTO searchVO = (SearchDTO)search;		
+//		
+//		StringBuilder sb = new StringBuilder(500);
+//		
+//		Connection conn = connectionMaker.getConnection();
+//		PreparedStatement pstmt = null; // SQL+PARAM
+//		ResultSet	rs			= null; // SQL문의 결과
+//		
+//		List<ManageUserDTO> list = new ArrayList<ManageUserDTO>();			
+//		
+//		sb.append("SELECT *																				  \n");
+//		sb.append("FROM (                                                                                 \n");
+//		sb.append("    SELECT  ROWNUM AS num,                                                             \n");
+//		sb.append("            subquery.*,                                                                \n");
+//		sb.append("            c.BOOK_NAME                                                                \n");
+//		sb.append("    FROM (                                                                             \n");
+//		sb.append("        SELECT  a.USER_ID,                                                             \n");
+//		sb.append("                a.USER_NAME,                                                           \n");
+//		sb.append("                DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') AS IS_ADMIN,                    \n");
+//		sb.append("                NVL(b.EXTRA_SUM, 0) AS extra_sum,                                      \n");
+//		sb.append("                CASE                                                                   \n");
+//		sb.append("                    WHEN b.USER_ID IS NOT NULL AND b.returned_date IS NULL THEN '미납'  \n");
+//		sb.append("                    ELSE '없음'                                                         \n");
+//		sb.append("                END AS RENTYN,                                                         \n");
+//		sb.append("                b.BOOK_CODE                       									  \n");
+//		sb.append("        FROM    LIB_USER a                                                             \n");
+//		sb.append("        LEFT JOIN RENT b ON a.USER_ID = b.USER_ID                                      \n");
+//		sb.append("        WHERE   a.USER_ID = ? 		                                                  \n");
+////		sb.append("        AND (b.USER_ID IS NULL OR b.returned_date IS NULL)                             \n"); // 미납인 경우만 필터링
+//		sb.append("    ) subquery                                                                         \n");
+//		sb.append("    LEFT JOIN BOOK c ON subquery.BOOK_CODE = c.BOOK_CODE                               \n");
+//		sb.append(") final_query                                                                          \n");
+//		sb.append("ORDER BY final_query.RENTYN ASC	                                                      \n");
+//		
+//		log.debug("1.sql: {} \n", sb.toString());
+//		log.debug("2.conn: {} \n", conn);
+//		log.debug("3.param: {}", param);
+//		
+//		try {
+//			// conn.setAutoCommit(false); // 자동 커밋 정지
+//			pstmt = conn.prepareStatement(sb.toString());
+//			log.debug("4. pstmt : {}", pstmt);
+//			
+//			pstmt.setString(1, param.getUserId());
+//			
+//			// SELECT실행
+//			rs = pstmt.executeQuery();
+//			log.debug("5.rs:\n" + rs);
+//			
+//			if(rs.next()) {
+//				outVO = new ManageUserDTO();
+//				
+//				outVO.setUserId(rs.getString("USER_ID"));
+//				outVO.setUserName(rs.getString("USER_NAME"));
+//				outVO.setIsAdmin(rs.getString("IS_ADMIN"));
+//				outVO.setExtraSum(rs.getInt("EXTRA_SUM"));
+//				outVO.setRentBookYn(rs.getString("RENTYN"));
+//				outVO.setBookCode(rs.getInt("BOOK_CODE"));
+//				outVO.setBookName(rs.getString("BOOK_NAME"));
+//				
+//				log.debug("6.outVO:" + outVO);
+//			} // if
+//			
+//		} catch (SQLException e) {
+//			log.debug("────────────────────────────");
+//			log.debug("SQLException : " + e.getMessage());
+//			log.debug("────────────────────────────");
+//		} finally{
+//			DBUtil.close(conn, pstmt, rs); 
+//		}// try catch finally
+//		
+//		return outVO;
+//	} // doSelectOne 끝
 
 	@Override
 	public int doUpdate(ManageUserDTO param) {

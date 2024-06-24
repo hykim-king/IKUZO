@@ -240,28 +240,28 @@ document.addEventListener("DOMContentLoaded", function(){
       // 폼 제출
       frm.submit();         
     }   
-    // 조회 함수 끝
-    // 페이징 조회 시작
-    function pageRetrieve(url, pageNo){
-      console.log("url : " + url);
-      console.log("pageNo : " + pageNo);
-      
-      // 폼 요소 선택
-      let frm = document.getElementById("manage_book_frm");   
-      frm.work_div.value = "doRetrieve";
-      
-      // 폼 데이터 설정
-      frm.page_no.value = pageNo;
-       
-      // url
-      frm.action = url;
-      
-      // 폼
-      frm.submit();
-    }
-    // 페이징 조회 끝
+    // 조회 함수 끝    
     // 함수 끝
 });
+//페이징 조회 시작
+function pageRetrieve(url, pageNo){
+  console.log("url : " + url);
+  console.log("pageNo : " + pageNo);
+  
+  // 폼 요소 선택
+  let frm = document.getElementById("manage_book_frm");   
+  frm.work_div.value = "doRetrieve";
+  
+  // 폼 데이터 설정
+  frm.page_no.value = pageNo;
+   
+  // url
+  frm.action = url;
+  
+  // 폼
+  frm.submit();
+}
+// 페이징 조회 끝
 </script>
 </head>
 <body>
@@ -370,35 +370,27 @@ session : ${sessionScope.user}
     </tbody>
 </table>
 
-    <!-- paging start -->
-    <nav aria-label="Page navigation example" style = "text-align : center;">
-    <%
-    // 총글수
-    SearchDTO pageingVO = (SearchDTO)request.getAttribute("vo");
-    int totalCnt = pageingVO.getTotalCnt();
-    
-    // 바닥 글수
-    int bottomCnt = pageingVO.getBottomCount();
-    
-    // 페이지 사이즈
-    int pageSize = pageingVO.getPageSize();
-    
-    // 페이지 번호
-    int pageNo = pageingVO.getPageNo();
-    
-    // pageRetrieve(url, 2);
-    out.print(StringUtil.renderingPaging(totalCnt, pageNo, pageSize, bottomCnt, "/IKUZO/ikuzo/manage02.ikuzo", "pageRetrieve"));
-    %>  
-    <pagination:renderPaging
-      maxNum = "${vo.totalCnt}"
-      currentPageNo = "${vo.pageNo}"
-      rowPerPage = "${vo.pageSize}"
-      bottomCount = "${vo.bottomCount}"
-      url = "/IKUZO/ikuzo/manage02.ikuzo"
-      scriptName = "pageRetrieve"
-    />
-    </nav>
-    <!-- paging end -->
+<!-- paging start -->
+<nav aria-label="Page navigation example" style = "text-align : center;">
+<%
+// 총글수
+SearchDTO pageingVO = (SearchDTO)request.getAttribute("vo");
+int totalCnt = pageingVO.getTotalCnt();
+
+// 바닥 글수
+int bottomCnt = pageingVO.getBottomCount();
+
+// 페이지 사이즈
+int pageSize = pageingVO.getPageSize();
+
+// 페이지 번호
+int pageNo = pageingVO.getPageNo();
+
+// pageRetrieve(url, 2);
+out.print(StringUtil.renderingPaging(totalCnt, pageNo, pageSize, bottomCnt, "/IKUZO/ikuzo/manage02.ikuzo", "pageRetrieve"));
+%>
+</nav>
+<!-- paging end -->
     
   </div>
 </section>
