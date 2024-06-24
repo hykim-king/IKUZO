@@ -11,20 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-<<<<<<< HEAD
 import com.pcwk.ehr.board.BoardController;
-=======
 import com.pcwk.ehr.booklist.BookController;
+import com.pcwk.ehr.favorite.FavoriteController;
 import com.pcwk.ehr.findId.FindIdController;
->>>>>>> 72006298cace5e859decdf8147cc858f07f9a25c
 import com.pcwk.ehr.join.JoinController;
+import com.pcwk.ehr.login.LoginController;
 import com.pcwk.ehr.managebook.ManageBookController;
 import com.pcwk.ehr.manageuser.ManageUserController;
-
 import com.pcwk.ehr.managebook.ManageBookController;
 import com.pcwk.ehr.manageuser.ManageUserController;
 import com.pcwk.ehr.mypage.LoanListController;
-import com.pcwk.ehr.servlet.ConnectController;
+import com.pcwk.ehr.mypageupdate.MyPageUpdateController;
+import com.pcwk.ehr.resetpw.ResetPwController;
+
 
 /**
  * Servlet implementation class FrontControllerV
@@ -41,25 +41,27 @@ public class FrontControllerV extends HttpServlet implements PLog {
     public FrontControllerV() {  
     	log.debug("FrontControllerV()");
     	
-    //	controllerMap.put("/IKUZO/ikuzo/manage01.ikuzo", new ManageUserController()); // 회원관리자 페이지
-    //	controllerMap.put("/IKUZO/ikuzo/manage02.ikuzo", new ManageBookController()); // 도서관리자 페이지    	
+    	controllerMap.put("/IKUZO/ikuzo/manage01.ikuzo", new ManageUserController()); // 회원관리자 페이지
+    	controllerMap.put("/IKUZO/ikuzo/manage02.ikuzo", new ManageBookController()); // 도서관리자 페이지    	
+//    	controllerMap.put("/IKUZO/ikuzo/login.ikuzo", new MemberController()); // 로그인 페이지 성준모가 실험용으로 만든것 
 
-//    	controllerMap.put("/IKUZO/ikuzo/board01.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 관리자게시판 페이지    	
     	controllerMap.put("/IKUZO/ikuzo/board.ikuzo", new BoardController()); // 게시판 페이지    	
+//    	controllerMap.put("/IKUZO/ikuzo/board02.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 회원게시판 페이지    	
 //
-//    	controllerMap.put("/IKUZO/ikuzo/blist.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 도서 목록 페이지    	
-    	controllerMap.put("/IKUZO/ikuzo/book.ikuzo", new BookController());
+    	controllerMap.put("/IKUZO/ikuzo/book.ikuzo", new BookController()); // 도서 목록 페이지    	
+//    	
 //    	controllerMap.put("/IKUZO/ikuzo/index.ikuzo", new MainPageController());// 메인 페이지  
    	
 
-    //	controllerMap.put("/IKUZO/ikuzo/mypage01.do", new LoanListController()); // 마이 페이지 [대출목록]    	
-//    	controllerMap.put("/IKUZO/ikuzo/mypage02.do", new /*해당 컨트롤러 이름*/Controller()); // 마이 페이지 [즐겨찾기]
+    	controllerMap.put("/IKUZO/ikuzo/mypage01.do", new LoanListController()); // 마이 페이지 [대출목록]    	
 
 
-    //	controllerMap.put("/IKUZO/ikuzo/join.ikuzo", new JoinController());//회원가입 페이지
-//    	controllerMap.put("/IKUZO/ikuzo/login.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 로그인 페이지
-    //	controllerMap.put("/IKUZO/ikuzo/findId.ikuzo",  new FindIdController()); // 계정 찾기 페이지
-//    	controllerMap.put("/IKUZO/ikuzo/pwreset.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 비밀번호 초기화 페이지
+    	controllerMap.put("/IKUZO/ikuzo/join.ikuzo", new JoinController());//회원가입 페이지
+    	controllerMap.put("/IKUZO/ikuzo/findId.ikuzo",  new FindIdController()); // 계정 찾기 페이지
+    	controllerMap.put("/IKUZO/ikuzo/resetPw.ikuzo", new ResetPwController()); // 비밀번호 초기화 페이지
+    	controllerMap.put("/IKUZO/ikuzo/favorite.ikuzo", new FavoriteController()); // 마이 페이지 [즐겨찾기]
+    	controllerMap.put("/IKUZO/ikuzo/login.ikuzo", new LoginController()); // 로그인 페이지
+    	controllerMap.put("/IKUZO/ikuzo/myPageUpdate.ikuzo", new MyPageUpdateController()); // 마이페이지 [업데이트]
     }
 
 	/**

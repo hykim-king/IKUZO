@@ -13,12 +13,21 @@ public class JoinService implements PLog {
 	}
 	
 	/**
-	 * 목록 조회
-	 * 
-	 * @param search
-	 * @return List<BoardDTO>
+	 * 회원가입
+	 * @param param
+	 * @return 성공(1)/실패(0)
 	 */
-	public List<JoinDTO> doRetrieve(DTO search) {
-		return dao.doRetrieve(search);
+	public int doSave(JoinDTO param) {
+		return dao.doSave(param);
+	}
+	
+	
+	/**
+	 * 회원아이디 중복 조회
+	 * @param param
+	 * @return 1(존재)/0
+	 */
+	public int idCheck(JoinDTO param) {
+		return dao.idCheck(param);
 	}
 }

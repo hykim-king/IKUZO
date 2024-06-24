@@ -30,9 +30,10 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 		// 4. ResultSet
 		// 5. 연결종료
 		SearchDTO searchVO = (SearchDTO)search;
-
+    	log.debug("searchVO : {}", searchVO);
 		StringBuilder sb = new StringBuilder(1000);
 		StringBuilder sbWhere = new StringBuilder(1000);
+		StringBuilder sbAnd = new StringBuilder(1000);
 
 		if (null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("10")) {
 			sbWhere.append("WHERE BOOK_NAME LIKE ?||'%' \n");
@@ -42,47 +43,59 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 			sbWhere.append("WHERE AUTHOR LIKE ?||'%' \n");			
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("40")) {
 			sbWhere.append("WHERE PUBLISHER LIKE ?||'%' \n");		
-		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("50")) {
-			sbWhere.append("WHERE RENTYN LIKE ?||'%' \n");		
+		}else {			
+			sbWhere.append("WHERE BOOK_NAME LIKE '%' \n");		
 		}
 		
+		if (null != searchVO.getRentYn() && searchVO.getRentYn().equals("10")) {
+			sbAnd.append("AND (c.RENT_DATE IS NULL OR c.RETURNED_DATE IS NOT NULL) \n"); // 가능한 도서만 필터링
+		}else if (null != searchVO.getRentYn() && searchVO.getRentYn().equals("20")) {
+			sbAnd.append("AND (c.RENT_DATE IS NOT NULL AND c.RETURNED_DATE IS NULL) \n"); // 불가능한 도서만 필터링
+		}else {
+			sbAnd.append(""); // 필터링 없음
+		}		
+		log.debug("sbAnd : {}", sbAnd);	
 		Connection conn = connectionMaker.getConnection();
 		PreparedStatement pstmt = null; // SQL+PARAM
 		ResultSet	rs			= null; // SQL문의 결과
 		
 		List<ManageBookDTO> list = new ArrayList<ManageBookDTO>();
 
-		sb.append("SELECT *																					\n");
-		sb.append("FROM (                                                                                   \n");
-		sb.append("    SELECT ROWNUM AS rnum, subquery.*                                                    \n");
-		sb.append("    FROM (                                                                               \n");
-		sb.append("        SELECT a.BOOK_CODE,                                                              \n");
-		sb.append("               a.BOOK_NAME,                                                             \n");
-		sb.append("               b.GENRE_NAME,                                                             \n");
-		sb.append("               a.AUTHOR,                                                                 \n");
-		sb.append("               a.PUBLISHER,                                                              \n");
-		sb.append("               NVL(TO_CHAR(c.RENT_DATE, 'YY/MM/DD'), '없음') AS RENT_DATE,                \n");
-		sb.append("               NVL(TO_CHAR(c.DUE_DATE, 'YY/MM/DD'), '없음') AS DUE_DATE,                  \n");
-		sb.append("               NVL(TO_CHAR(c.RETURNED_DATE, 'YY/MM/DD'), '없음') AS RETURNED_DATE,        \n");
-		sb.append("               CASE                                                                      \n");
-		sb.append("                   WHEN c.RENT_DATE IS NOT NULL AND c.RETURNED_DATE IS NULL THEN '불가능' \n");
-		sb.append("                   ELSE '가능'                                                            \n");
-		sb.append("               END AS RENTYN,                                                            \n");
-		sb.append("               NVL(c.NORETURN_COUNT, '대출여부없음') AS NORETURN_COUNT                       \n");
-		sb.append("        FROM BOOK a                                                                      \n");
-		sb.append("        LEFT JOIN RENT c ON a.BOOK_CODE = c.BOOK_CODE                                    \n");
-		sb.append("        LEFT JOIN B_GENRE b ON a.BOOK_GENRE = b.BOOK_GENRE                               \n");
-//		sb.append("        WHERE     GENRE_NAME LIKE '건강%'                                                 \n");
+		sb.append("SELECT *																			 \n");			
+		sb.append("FROM (                                                                            \n");
+		sb.append("    SELECT                                                                        \n");
+		sb.append("        ROW_NUMBER() OVER (ORDER BY a.BOOK_CODE) AS RNUM,                         \n");
+		sb.append("        a.BOOK_CODE,                                                              \n");
+		sb.append("        a.BOOK_NAME,                                                              \n");
+		sb.append("        a.BOOK_GENRE,                                                             \n");
+		sb.append("        b.GENRE_NAME,                                                             \n");
+		sb.append("        a.AUTHOR,                                                                 \n");
+		sb.append("        a.PUBLISHER,                                                              \n");
+		sb.append("        NVL(TO_CHAR(c.RENT_DATE, 'YY/MM/DD'), '없음') AS RENT_DATE,                \n");
+		sb.append("        NVL(TO_CHAR(c.DUE_DATE, 'YY/MM/DD'), '없음') AS DUE_DATE,                  \n");
+		sb.append("        NVL(TO_CHAR(c.RETURNED_DATE, 'YY/MM/DD'), '없음') AS RETURNED_DATE,        \n");
+		sb.append("        CASE                                                                      \n");
+		sb.append("            WHEN c.RENT_DATE IS NOT NULL AND c.RETURNED_DATE IS NULL THEN '불가능' \n");
+		sb.append("            ELSE '가능'                                                            \n");
+		sb.append("        END AS RENTYN,                                                            \n");
+		sb.append("        NVL(c.NORETURN_COUNT, '대출여부없음') AS NORETURN_COUNT                     	 \n");
+		sb.append("    FROM BOOK a                                                                   \n");
+		sb.append("    LEFT JOIN (                                                                   \n");
+		sb.append("        SELECT * FROM RENT WHERE RETURNED_DATE IS NULL                            \n");
+		sb.append("    ) c ON a.BOOK_CODE = c.BOOK_CODE                                              \n");
+		sb.append("    LEFT JOIN B_GENRE b ON a.BOOK_GENRE = b.BOOK_GENRE                            \n");
+//		sb.append("    WHERE BOOK_NAME LIKE '%'                                                 	 \n");
+//		sb.append("    AND (c.RENT_DATE IS NULL OR c.RETURNED_DATE IS NOT NULL)                 	 \n");
 		sb.append(sbWhere.toString());				
-		sb.append("        ORDER BY a.BOOK_CODE                                                             \n");
-		sb.append("    ) subquery                                                                           \n");
-//		sb.append("    WHERE ROWNUM <= 10   							 						            \n");
-//		sb.append("WHERE ROWNUM <= ( :pageSize * (:pageNo -1)+:pageSize)									\n");
-		sb.append("WHERE ROWNUM <= ( ? * (? -1)+?)								 							\n");		
-		sb.append(")                                                                                        \n");
-//		sb.append("WHERE rnum >= 1                                                                          \n");
-//		sb.append("	WHERE rnum >= ( :pageSize * (:pageNo -1) + 1)										    \n");		
-		sb.append("	WHERE rnum >= ( ? * (? -1) + 1)										 					\n");			
+		sb.append(sbAnd.toString());		
+		sb.append("    ORDER BY a.MOD_DT	                                                         \n");
+		sb.append(") subquery                                                                        \n");
+//		sb.append("WHERE ROWNUM <= 10   							 						         \n");
+//		sb.append("WHERE ROWNUM <= ( :pageSize * (:pageNo -1)+:pageSize)							 \n");		
+		sb.append("WHERE RNUM <= (? * (? - 1) + ?)                                                   \n");
+//		sb.append("AND rnum >= 1                                                                     \n");
+//		sb.append("AND rnum >= ( :pageSize * (:pageNo -1) + 1)										 \n");			
+		sb.append("AND RNUM >= (? * (? - 1) + 1)                                                     \n");		
 		
 		log.debug("1.sql: {} \n", sb.toString());
 		log.debug("2.conn: {} \n", conn);
@@ -175,6 +188,7 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 				// 건수 최대값만 정해짐
 				ManageBookDTO outVO = new ManageBookDTO();
 				
+				outVO.setRnum(rs.getInt("RNUM"));
 				outVO.setBookCode(rs.getInt("BOOK_CODE"));
 				outVO.setBookName(rs.getString("BOOK_NAME"));
 				outVO.setGenre(rs.getString("GENRE_NAME"));
@@ -245,18 +259,28 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 		
 		StringBuilder sb = new StringBuilder(500);
 		
-		sb.append("SELECT a.BOOK_NAME,      														\n");                                                       
+		sb.append("SELECT c.RENT_CODE,      														\n");                                                       
+		sb.append("		  a.BOOK_CODE,      														\n");                                                       
+		sb.append("       a.BOOK_NAME,                                                              \n");
+		sb.append("       a.BOOK_GENRE,                                                             \n");
 		sb.append("       b.GENRE_NAME,                                                             \n");
 		sb.append("       a.AUTHOR,                                                                 \n");
 		sb.append("       a.PUBLISHER,                                                              \n");
+		sb.append("       a.ISBN,                                                              		\n");
+		sb.append("       TO_CHAR(TO_DATE(a.BOOK_PUB_DATE, 'YY/MM/DD')) AS BOOK_PUB_DATE,  		    \n");
+		sb.append("       a.BOOK_INFO,                                                        		\n");
+		sb.append("               NVL(TO_CHAR(c.RENT_DATE, 'YY/MM/DD'), '없음') AS RENT_DATE,       	\n");
+		sb.append("               NVL(TO_CHAR(c.DUE_DATE, 'YY/MM/DD'), '없음') AS DUE_DATE,         	\n");
+		sb.append("               NVL(TO_CHAR(c.RETURNED_DATE, 'YY/MM/DD'), '없음') AS RETURNED_DATE,\n");		
 		sb.append("       CASE                                                                      \n");
-		sb.append("           WHEN c.RENT_DATE IS NOT NULL AND c.RETURNED_DATE IS NULL THEN '불가능' \n");
-		sb.append("           ELSE '가능'                                                            \n");
-		sb.append("       END AS RENTYN                                                             \n");
+		sb.append("           WHEN c.RENT_DATE IS NOT NULL AND c.RETURNED_DATE IS NULL THEN '불가능'	\n");
+		sb.append("           ELSE '가능'                                                           	\n");
+		sb.append("       END AS RENTYN,                                                            \n");
+		sb.append("       NVL(c.NORETURN_COUNT, '대출여부없음') AS NORETURN_COUNT           			\n");
 		sb.append("FROM BOOK a                                                                      \n");
 		sb.append("LEFT JOIN RENT c ON a.BOOK_CODE = c.BOOK_CODE                                    \n");
 		sb.append("LEFT JOIN B_GENRE b ON a.BOOK_GENRE = b.BOOK_GENRE                               \n");
-		sb.append("WHERE a.BOOK_NAME = ?                                                            \n");
+		sb.append("WHERE a.BOOK_CODE = ?                                                            \n");
 		
 		log.debug("1.sql: {} \n", sb.toString());
 		log.debug("2.conn: {} \n", conn);
@@ -267,7 +291,7 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 			pstmt = conn.prepareStatement(sb.toString());
 			log.debug("4. pstmt : {}", pstmt);
 			
-			pstmt.setString(1, param.getBookName());
+			pstmt.setInt(1, param.getBookCode());
 			
 			// SELECT실행
 			rs = pstmt.executeQuery();
@@ -276,11 +300,21 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 			if(rs.next()) {
 				outVO = new ManageBookDTO();
 				
+				outVO.setRentCode(rs.getInt("RENT_CODE"));
+				outVO.setBookCode(rs.getInt("BOOK_CODE"));
 				outVO.setBookName(rs.getString("BOOK_NAME"));
+				outVO.setBookGenre(rs.getInt("BOOK_GENRE"));
 				outVO.setGenre(rs.getString("GENRE_NAME"));
 				outVO.setAuthor(rs.getString("AUTHOR"));
 				outVO.setPublisher(rs.getString("PUBLISHER"));
+				outVO.setIsbn(rs.getString("ISBN"));
+				outVO.setBookPubDate(rs.getString("BOOK_PUB_DATE"));
+				outVO.setBookInfo(rs.getString("BOOK_INFO"));
+				outVO.setRentDate(rs.getString("RENT_DATE"));
+				outVO.setDueDate(rs.getString("DUE_DATE"));
+				outVO.setRetunredDate(rs.getString("RETURNED_DATE"));
 				outVO.setRentYn(rs.getString("RENTYN"));
+				outVO.setNoreturnCount(rs.getString("NORETURN_COUNT"));
 				
 				log.debug("6.outVO:" + outVO);
 			} // if
@@ -337,8 +371,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 			
 			// param 설정
 			pstmt.setString(1, param.getBookName());
-			pstmt.setString(2, param.getGenre());
-			pstmt.setLong(3, param.getIsbn());
+			pstmt.setInt(2, param.getBookGenre());
+			pstmt.setString(3, param.getIsbn());
 			pstmt.setString(4, param.getBookPubDate());
 			pstmt.setString(5, param.getPublisher());
 			pstmt.setString(6, param.getAuthor());
@@ -376,7 +410,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 		sb.append("        PUBLISHER = ?,    \n");
 		sb.append("        ISBN = ?,         \n");
 		sb.append("        BOOK_PUB_DATE = ?,\n");
-		sb.append("        BOOK_INFO = ?     \n");
+		sb.append("        BOOK_INFO = ?,    \n");
+		sb.append("        MOD_ID = ?     	 \n");
 		sb.append("WHERE   BOOK_CODE = ?     \n");
 		
 		log.debug("1. sql : {}", sb.toString());
@@ -392,10 +427,11 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 			pstmt.setInt(2, param.getBookGenre());
 			pstmt.setString(3, param.getAuthor());
 			pstmt.setString(4, param.getPublisher());
-			pstmt.setLong(5, param.getIsbn());
+			pstmt.setString(5, param.getIsbn());
 			pstmt.setString(6, param.getBookPubDate());
 			pstmt.setString(7, param.getBookInfo());
-			pstmt.setInt(8, param.getBookCode());
+			pstmt.setString(8, param.getModId());
+			pstmt.setInt(9, param.getBookCode());
 			
 			// DML 수행
 			flag = pstmt.executeUpdate();			
@@ -420,7 +456,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 		// 아래 SQL코드에는 세미콜론(;) 금지
 		sb.append("UPDATE RENT					\n");
 		sb.append("SET DUE_DATE = DUE_DATE + 7, \n");
-		sb.append("    NORETURN_COUNT = 'N'     \n");
+		sb.append("    NORETURN_COUNT = 'N',    \n");
+		sb.append("    MOD_ID = ?     			\n");
 		sb.append("WHERE NORETURN_COUNT = 'Y'   \n");
 		sb.append("AND   RENT_CODE = ? 	        \n");
 		
@@ -433,7 +470,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 			pstmt = conn.prepareStatement(sb.toString());
 			log.debug("4. pstmt : {}", pstmt);
 
-			pstmt.setInt(1, param.getRentCode());
+			pstmt.setString(1, param.getModId());
+			pstmt.setInt(2, param.getRentCode());
 			
 			// DML 수행
 			flag = pstmt.executeUpdate();			
@@ -442,6 +480,44 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 		} finally{
 			DBUtil.close(conn, pstmt);
 			
+			log.debug("5. finally conn : {} pstmt : {}", conn, pstmt);
+		}// try catch
+		log.debug("6. flag: {}", flag);
+		
+		return flag;
+	}
+	
+	public int doReturned(ManageBookDTO param) {
+		int flag = 0;
+		Connection conn = connectionMaker.getConnection();
+		
+		PreparedStatement pstmt = null; // SQL + PARAM		
+		StringBuilder sb = new StringBuilder(500);
+		// 아래 SQL코드에는 세미콜론(;) 금지
+		sb.append("UPDATE RENT					  	\n");	
+		sb.append("SET    RETURNED_DATE = SYSDATE,	\n");
+		sb.append("   	  MOD_ID = ?				\n");
+		sb.append("WHERE  RENT_CODE = ?				\n");
+		sb.append("AND 	  RETURNED_DATE IS NULL		\n");
+		
+		log.debug("1. sql : {}", sb.toString());
+		log.debug("2. conn : {}", conn);
+		log.debug("3. param : {}", param);
+		
+		try {
+			// conn.setAutoCommit(false); // 자동 커밋 정지
+			pstmt = conn.prepareStatement(sb.toString());
+			log.debug("4. pstmt : {}", pstmt);
+
+			pstmt.setString(1, param.getModId());
+			pstmt.setInt(2, param.getRentCode());
+			
+			// DML 수행
+			flag = pstmt.executeUpdate();			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			DBUtil.close(conn, pstmt);			
 			log.debug("5. finally conn : {} pstmt : {}", conn, pstmt);
 		}// try catch
 		log.debug("6. flag: {}", flag);

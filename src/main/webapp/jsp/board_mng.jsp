@@ -3,7 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.pcwk.ehr.board.BoardDao" %>
-<%@ page import="com.pcwk.ehr.board.BoardDTO" %>%>
+<%@ page import="com.pcwk.ehr.board.BoardDTO" %>
 <%@ include file="/jsp/common.jsp" %> 
 <!DOCTYPE html>
 <html>

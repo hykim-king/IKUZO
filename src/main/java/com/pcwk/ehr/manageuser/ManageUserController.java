@@ -59,17 +59,20 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
     	String pageSize = StringUtil.nvl(request.getParameter("page_size"), "10");
     	
     	String searchWord = StringUtil.nvl(request.getParameter("search_word"), "");    	
-    	String searchDiv = StringUtil.nvl(request.getParameter("search_div"), "");    	
+    	String searchDiv = StringUtil.nvl(request.getParameter("search_div"), "");
+    	String isAdmin = StringUtil.nvl(request.getParameter("is_admin"), ""); 
     	
     	log.debug("pageNo : {}", pageNo);
     	log.debug("pageSize : {}", pageSize);
     	log.debug("searchWord : {}", searchWord);
     	log.debug("searchDiv : {}", searchDiv);
+    	log.debug("isAdmin : {}", isAdmin);
     	
     	inVO.setPageNo(Integer.parseInt(pageNo));
     	inVO.setPageSize(Integer.parseInt(pageSize));
     	inVO.setSearchDiv(searchDiv);
     	inVO.setSearchWord(searchWord);
+    	inVO.setIsAdmin(isAdmin);
 
     	log.debug("inVO : {}", inVO);
     	
@@ -91,6 +94,28 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
 		// RequestDispatcher dispacher = request.getRequestDispatcher("/board/board_list.jsp");
 		// dispacher.forward(request, response);		     
     	
+    	// paging : 총글수 totalCnt
+		// currentpageNo : pageNo
+		// rowPerPage : pageSize
+		// bottomCount : 10    	
+	
+		int bottomCount = 10;
+	
+		int totalCnt = 0; // 총글수
+		
+		if (null != list && list.size() > 0) {
+			ManageUserDTO pagingVO = list.get(0);
+			totalCnt = pagingVO.getTotalCnt();
+			log.debug("totalCnt : {}", totalCnt);	
+			
+			inVO.setTotalCnt(totalCnt);
+		}    	
+		
+		inVO.setBottomCount(bottomCount);
+    	
+		// 검색조건 UI로 전달
+    	request.setAttribute("vo", inVO); 
+    	log.debug("inVO : {}", inVO);	
     	return viewName = new JView("/jsp/manage01.jsp");
 	}
 	
@@ -171,50 +196,23 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
 		return new JView("");
 	}
 	
-	public JView ajaxdoSave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	public JView doSelectOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		log.debug("-----------------");
-		log.debug("ajaxDoSave()");
-		log.debug("-----------------");
-		ManageUserDTO inVO = new ManageUserDTO();
-		String title = StringUtil.nvl(request.getParameter("title"), "");
-		String regId = StringUtil.nvl(request.getParameter("regId"), "");
-		String content = StringUtil.nvl(request.getParameter("contents"), "");
-		
-		log.debug(title);
-		log.debug(regId);
-		log.debug(content);
-		
-		/*
-		 * inVO.setTitle(title); inVO.setContents(content); inVO.setRegId(regId);
-		 * inVO.setModId(regId);
-		 */
-		
-		int flag = this.service.doSave(inVO);
-		log.debug("flag : {}", flag);
-		
-		String message = "";
-		if(flag == 1) {
-			message = "등록성공";
-		}else {
-			message = "등록실패";			
-		}
-		MessageVO messageVO = new MessageVO();
-		messageVO.setMessageId(String.valueOf(flag));
-		messageVO.setMsgContents(message);
-		
-		log.debug(message);
-		
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(messageVO);
-		
-		log.debug("jsonString : {}", jsonString);
-		
-		response.setContentType("text/html; charset=UTF-8");
-		
-		PrintWriter out = response.getWriter();
-		out.print(jsonString);
-		
-		return null;
+    	log.debug("doSelectOne()");
+    	log.debug("-----------------");
+    	ManageUserDTO inVO = new ManageUserDTO();
+    	String seq = StringUtil.nvl(request.getParameter("seq"), "0");
+    	
+    	inVO.setUserId(seq);
+    	log.debug("inVO" + inVO);
+    	
+    	ManageUserDTO outVO = this.service.doSelectOne(inVO);
+    	log.debug("outVO" + outVO);
+    	
+    	// UI 데이터 전달
+    	request.setAttribute("outVO", outVO);
+    	
+		return new JView("/jsp/manage_user_info.jsp");
 	}
 	
 	@Override
@@ -239,9 +237,9 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
     	case "doUpdate":
     		viewName = doUpdate(request, response);
     		break;
-    	case "ajaxdoSave":
-    		viewName = ajaxdoSave(request, response);
-    		break;
+    	case "doSelectOne":
+			viewName = doSelectOne(request, response);
+			break;
 
 		default:
 			log.debug("작업구분을 확인하세요. workDiv : {}", workDiv);

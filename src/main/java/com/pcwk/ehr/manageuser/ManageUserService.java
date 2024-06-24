@@ -31,4 +31,14 @@ public class ManageUserService implements PLog {
 	public int doDelete(ManageUserDTO param) {
 		return dao.doDelete(param);
 	}	
+	
+	// doSelectOne
+	public ManageUserDTO doSelectOne(ManageUserDTO param) {
+		ManageUserDTO outVO = new ManageUserDTO();
+		
+		// doSelectOne
+		outVO = dao.doSelectOne(param);
+		
+		return outVO;
+	}
 } // class

@@ -33,11 +33,20 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 
 		StringBuilder sb = new StringBuilder(1000);
 		StringBuilder sbWhere = new StringBuilder(1000);
+		StringBuilder sbAnd = new StringBuilder(1000);
 
 		if (null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("10")) {
-			sbWhere.append("AND USER_ID LIKE ?||'%' \n");
+			sbWhere.append("AND a.USER_ID LIKE ?||'%' \n");
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
-			sbWhere.append("AND USER_NAME LIKE ?||'%' \n");			
+			sbWhere.append("AND a.USER_NAME LIKE ?||'%' \n");			
+		}
+
+		if (null != searchVO.getIsAdmin() && searchVO.getIsAdmin().equals("10")) {
+			sbAnd.append("AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자' \n"); // 관리자만 필터링
+		}else if (null != searchVO.getIsAdmin() && searchVO.getIsAdmin().equals("20")) {
+			sbAnd.append("AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '회원' \n"); // 회원만 필터링
+		}else {
+			sbAnd.append(""); // 필터링 없음
 		}
 		
 		Connection conn = connectionMaker.getConnection();
@@ -47,7 +56,7 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 		List<ManageUserDTO> list = new ArrayList<ManageUserDTO>();
 
 		sb.append("SELECT * FROM (																							\n");
-		sb.append("    SELECT ROWNUM AS num, subquery.*                                                                    \n");
+		sb.append("    SELECT ROWNUM AS RNUM, subquery.*                                                                    \n");
 		sb.append("    FROM (                                                                                               \n");
 		sb.append("        SELECT  a.USER_ID AS USER_ID,                                                                    \n");
 		sb.append("                a.USER_NAME AS USER_NAME,                                                                \n");
@@ -68,15 +77,18 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 		sb.append("                ) b                                                                                      \n");
 		sb.append("        WHERE a.USER_ID = b.USER_ID(+)                                                                   \n");
 //		sb.append("        AND USER_NAME LIKE '최진서%'                                                                       \n");
-		sb.append("        ORDER BY a.USER_ID                                                                               \n");
+//		sb.append("        AND DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') = '관리자'			                                	\n");
+		sb.append(sbWhere.toString());
+		sb.append(sbAnd.toString());
+		sb.append("        ORDER BY a.MOD_DT 	                                                                            \n");
 		sb.append("    ) subquery                                                                                           \n");
 //		sb.append("		WHERE ROWNUM <= 10                      										 					\n");
 //		sb.append("WHERE ROWNUM <= ( :pageSize * (:pageNo -1)+:pageSize)								 					\n");
 		sb.append("WHERE ROWNUM <= ( ? * (? -1)+?)								 											\n");
 		sb.append(")                                                                                                        \n");
-//		sb.append("	WHERE rnum >= 1                              															\n");
-//		sb.append("	WHERE rnum >= ( :pageSize * (:pageNo -1) + 1)												 			\n");
-		sb.append("	WHERE num >= ( ? * (? -1) + 1)										 									\n");
+//		sb.append("	WHERE RNUM >= 1                              															\n");
+//		sb.append("	WHERE RNUM >= ( :pageSize * (:pageNo -1) + 1)												 			\n");
+		sb.append("	WHERE RNUM >= ( ? * (? -1) + 1)										 								\n");
 		
 		log.debug("1.sql: {} \n", sb.toString());
 		log.debug("2.conn: {} \n", conn);
@@ -95,16 +107,19 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
 				// 검색어
 				pstmt.setString(1, searchVO.getSearchWord());
+				log.debug("4.2 getSearchWord : {}", searchVO.getSearchWord());
 				// ROWNUM
 				pstmt.setInt(2, searchVO.getPageSize());
+				log.debug("4.3 getPageSize : {}", searchVO.getPageSize());
 				pstmt.setInt(3, searchVO.getPageNo());
+				log.debug("4.4 getPageNo : {}", searchVO.getPageNo());
 				pstmt.setInt(4, searchVO.getPageSize());
 				
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
+				log.debug("4.5 getPageSize : {}", searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
-				// 검색어
-				pstmt.setString(7, searchVO.getSearchWord());
+				log.debug("4.6 getPageNo : {}", searchVO.getPageNo());
 			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
 				// 검색어
@@ -117,38 +132,6 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
-				// 검색어
-				pstmt.setString(7, searchVO.getSearchWord());
-			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("30")) {
-				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
-				// 검색어
-				pstmt.setString(1, searchVO.getSearchWord());
-				// ROWNUM
-				pstmt.setInt(2, searchVO.getPageSize());
-				pstmt.setInt(3, searchVO.getPageNo());
-				pstmt.setInt(4, searchVO.getPageSize());
-				
-				// rnum
-				pstmt.setInt(5, searchVO.getPageSize());
-				pstmt.setInt(6, searchVO.getPageNo());
-				// 검색어
-				pstmt.setString(7, searchVO.getSearchWord());
-			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("40")) {
-				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
-				// 검색어
-				pstmt.setString(1, searchVO.getSearchWord());
-				pstmt.setString(2, searchVO.getSearchWord());
-				// ROWNUM
-				pstmt.setInt(3, searchVO.getPageSize());
-				pstmt.setInt(4, searchVO.getPageNo());
-				pstmt.setInt(5, searchVO.getPageSize());
-				
-				// rnum
-				pstmt.setInt(6, searchVO.getPageSize());
-				pstmt.setInt(7, searchVO.getPageNo());
-				// 검색어
-				pstmt.setString(8, searchVO.getSearchWord());
-				pstmt.setString(9, searchVO.getSearchWord());
 			}else {
 				// ROWNUM
 				pstmt.setInt(1, searchVO.getPageSize());
@@ -167,12 +150,12 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 				// 건수 최대값만 정해짐
 				ManageUserDTO outVO = new ManageUserDTO();
 				
-				outVO.setRnum(rs.getInt("num"));
+				outVO.setRnum(rs.getInt("RNUM"));
 				outVO.setUserId(rs.getString("USER_ID"));
 				outVO.setUserName(rs.getString("USER_NAME"));
 				outVO.setIsAdmin(rs.getString("IS_ADMIN"));
-				outVO.setExtraSum(rs.getInt("EXTRA_SUM"));
 				outVO.setRentBookYn(rs.getString("RENTYN"));
+				outVO.setExtraSum(rs.getInt("EXTRA_SUM"));
 				
 				list.add(outVO);
 			} // while
@@ -233,23 +216,29 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 		
 		StringBuilder sb = new StringBuilder(500);
 		
-		sb.append("SELECT * FROM (																		 \n");
-		sb.append("    SELECT  ROWNUM AS num, subquery.*                                                 \n");
-		sb.append("    FROM (                                                                            \n");
-		sb.append("        SELECT  a.USER_ID,                                                 \n");
-		sb.append("                a.USER_NAME,                                             \n");
-		sb.append("                DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') AS IS_ADMIN,                \n");
-		sb.append("                NVL(b.EXTRA_SUM, 0) AS extra_sum,                                     \n");
-		sb.append("                CASE                                                                  \n");
-		sb.append("                    WHEN b.USER_ID IS NOT NULL AND b.returned_date IS NULL THEN '미납'\n");
-		sb.append("                    ELSE '없음'                                                       \n");
-		sb.append("                END AS RENTYN                                                         \n");
-		sb.append("        FROM    LIB_USER a, RENT b                                                    \n");
-		sb.append("        WHERE   a.USER_ID = b.USER_ID(+)                                              \n");
-		sb.append("        AND     a.USER_ID = ?		                                                 \n");
-		sb.append("        ORDER BY a.USER_ID DESC                                                       \n");
-		sb.append("    ) subquery                                                                        \n");	
-		sb.append(")                                                                                     \n");
+		sb.append("SELECT *																				  \n");
+		sb.append("FROM (                                                                                 \n");
+		sb.append("    SELECT  ROWNUM AS num,                                                             \n");
+		sb.append("            subquery.*,                                                                \n");
+		sb.append("            c.BOOK_NAME                                                                \n");
+		sb.append("    FROM (                                                                             \n");
+		sb.append("        SELECT  a.USER_ID,                                                             \n");
+		sb.append("                a.USER_NAME,                                                           \n");
+		sb.append("                DECODE(a.IS_ADMIN, 'Y', '관리자', '회원') AS IS_ADMIN,                    \n");
+		sb.append("                NVL(b.EXTRA_SUM, 0) AS extra_sum,                                      \n");
+		sb.append("                CASE                                                                   \n");
+		sb.append("                    WHEN b.USER_ID IS NOT NULL AND b.returned_date IS NULL THEN '미납'  \n");
+		sb.append("                    ELSE '없음'                                                         \n");
+		sb.append("                END AS RENTYN,                                                         \n");
+		sb.append("                b.BOOK_CODE                       									  \n");
+		sb.append("        FROM    LIB_USER a                                                             \n");
+		sb.append("        LEFT JOIN RENT b ON a.USER_ID = b.USER_ID                                      \n");
+		sb.append("        WHERE   a.USER_ID = ? 		                                                  \n");
+//		sb.append("        AND (b.USER_ID IS NULL OR b.returned_date IS NULL)                             \n"); // 미납인 경우만 필터링
+		sb.append("    ) subquery                                                                         \n");
+		sb.append("    LEFT JOIN BOOK c ON subquery.BOOK_CODE = c.BOOK_CODE                               \n");
+		sb.append(") final_query                                                                          \n");
+		sb.append("ORDER BY final_query.RENTYN ASC;                                                       \n");
 		
 		log.debug("1.sql: {} \n", sb.toString());
 		log.debug("2.conn: {} \n", conn);
@@ -274,6 +263,8 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 				outVO.setIsAdmin(rs.getString("IS_ADMIN"));
 				outVO.setExtraSum(rs.getInt("EXTRA_SUM"));
 				outVO.setRentBookYn(rs.getString("RENTYN"));
+				outVO.setBookCode(rs.getInt("BOOK_CODE"));
+				outVO.setBookName(rs.getString("BOOK_NAME"));
 				
 				log.debug("6.outVO:" + outVO);
 			} // if

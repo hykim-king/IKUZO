@@ -1,26 +1,6 @@
-<%@page import="com.pcwk.ehr.mainpage.MainPageDTO"%>
-<%@page import="com.pcwk.ehr.mainpage.MainPageDao"%>
-<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
-
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/jsp/common.jsp" %>
-<%
-MainPageDao dao = new MainPageDao();
-   SearchDTO searchVO = new SearchDTO();
-   searchVO.setPageNo(1);
-   searchVO.setPageSize(10);
-
-   List<MainPageDTO> listY = dao.doRetrieveAdimY(searchVO);
-   for(MainPageDTO voY :listY) {
-                System.out.println(voY);
-            }
-   List<MainPageDTO> listN = dao.doRetrieveAdimN(searchVO);
-   for(MainPageDTO voN :listN) {
-                System.out.println(voN);
-            }
-%>
+    <%@ page import="com.pcwk.ehr.login.LoginDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +8,35 @@ MainPageDao dao = new MainPageDao();
 <title>Insert title here</title>
 <link rel="stylesheet" href="../css/bookbook.css">
 <link rel="stylesheet" href="../css/index.css">
+<script>
+    function loginAndUpdateGreeting() {
+        $.ajax({
+            url: '<%= request.getContextPath() %>/login.do',
+            type: 'POST',
+            data: {
+                work_div: 'login',
+                user_id: $('#user_id').val(),
+                user_pw: $('#user_pw').val()
+            },
+            success: function(response) {
+                if(response === "성공") {
+                    $.get('<%= request.getContextPath() %>/getUserName.do', function(data) {
+                        $('#headerMenu').append('<li><p>' + data + '님 환영합니다</p></li>');
+                    });
+                } else {
+                    alert(response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('로그인 실패:', error);
+                alert('로그인 중 오류가 발생했습니다.');
+            }
+        });
+    }
+</script>
+
 </head>
+ 
 <body>
 
     <!-- header 시작  -->  
@@ -46,9 +54,18 @@ MainPageDao dao = new MainPageDao();
                 </div>
                 <div id="sectionLoginDiv">
                     <h2>나만의 도서관</h2>
-                    <button>
-                        <a href="http://localhost:8080/project2/jsp/login.jsp">로그인하러 가기</a>
-                    </button>
+                    <%
+                        LoginDTO user = (LoginDTO) session.getAttribute("user");
+                        if (user != null) {
+                    %>
+                        <p id = "usernamePost"><%= user.getUserName() %>님 환영합니다</p>
+                    <%
+                        } else {
+                    %>
+                        <p id ="usernamePost" ><a href = "login.jsp">로그인이 필요합니다</a></p>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
             
@@ -56,20 +73,21 @@ MainPageDao dao = new MainPageDao();
                 <div id="noticeBoard1" class="listWrap">
                     <h2>공지사항</h2>
                     <ul>
-                    <%
-                    for(MainPageDTO voY :listY) {
-                    %>
                         <li>
-                            <a><%=voY.getTitle()%></a>
-                            <span class="date"><%=voY.getModDt()%></span>
+                            <a>공지사항 1</a>
+                            <span class="date">2022.02.22</span>
                         </li>
-                    <%
-                    }
-                    %>  
-                      
+                        <li>
+                            <a>공지사항 2</a>
+                            <span class="date">2022.02.22</span>
+                        </li>
+                        <li>
+                            <a>공지사항 3</a>
+                            <span class="date">2022.02.22</span>
+                        </li>
                     </ul>
                     <p class="more">
-                        <a href="http://localhost:8080/project2/jsp/board01.jsp">
+                        <a href="board01.jsp">
                             <img src="../img/iconMore.png">
                         </a>
                     </p>
@@ -78,17 +96,21 @@ MainPageDao dao = new MainPageDao();
                 <div id="noticeBoard2" class="listWrap">
                     <h2>소통마당</h2>
                     <ul>
-                    <%
-                    for(MainPageDTO voN :listN) {
-                    %>
                         <li>
-                            <a><%=voN.getTitle()%></a>
-                            <span class="date"><%=voN.getModDt()%></span>
+                            <a>공지사항 1</a>
+                            <span class="date">2022.02.22</span>
                         </li>
-                    <% } %>  
+                        <li>
+                            <a>공지사항 2</a>
+                            <span class="date">2022.02.22</span>
+                        </li>
+                        <li>
+                            <a>공지사항 3</a>
+                            <span class="date">2022.02.22</span>
+                        </li>
                     </ul>
                     <p class="more2">
-                        <a href="http://localhost:8080/project2/jsp/board01.jsp">
+                        <a href="board01.jsp">
                             <img src="../img/iconMore.png">
                         </a>
                     </p>
@@ -96,7 +118,7 @@ MainPageDao dao = new MainPageDao();
             </div>
             
             <div class="bookListWrap">
-                <div id="bookShowList" >
+   <!--              <div id="bookShowList" >
                     <ul>
                         <li>
                             <a href="" class="cover">
@@ -117,7 +139,7 @@ MainPageDao dao = new MainPageDao();
                             <strong class="tit"></strong>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>

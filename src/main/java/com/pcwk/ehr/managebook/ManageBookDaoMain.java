@@ -14,7 +14,7 @@ public class ManageBookDaoMain implements PLog{
 	public ManageBookDaoMain() {
 		dao = new ManageBookDao();
 		
-		board01 = new ManageBookDTO(1, "TEST1", 10, "소설", "AUTHOR1_2", "COMPANY", "Y", 1234567890123l, "24/06/12", "INTRO_2", "없음", "없음", "없음", "Y", 41, "admin2", "SYSDATE", "admin2", "SYSDATE");
+		board01 = new ManageBookDTO(1, 321, "TEST1", 10, "소설", "AUTHOR1_2", "COMPANY", "Y", "1234567890123l", "24/06/12", "INTRO_2", "없음", "없음", "없음", "Y", 41, "admin2", "SYSDATE", "admin2", "SYSDATE");
 		// board01 = new manage2DTO(도서번호, "제목", "장르", "장르코드", "장르명", "작가", "출판사", "대출가능여부", ISBN[long], 출판일, 도서소개, "대출일", "반납예정일", "반납일", "대출연장카운트", "대출코드", "등록자", "등록일", "수정자", "수정일");
 	}
 	
@@ -89,10 +89,10 @@ public class ManageBookDaoMain implements PLog{
 	
 	public static void main(String[] args) {
 		ManageBookDaoMain m = new ManageBookDaoMain();
-		m.doDueDateUpdate();
+		//m.doDueDateUpdate();
 		//m.doUpdate();
 		//m.doDelete();
-		//m.doSelectOne();
+		m.doSelectOne();
 		//m.doRetrieve();
 		//m.doSave();
 	} // main

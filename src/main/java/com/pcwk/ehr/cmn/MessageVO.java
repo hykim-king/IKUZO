@@ -1,6 +1,6 @@
 package com.pcwk.ehr.cmn;
 
-public class MessageVO {
+public class MessageVO extends DTO {
 
 	//메세지 id
 	private String messageId;

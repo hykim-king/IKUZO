@@ -50,7 +50,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST", // POST로 변경
-            url: "/IKUZO/ikuzo/board.ikuzo",
+            url: "/IKUZO1/ikuzo/board.ikuzo",
             async: true, // 비동기 통신
             dataType: "html",
             data: {

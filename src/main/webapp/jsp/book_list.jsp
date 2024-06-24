@@ -17,11 +17,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/WEB02/assets/images/favicon.ico" type="image/x-icon">
 
-<title>Insert title here</title>
+<title>Book List</title>
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <link rel="stylesheet" href="/IKUZO/assest/css/book_list.css">
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+	console.log("DOMContentLoaded()");
 	
     //도서 한권 선택
 	const books = document.querySelectorAll(".book");
@@ -37,6 +38,20 @@ document.addEventListener("DOMContentLoaded", function(){
          });
         
     }); 
+	
+	function pageRetrieve(url,pageNo){
+		 console.log("url:"+url);
+		 console.log("pageNo:"+pageNo);
+		
+		let row = document.getElementById("book_list");
+		row.work_div.value = "doRetrieve";
+		
+		row.page_no.value = pageNo;
+		
+		row.action = url;
+		
+		row.submit();
+	}
     
 });
 </script>
@@ -75,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function(){
      if(null != list && list.size() > 0){
      for(BookDTO vo : list){ 
      %>
-    <div class="book">
+    <div class="book" id="book_list">
       <div class = "book_db"  style = "display : none">
       <p class="book_code"><%=vo.getBookCode() %></p>
       
@@ -93,19 +108,29 @@ document.addEventListener("DOMContentLoaded", function(){
    %>       
   </div>
   
-<!--   <script >
-    function moveToInfo(){
-     console.log("moveToInfo");
-     
-     
-    	
-    }
-  </script> -->
+  <nav aria-label ="Page navigation examole">
+     <%
+      //총글수
+      SearchDTO pageingVO = (SearchDTO)request.getAttribute("vo");
+      int totalCnt = pageingVO.getTotalCnt();          
+      //바닥 글수
+      int bottomCnt = pageingVO.getBottomCount();
+      
+      //페이지 사이즈
+      int pageSize = pageingVO.getPageSize();
+      
+      //페이지 번호
+      int pageNo = pageingVO.getPageNo();
+      
+      //pageRetrieve(url,2);
+      out.print(StringUtil.renderingPaging(totalCnt, pageNo, pageSize, bottomCnt, "/IKUZO/ikuzo/book.ikuzo", "pageRetrieve"));
+    %>
+  </nav>
 </section>
   
-
   <!-- footer 시작  -->
   <%@ include file="footer.jsp" %>
   <!-- footer 끝  -->
+
 </body>
 </html>

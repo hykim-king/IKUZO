@@ -3,6 +3,7 @@ package com.pcwk.ehr.managebook;
 import com.pcwk.ehr.cmn.DTO;
 
 public class ManageBookDTO extends DTO {
+	private int    rnum; // 번호
 	private int	   bookCode; // 도서번호
 	private String bookName; // 도서제목
 	private int	   bookGenre; // 장르코드
@@ -10,7 +11,7 @@ public class ManageBookDTO extends DTO {
 	private String author; // 작가
 	private String publisher; // 출판사
 	private String rentYn; // 대출가능 여부
-	private long isbn; // isbn
+	private String isbn; // isbn
 	private String bookPubDate; // 출판일
 	private String bookInfo; // 도서 소개
 	private String rentDate; // 대출일
@@ -25,11 +26,12 @@ public class ManageBookDTO extends DTO {
 	
 	public ManageBookDTO() {} // 빈통
 
-	public ManageBookDTO(int bookCode, String bookName, int bookGenre, String genre, String author, String publisher,
-			String rentYn, long isbn, String bookPubDate, String bookInfo, String rentDate, String dueDate,
-			String retunredDate, String noreturnCount, int rentCode, String regId, String regDt, String modId,
-			String modDt) {
+	public ManageBookDTO(int rnum, int bookCode, String bookName, int bookGenre, String genre, String author,
+			String publisher, String rentYn, String isbn, String bookPubDate, String bookInfo, String rentDate,
+			String dueDate, String retunredDate, String noreturnCount, int rentCode, String regId, String regDt,
+			String modId, String modDt) {
 		super();
+		this.rnum = rnum;
 		this.bookCode = bookCode;
 		this.bookName = bookName;
 		this.bookGenre = bookGenre;
@@ -49,6 +51,14 @@ public class ManageBookDTO extends DTO {
 		this.regDt = regDt;
 		this.modId = modId;
 		this.modDt = modDt;
+	}
+
+	public int getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 
 	public int getBookCode() {
@@ -107,11 +117,11 @@ public class ManageBookDTO extends DTO {
 		this.rentYn = rentYn;
 	}
 
-	public long getIsbn() {
+	public String getIsbn() {
 		return isbn;
 	}
 
-	public void setIsbn(long isbn) {
+	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
 
@@ -205,12 +215,12 @@ public class ManageBookDTO extends DTO {
 
 	@Override
 	public String toString() {
-		return "manage2DTO [bookCode=" + bookCode + ", bookName=" + bookName + ", bookGenre=" + bookGenre + ", genre="
-				+ genre + ", author=" + author + ", publisher=" + publisher + ", rentYn=" + rentYn + ", isbn=" + isbn
-				+ ", bookPubDate=" + bookPubDate + ", bookInfo=" + bookInfo + ", rentDate=" + rentDate + ", dueDate="
-				+ dueDate + ", retunredDate=" + retunredDate + ", noreturnCount=" + noreturnCount + ", rentCode="
-				+ rentCode + ", regId=" + regId + ", regDt=" + regDt + ", modId=" + modId + ", modDt=" + modDt
-				+ ", toString()=" + super.toString() + "]";
+		return "ManageBookDTO [rnum=" + rnum + ", bookCode=" + bookCode + ", bookName=" + bookName + ", bookGenre="
+				+ bookGenre + ", genre=" + genre + ", author=" + author + ", publisher=" + publisher + ", rentYn="
+				+ rentYn + ", isbn=" + isbn + ", bookPubDate=" + bookPubDate + ", bookInfo=" + bookInfo + ", rentDate="
+				+ rentDate + ", dueDate=" + dueDate + ", retunredDate=" + retunredDate + ", noreturnCount="
+				+ noreturnCount + ", rentCode=" + rentCode + ", regId=" + regId + ", regDt=" + regDt + ", modId="
+				+ modId + ", modDt=" + modDt + ", toString()=" + super.toString() + "]";
 	}
 	
 } // class

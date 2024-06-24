@@ -14,7 +14,7 @@ public class ManageUserDaoMain implements PLog{
 	public ManageUserDaoMain() {
 		dao = new ManageUserDao();
 		
-		board01 = new ManageUserDTO(1, "user1", "user1", "N", "없음", "24/06/11", "null", 0, 41);
+		board01 = new ManageUserDTO(1, "user1", "user1", "N", "없음", "24/06/11", "null", 0, 41, 103, "삐뽀삐뽀 119 소아과");
 	}
 	
 	public void doSave(){

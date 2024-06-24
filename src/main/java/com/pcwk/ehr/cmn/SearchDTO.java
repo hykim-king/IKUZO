@@ -7,24 +7,10 @@ public class SearchDTO extends DTO {
 
     private String searchDiv;  //검색구분
     private String searchWord; //검색어
+    private String isAdmin; //관리자 여부
+    private String rentYn; //대여 가능 여부
     
 	public SearchDTO() {
-	}
-
-	public String getSearchDiv() {
-		return searchDiv;
-	}
-
-	public void setSearchDiv(String searchDiv) {
-		this.searchDiv = searchDiv;
-	}
-
-	public String getSearchWord() {
-		return searchWord;
-	}
-
-	public void setSearchWord(String searchWord) {
-		this.searchWord = searchWord;
 	}
 
 	public int getPageNo() {
@@ -43,12 +29,42 @@ public class SearchDTO extends DTO {
 		this.pageSize = pageSize;
 	}
 
+	public String getSearchDiv() {
+		return searchDiv;
+	}
+
+	public void setSearchDiv(String searchDiv) {
+		this.searchDiv = searchDiv;
+	}
+
+	public String getSearchWord() {
+		return searchWord;
+	}
+
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
+	}
+
+	public String getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(String isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public String getRentYn() {
+		return rentYn;
+	}
+
+	public void setRentYn(String rentYn) {
+		this.rentYn = rentYn;
+	}
+
 	@Override
 	public String toString() {
 		return "SearchDTO [pageNo=" + pageNo + ", pageSize=" + pageSize + ", searchDiv=" + searchDiv + ", searchWord="
-				+ searchWord + ", toString()=" + super.toString() + "]";
+				+ searchWord + ", isAdmin=" + isAdmin + ", rentYn=" + rentYn + ", toString()=" + super.toString() + "]";
 	}
-
-	
 
 }

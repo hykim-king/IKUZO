@@ -12,11 +12,13 @@ public class ManageUserDTO extends DTO {
 	private String returnedDate; // 반납일
 	private int extraSum; // 연체금액	
 	private int rentCode; // 대출번호
+	private int	   bookCode; // 도서번호
+	private String bookName; // 도서제목
 	
 	public ManageUserDTO() {} // 빈통
 
 	public ManageUserDTO(int rnum, String userId, String userName, String isAdmin, String rentBookYn, String rentDate,
-			String returnedDate, int extraSum, int rentCode) {
+			String returnedDate, int extraSum, int rentCode, int bookCode, String bookName) {
 		super();
 		this.rnum = rnum;
 		this.userId = userId;
@@ -27,6 +29,8 @@ public class ManageUserDTO extends DTO {
 		this.returnedDate = returnedDate;
 		this.extraSum = extraSum;
 		this.rentCode = rentCode;
+		this.bookCode = bookCode;
+		this.bookName = bookName;
 	}
 
 	public int getRnum() {
@@ -101,11 +105,28 @@ public class ManageUserDTO extends DTO {
 		this.rentCode = rentCode;
 	}
 
+	public int getBookCode() {
+		return bookCode;
+	}
+
+	public void setBookCode(int bookCode) {
+		this.bookCode = bookCode;
+	}
+
+	public String getBookName() {
+		return bookName;
+	}
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
+	}
+
 	@Override
 	public String toString() {
-		return "BoardDTO [rnum=" + rnum + ", userId=" + userId + ", userName=" + userName + ", isAdmin=" + isAdmin
+		return "ManageUserDTO [rnum=" + rnum + ", userId=" + userId + ", userName=" + userName + ", isAdmin=" + isAdmin
 				+ ", rentBookYn=" + rentBookYn + ", rentDate=" + rentDate + ", returnedDate=" + returnedDate
-				+ ", extraSum=" + extraSum + ", rentCode=" + rentCode + ", toString()=" + super.toString() + "]";
-	}	
+				+ ", extraSum=" + extraSum + ", rentCode=" + rentCode + ", bookCode=" + bookCode + ", bookName="
+				+ bookName + ", toString()=" + super.toString() + "]";
+	}
 	
 } // class

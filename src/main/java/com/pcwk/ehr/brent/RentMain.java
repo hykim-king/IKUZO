@@ -4,28 +4,40 @@ import com.pcwk.ehr.cmn.PLog;
 
 public class RentMain implements PLog {
 
-	RentDAO dao;
+	RentService service;
 	RentDTO rent;
 	
 	public RentMain() {
-		dao = new RentDAO();
+		service = new RentService();
+		rent = new RentDTO();
+		rent.setRentCode(254);
 		
-		rent = new RentDTO(100,"user1",322,"24/06/17","24/06/20","24/06/20","Y",
-				0,"SYSDATE","admin1","admin1","SYSDATE");
 	}
 	
 	public void doSave() {
 		log.debug("do save()");
-		int flag = dao.doSave(rent);
+		int flag = service.doSave(rent);
 		if(1 == flag) {
 			log.debug("성공 : {}", flag);
 		}else 
 			log.debug("실패 : {} ", flag);
 	}
 	
+	public void rentCheck() {
+		log.debug("rentCheck()");
+		int flag = service.rentCheck(rent);
+		if(1 == flag) {
+			log.debug("rentCheck 성공 : {}", flag);
+		}else {
+			log.debug("rentCheck 실패 : {}", flag);
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		RentMain r = new RentMain();
 		//r.doSave();
+		r.rentCheck();
 	}
 
 }

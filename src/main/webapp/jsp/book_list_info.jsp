@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/IKUZO/assest/css/bootstrap.css">
 <!-- //bootstrap  end -->
 <title>Book ListInfo</title>
-<script src="/WEB02/assets/js/jquery_3_7_1.js"></script> <!--jQuery -->
+<script src="/IKUZO/assest/js/jquery_3_7_1.js"></script> <!--jQuery -->
 <script src = "/IKUZO/assest/js/common.js"></script> <!-- common.js  -->
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <link rel="stylesheet" href="/IKUZO/assest/css/book_info.css">
@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	  const pubDate = document.querySelector("#book_pub_date");//발간날짜
 	  const publisher = document.querySelector("#publisher");  //출판사
 	  
+	  const rentCode = document.querySelector('#book_code');
 	  
 	  doRentBtn.addEventListener("click",function(event){
         console.log('doRentBtn click: event'+event);
@@ -52,6 +53,17 @@ document.addEventListener("DOMContentLoaded", function(){
 		  window.location.href = "/IKUZO/ikuzo/book.ikuzo?work_div=doRetrieve";
 	}
 	 
+	  function rentcheck(){
+		  console.log('rentcheck()');
+		  
+		  if(isEmpty(rentCode.value) == true){
+			  alert('이미 대출된 도서 입니다.');
+			  return;
+		  }
+	  } //-- rentcheck end
+	  
+	  
+	  
 	  function doRent() {
 		  console.log('doRent()');
 		  alert("대출하시겠습니까?");
@@ -82,11 +94,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			    error:function(response){//실패시 처리
 			      console.log("error:"+response);
 			    }
-			}); 
-		  
-		  
-		  
-	  }
+			}); //-- doSave ajax
+	  } //-- doRent end
 	  
 	  // work_div, book_code, userId
 	  // rent   rentdate(SYSDATE) due_date(SYSDATE+7) userid 
@@ -110,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function(){
     <input type="button" value="대출하기" class="btn btn-primary" id="doRent">
     <input type="button" value="즐겨찾기" class="btn btn-primary" id="fav">
   </div>
+  
 <!-- 버튼 end -->
  
 <form action="#" class="form-horizontal">

@@ -82,7 +82,7 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 		sb.append("	 WHERE ROWNUM <= (? * (? -1) + ?)                      \n");
 		sb.append("  ) TT1                                                 \n");
 		sb.append(" --WHERE rnum >= 1                                      \n");
-		sb.append(" WHERE rnum >= (? * (?-1) +1 )                          \n");
+		sb.append(" WHERE rnum >= (? * (? -1) +1 )                          \n");
 
 		log.debug("1.sql : {}", sb.toString());
 		log.debug("2.conn : {}", conn);

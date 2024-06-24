@@ -165,17 +165,45 @@ section{
 }
 
 
-
-/* 푸터 스타일 */
-footer {
-  background-color:#27403d;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  height: 150px;
-  width: 100%;
+footer{
+    border-top: 1px solid #e4e4e4;
+    background-color:#f8f9fa;
+    padding:1rem 0;
+    margin:1rem 0;
+    width:1700px;
+    display: flex;
+     justify-content: center; /* 가운데 정렬 */
 }
 
+.footer-message{
+    font-weight: bold;
+    font-size:0.9rem;
+    color:#545e6f;
+    margin-bottom:0.3rem;
+    margin:0 0 0 0.6rem;
+    position :absolute;
+    font-size :30px;
+    left : 30px;
+    
+    
+}
+.footer-contact{
+    font-size:0.9rem;
+    color:#545e6f;
+    margin:0.6rem;
+}
+.footer-copyright{
+    font-size:0.9rem;
+    color:#545e6f;
+    margin:0.6rem;
+}
+
+.footer-message2{
+	font-size : 20px;
+	position: absolute;
+	left:300px;
+  
+}
 #iconUp {
   width: 80px;
   height: auto;
