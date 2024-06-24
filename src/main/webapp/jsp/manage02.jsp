@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <!-- header 끝  -->
   
 <!-- container -->
-session : ${sessionScope.member}
+session : ${sessionScope.user}
 <section class="container">
     <div class="inner-container">
        <div class="page-title-group">

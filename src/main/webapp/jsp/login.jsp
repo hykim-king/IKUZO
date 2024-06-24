@@ -141,8 +141,8 @@
                 });
                 
                 $.ajax({
-                    type: "POST",
-                    url: "/IKUZO2/login.do", // 상대 경로로 설정
+                    type: "GET",
+                    url: "/IKUZO/ikuzo/login.ikuzo", // 상대 경로로 설정
                     dataType: "text",
                     data: {
                         "work_div": "login",
@@ -154,7 +154,7 @@
 
                         if (data.trim() === "성공") {
                             alert('로그인 성공! 환영합니다.');
-                            window.location.href = "/IKUZO2/jsp/index.jsp"; // 로그인 성공 후 이동할 페이지 경로 수정
+                            window.location.href = "/IKUZO/jsp/index.jsp"; // 로그인 성공 후 이동할 페이지 경로 수정
                         } else {
                             alert('아이디와 비밀번호를 확인하세요.');
                         }

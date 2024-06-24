@@ -238,7 +238,7 @@ public class ManageUserDao implements WorkDiv<ManageUserDTO>, PLog {
 		sb.append("    ) subquery                                                                         \n");
 		sb.append("    LEFT JOIN BOOK c ON subquery.BOOK_CODE = c.BOOK_CODE                               \n");
 		sb.append(") final_query                                                                          \n");
-		sb.append("ORDER BY final_query.RENTYN ASC;                                                       \n");
+		sb.append("ORDER BY final_query.RENTYN ASC	                                                      \n");
 		
 		log.debug("1.sql: {} \n", sb.toString());
 		log.debug("2.conn: {} \n", conn);

@@ -21,6 +21,7 @@ import com.pcwk.ehr.cmn.MessageVO;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.cmn.StringUtil;
+import com.pcwk.ehr.login.LoginDTO;
 
 /**
  * Servlet implementation class BoardController
@@ -137,16 +138,15 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
 //		String modId = StringUtil.nvl(request.getParameter("modId"), ""); // 로그인 기능 없을때 사용
 		
 		HttpSession session = request.getSession();
-		log.debug("login account check : {}", session.getAttribute("member"));
+		log.debug("login account check : {}", session.getAttribute("user"));
 		
 		String regId = "";
-		/* 로그인 후 연결
-		 * if(session != null && null != session.getAttribute("member")) { MemberDTO
-		 * member = (MemberDTO) session.getAttribute("member"); regId =
-		 * member.getUserId(); }else {
-		 * 
-		 * }
-		 */
+		if(session != null && null != session.getAttribute("user")) { LoginDTO
+		member = (LoginDTO) session.getAttribute("user"); regId =
+		member.getUserId(); }else {
+		 
+		}
+		 
 		
 		log.debug("bookName :{} ", bookName);
 		log.debug("isbn : {}", isbn);
@@ -279,16 +279,14 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
 //		String modId = StringUtil.nvl(request.getParameter("modId"), ""); // 로그인 기능 없을때 사용
     	
 		HttpSession session = request.getSession();
-		log.debug("login account check : {}", session.getAttribute("member"));
+		log.debug("login account check : {}", session.getAttribute("user"));
 		
 		String modId = "";
-		/* 로그인 후 연결
-		 * if(session != null && null != session.getAttribute("member")) { MemberDTO
-		 * member = (MemberDTO) session.getAttribute("member"); modId =
-		 * member.getUserId(); }else {
-		 * 
-		 * }
-		 */
+		if(session != null && null != session.getAttribute("user")) { LoginDTO
+		member = (LoginDTO) session.getAttribute("user"); modId =
+		member.getUserId(); }else {
+		
+		}
 		
 		inVO.setBookCode(Integer.parseInt(bookCode));
 		inVO.setBookName(bookName);
@@ -340,13 +338,12 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
 		log.debug("login account check : {}", session.getAttribute("member"));
 		
 		String modId = "";
-		/* 로그인 후 연결
-		 * if(session != null && null != session.getAttribute("member")) { MemberDTO
-		 * member = (MemberDTO) session.getAttribute("member"); modId =
-		 * member.getUserId(); }else {
-		 * 
-		 * }
-		 */
+		
+		if(session != null && null != session.getAttribute("user")) { LoginDTO
+		member = (LoginDTO) session.getAttribute("user"); modId =
+		member.getUserId(); }else {
+		
+		}		
 		
 		inVO.setModId(modId);
 		inVO.setRentCode(Integer.parseInt(rentCode));
@@ -391,13 +388,12 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
 		log.debug("login account check : {}", session.getAttribute("member"));
 		
 		String modId = "";
-		/* 로그인 후 연결
-		 * if(session != null && null != session.getAttribute("member")) { MemberDTO
-		 * member = (MemberDTO) session.getAttribute("member"); modId =
-		 * member.getUserId(); }else {
-		 * 
-		 * }
-		 */
+		
+		if(session != null && null != session.getAttribute("user")) { LoginDTO
+		member = (LoginDTO) session.getAttribute("user"); modId =
+		member.getUserId(); }else {
+		
+		}		
 		
 		inVO.setModId(modId);
 		inVO.setRentCode(Integer.parseInt(rentCode));
