@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcwk.ehr.board.BoardController;
 import com.pcwk.ehr.join.JoinController;
 import com.pcwk.ehr.managebook.ManageBookController;
 import com.pcwk.ehr.manageuser.ManageUserController;
@@ -18,6 +19,7 @@ import com.pcwk.ehr.manageuser.ManageUserController;
 import com.pcwk.ehr.managebook.ManageBookController;
 import com.pcwk.ehr.manageuser.ManageUserController;
 import com.pcwk.ehr.mypage.LoanListController;
+import com.pcwk.ehr.servlet.ConnectController;
 
 /**
  * Servlet implementation class FrontControllerV
@@ -38,7 +40,7 @@ public class FrontControllerV extends HttpServlet implements PLog {
     	controllerMap.put("/IKUZO/ikuzo/manage02.ikuzo", new ManageBookController()); // 도서관리자 페이지    	
 
 //    	controllerMap.put("/IKUZO/ikuzo/board01.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 관리자게시판 페이지    	
-//    	controllerMap.put("/IKUZO/ikuzo/board02.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 회원게시판 페이지    	
+    	controllerMap.put("/IKUZO/ikuzo/board.ikuzo", new BoardController()); // 게시판 페이지    	
 //
 //    	controllerMap.put("/IKUZO/ikuzo/blist.ikuzo", new /*해당 컨트롤러 이름*/Controller()); // 도서 목록 페이지    	
 //    	
