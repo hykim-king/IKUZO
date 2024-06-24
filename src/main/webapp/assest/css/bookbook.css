@@ -1,3 +1,4 @@
+@charset "UTF-8";
 *{
   margin:0;
   padding:0;
@@ -11,7 +12,6 @@ a{
 ul, ol{
   list-style: none;
 }
-
 /* 헤더 스타일 */
 header {
   background-color: white;
@@ -21,20 +21,11 @@ header {
 
 /* 로고 스타일 */
 #logo #logoImg {
-    max-width: 100%;
-    max-height: 100%;
+    width: 250px;
+    height: auto;
     position: relative;
     top :50px;
-}
-
-
-#logo #image{
-  
-  width : 70px;
-  height : auto;
-  position : absolute;
-  right: 445px;
-  top : 35px;
+    left:70px;
 }
 
 /* 헤더 메뉴 스타일 */
@@ -81,7 +72,8 @@ header {
 }
 
 #headerSearchForm input{
-    width:40%;
+
+    border: 3px solid #27403d;
 }
 
 #headerSearchForm button {
@@ -90,31 +82,29 @@ header {
   padding : 5px 10px;
   cursor: pointer;
 }
-#headerSearchForm button p{
-  color : white;
-  font-weight: bold;
-}
-
 #headerSearchForm button:hover{
   background-color: white;
    
 }
-#headerSearchForm button:hover >p{
+#headerSearchForm button:hover *{
   color : #27403d;
 }
-
+#headerSearchForm button *{
+  color : white;
+  font-weight: bold;
+}
 
 
 /* 네비게이션 스타일 */
 nav {
-display: flex;
-justify-content: center; /* 가운데 정렬 */
-height: 82px;
-padding: 0;
-border-top: 1px solid #ebebeb;
-box-sizing: border-box;
-margin: 0 auto; /* 좌우 중앙 정렬 */
-border-bottom: 1px solid #ebebeb;
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  height: 82px;
+  padding: 0;
+  border-top: 1px solid #ebebeb;
+  box-sizing: border-box;
+  margin-top: 50px ;
+  border-bottom: 1px solid #ebebeb;
 
 }
 
@@ -129,12 +119,12 @@ nav li {
 }
 
 nav a {
-            display: block;
-            height: 76px;
-            padding: 0 50px; /* 좌우 여백 조정 */
-            color: #111;
-            font-weight: bold; /* 굵은체로 설정 */
-            line-height: 76px; /* 수직 가운데 정렬 */
+  display: block;
+  height: 76px;
+  padding: 0 50px; /* 좌우 여백 조정 */
+  color: #111;
+  font-weight: bold; /* 굵은체로 설정 */
+  line-height: 76px; /* 수직 가운데 정렬 */
               
 
 }
@@ -148,12 +138,12 @@ nav ul ul {
   left: 0;
   padding: 10px 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
- 
+  z-index : 255;
 }
 
 nav ul li:hover > ul {
   display: block;
-  z-index: 100;
+
 }
 
 nav ul ul li {
@@ -168,6 +158,12 @@ color:white;
 }
 
 
+/*section*/
+section{
+  width : 100%;
+  height:500px;
+}
+
 
 
 /* 푸터 스타일 */
@@ -178,30 +174,13 @@ footer {
   padding: 10px 0;
   height: 150px;
   width: 100%;
-  position : absolute;
-  top : 1265px;
 }
 
-#serviceNameArea {
-	
-	position : absolute;
-	left : 50px; 
-	font-size: 40px;
-  top : 65px;
-  font-weight: bold;
-}
-
-
-
-
-
-
-footer #rollUp {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  position :absolute;
-  right: 30px;
-  background-color: white;
+#iconUp {
+  width: 80px;
+  height: auto;
+  position: fixed;
+  z-index : 1000;
+  bottom:50px;
+  right :50px;
 }
