@@ -1,6 +1,67 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<header id="header">
+<%@page import="com.pcwk.ehr.booklist.BookDTO"%>
+<%@page import="java.util.List" %>
+<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
+<%@page import="com.pcwk.ehr.cmn.StringUtil" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+    pageEncoding="UTF-8"%> 
+<%-- <%
+  List<BookDTO> list  = (List<BookDTO>)request.getAttribute("list");
+  SearchDTO searchCon = (SearchDTO)request.getAttribute("vo");
+%>   --%>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+	  console.log("DOMContentLoaded()");
 
+ //검색하기 버튼
+ const searchInputBtn = document.querySelector("#headerSearchBtn");
+
+ searchInputBtn.addEventListener("click", function(event){
+	 console.log("searchInputBtn click");
+	 doRetrieve();
+ });
+ 
+ 
+ function doRetrieve(){
+	 console.log("doRetrieve()");
+	 
+	 let frm = document.getElementById("headerSearchForm");
+	 
+	 frm.work_div.value = "doRetrieve";
+	 frm.page_no.value = "1";
+	 
+	 console.log("frm.searchDiv.value:"+frm.searchDiv.value);  
+	 console.log("frm.search_word.value:"+frm.search_word.value);
+	 /* console.log("frm.page_size.value:"+frm.page_size.value); */
+	 
+	 //서버로 보낼 액션 설정
+	 console.log("frm.action:"+frm.action);
+	 frm.action = "/IKUZO/ikuzo/book.ikuzo";
+	   
+	 //전송
+	 frm.submit();
+ }
+ 
+ //페이징 조회
+ function pageRetrieve(url,pageNo){
+   console.log("url:"+url);
+   console.log("pageNo:"+pageNo);
+   
+      //폼 요소 선택
+     let frm = document.getElementById("headerSearchForm");
+     frm.work_div.value = "doRetrieve";
+      //폼 데이터 설정
+     frm.page_no.value = pageNo;
+      
+     //url
+     frm.action = url;
+     
+     //전송
+     frm.submit();
+ }
+ 
+});//--DOMContentLoaded end
+</script>
+<header id="header">
     <div>
         <h1 id="logo">
             <a href="index.jsp">
@@ -38,19 +99,25 @@
         </ul>
     </div>
 
-    <form id="headerSearchForm" action="검색할 서블릿 주소" method="GET"> <!-- 검색할 서블릿 주소를 설정하세요 -->
+
+
+    <form id="headerSearchForm" action="#" method="GET"> <!-- 검색할 서블릿 주소를 설정하세요 -->
         <legend>검색</legend>
+        <input type="hidden" name="work_div" id="work_div" placeholder="작업구분">
+        <input type="hidden" name="page_no" id="page_no"   placeholder="페이지번호">
+        <input type="hidden" name="seq"     id="seq"       placeholder="순번">
         <select id="searchDiv" name="searchDiv">
             <option value="10" selected>제목</option>
-            <option value="20">저자</option>
-            <option value="30">출판사</option>
+            <option value="20">출판사</option>
+            <option value="30">저자</option>
+            <option value="40">장르</option>
         </select>
-        <input type="text" id="searchInput" name="keyword">
-        <button type="submit"><p>검색하기</p></button>
+        <input type="text" id="search_word" name="search_word">
+        <button id="headerSearchBtn" type="button"><p>검색하기</p></button>
     </form>
 </header>
 
-<nav>
+<nav class = "main_nav">
     <ul>
         <li><a href="#">자료검색</a></li>
         <li><a href="#">베스트셀러</a></li>

@@ -26,6 +26,22 @@ document.addEventListener("DOMContentLoaded", function(){
 	
     //도서 한권 선택
 	const books = document.querySelectorAll(".book");
+    
+  function doRetrieve() {
+	  console.log("doRetrieve()");
+	  
+	  let row = document.getElementById("row_book");
+	  
+	  row.work_div.value = "doRetrieve";
+	  row.page_no.value = "1";
+	  
+	  console.log("row.search_div.value:"+row.search_div.value);
+	  console.log("row.page_size.value:"+row.page_size.value);
+	  
+	  
+	  
+	  row.submit();
+  }
 	
 	books.forEach(function(book){
         //double click
@@ -39,11 +55,14 @@ document.addEventListener("DOMContentLoaded", function(){
         
     }); 
 	
+    
+});
+
 	function pageRetrieve(url,pageNo){
 		 console.log("url:"+url);
 		 console.log("pageNo:"+pageNo);
 		
-		let row = document.getElementById("book_list");
+		let row = document.getElementById("book_frm");
 		row.work_div.value = "doRetrieve";
 		
 		row.page_no.value = pageNo;
@@ -52,8 +71,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		
 		row.submit();
 	}
-    
-});
+	
 </script>
 </head>
 <body>
@@ -86,6 +104,9 @@ document.addEventListener("DOMContentLoaded", function(){
 </div>
 
   <div class="row_book">
+  <form action="#" id="book_frm">
+  <input type="hidden" name="work_div" id="work_div" placeholder="작업구분">
+  <input type="hidden" name="page_no" id="page_no"   placeholder="페이지번호">
 <% 
      if(null != list && list.size() > 0){
      for(BookDTO vo : list){ 
@@ -105,14 +126,16 @@ document.addEventListener("DOMContentLoaded", function(){
     </div>
    <% } //for
        }//if       
-   %>       
+   %> 
+   </form>      
   </div>
   
   <nav aria-label ="Page navigation examole">
      <%
       //총글수
       SearchDTO pageingVO = (SearchDTO)request.getAttribute("vo");
-      int totalCnt = pageingVO.getTotalCnt();          
+      int totalCnt = pageingVO.getTotalCnt();
+		   
       //바닥 글수
       int bottomCnt = pageingVO.getBottomCount();
       

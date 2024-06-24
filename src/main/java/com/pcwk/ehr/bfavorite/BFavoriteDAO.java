@@ -88,7 +88,7 @@ public class BFavoriteDAO implements PLog, WorkDiv<BFavoriteDTO> {
 		StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM favorite  \n");
 		sb.append("WHERE                 \n");
-		sb.append("   fav_seq = ?        \n");
+		sb.append("   user_id = ?        \n");
 		
 		log.debug("1.sql : {}", sb.toString());
 		log.debug("2.conn : {}", conn);
@@ -98,7 +98,7 @@ public class BFavoriteDAO implements PLog, WorkDiv<BFavoriteDTO> {
 			pstmt = conn.prepareStatement(sb.toString());
 			log.debug("4.pstmt : {}", pstmt);
 			
-			pstmt.setInt(1, param.getFavSeq());
+			pstmt.setString(1, param.getUserId());
 			
 			flag = pstmt.executeUpdate();
 			

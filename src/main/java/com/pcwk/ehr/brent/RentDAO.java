@@ -33,9 +33,10 @@ public class RentDAO implements PLog, WorkDiv<RentDTO> {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT COUNT(*) cnt  \n");
+		sb.append("SELECT *             \n");
 		sb.append(" FROM RENT           \n");
-		sb.append(" WHERE rent_code = ? \n");
+		sb.append(" WHERE book_code = ? \n");
+		sb.append(" AND returned_date is null \n");
 		
 		log.debug("1.sql : {}", sb.toString());
 		log.debug("2.conn : {}", conn);
@@ -45,13 +46,13 @@ public class RentDAO implements PLog, WorkDiv<RentDTO> {
 			pstmt = conn.prepareStatement(sb.toString());
 			log.debug("4.pstmt : {}", pstmt);
 			
-			pstmt.setInt(1, param.getRentCode());
+			pstmt.setInt(1, param.getBookCode());
 			
 			rs = pstmt.executeQuery();
 			log.debug("5.rs : {}", rs);
 			
 			if(rs.next()) {
-				flag = rs.getInt("cnt");
+				flag = 1;
 				log.debug("6.flag : {}", flag);
 			}
 			

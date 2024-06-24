@@ -40,15 +40,19 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 		
 		SearchDTO searchVO = (SearchDTO)search;
 		StringBuilder sbWhere = new StringBuilder();
-		
+		StringBuilder sbWhere2 = new StringBuilder();
+		StringBuilder sbWhere3 = new StringBuilder();
 		if (null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("10")) {
 			sbWhere.append("WHERE book_name LIKE ?||'%' \n");
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
 			sbWhere.append("WHERE publisher LIKE ?||'%' \n");
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("30")) {
-			sbWhere.append("WHERE author = ? \n");
+			sbWhere.append("WHERE author LIKE ? || '%' \n");
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("40")) {
-			sbWhere.append("WHERE genre_name LIKE ? || '%'\n");
+			sbWhere3.append("WHERE b.genre_name LIKE ? || '%' \n");
+			sbWhere2.append(" aa                                             \n");
+			sbWhere2.append(" JOIN b_genre bb ON aa.book_genre=bb.book_genre \n");
+			sbWhere2.append(" WHERE bb.genre_name LIKE ? || '%'                \n");
 		}
 		
 		List<BookDTO> list = new ArrayList<BookDTO>();
@@ -57,32 +61,42 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT tt1.rnum AS num,                                 \n");
-		sb.append("       tt1.book_code, tt1.book_name,                                   \n");
-		sb.append("       tt1.genre_name,                                  \n");
-		sb.append("       TO_CHAR(tt1.book_pub_date,'YYYY/MM/DD') AS book_pub_date,\n");
-		sb.append("       tt1.publisher,                                   \n");
-		sb.append("       tt1.author,                                      \n");
-		sb.append("       tt1.book_info                                    \n");
-		sb.append("  FROM (                                                \n");
-		sb.append("    SELECT ROWNUM AS rnum, T1.*                         \n");
-		sb.append("      FROM (                                            \n");
-		sb.append("        SELECT a.book_code ,a.book_name,                            \n");
-		sb.append("               b.genre_name,                            \n");
-		sb.append("               a.book_pub_date,                         \n");
-		sb.append("               a.publisher,                             \n");
-		sb.append("               a.author,                                \n");
-		sb.append("               a.book_info                              \n");
-		sb.append("          FROM book a                                   \n");
-		sb.append("          JOIN b_genre b ON a.book_genre = b.book_genre \n");
-		sb.append("		 -- WHERE 조건문                                    \n");
+		sb.append("SELECT A.*,B.*                                                    \n");
+		sb.append("  FROM (                                                          \n");
+		sb.append("	SELECT tt1.rnum AS num,                                          \n");
+		sb.append("		   tt1.book_code, tt1.book_name,                             \n");   
+		sb.append("		   tt1.genre_name,                                           \n");
+		sb.append("		   TO_CHAR(tt1.book_pub_date,'YYYY/MM/DD') AS book_pub_date, \n");
+		sb.append("		   tt1.publisher,                                            \n");
+		sb.append("		   tt1.author,                                               \n");
+		sb.append("		   tt1.book_info                                             \n");
+		sb.append("	  FROM (                                                         \n");
+		sb.append("		SELECT ROWNUM AS rnum, T1.*                                  \n");
+		sb.append("		  FROM (                                                     \n");
+		sb.append("			SELECT a.book_code ,a.book_name,                         \n");
+		sb.append("				   b.genre_name,                                     \n");
+		sb.append("				   a.book_pub_date,                                  \n");
+		sb.append("				   a.publisher,                                      \n");
+		sb.append("				   a.author,                                         \n");
+		sb.append("				   a.book_info                                       \n");
+		sb.append("			  FROM book a                                            \n");
+		sb.append("			  JOIN b_genre b ON a.book_genre = b.book_genre          \n");
+		sb.append("			 -- WHERE 조건문                                          \n");
+		sb.append(sbWhere.toString());                                 
+		sb.append(sbWhere3.toString());  
+		sb.append("		  ) T1                                                       \n");
+		sb.append("		 --WHERE ROWNUM <= 10                                        \n");
+		sb.append("		 WHERE ROWNUM <= (? * (? -1) + ?)                            \n");
+		sb.append("	  ) TT1                                                          \n");
+		sb.append("	 --WHERE rnum >= 1                                               \n");
+		sb.append("	 WHERE rnum >= (? * (? -1) +1 )                                  \n");
+		sb.append("	)A,(                                                             \n");
+		sb.append(" SELECT COUNT(*) totalCnt                                         \n");
+		sb.append("  FROM book                                                       \n");
+		sb.append("  --WHERE 조건                                                     \n");
 		sb.append(sbWhere.toString());
-		sb.append("      ) T1                                              \n");
-		sb.append("     --WHERE ROWNUM <= 10                               \n");
-		sb.append("	 WHERE ROWNUM <= (? * (? -1) + ?)                      \n");
-		sb.append("  ) TT1                                                 \n");
-		sb.append(" --WHERE rnum >= 1                                      \n");
-		sb.append(" WHERE rnum >= (? * (? -1) +1 )                          \n");
+		sb.append(sbWhere2.toString());  
+		sb.append("  )B                                                              \n");
 
 		log.debug("1.sql : {}", sb.toString());
 		log.debug("2.conn : {}", conn);
@@ -106,6 +120,8 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
 				
+				pstmt.setString(7, searchVO.getSearchWord());
+				
 			} else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
 				log.debug("4.1 searchDiv  : {}", searchVO.getSearchDiv());
 				
@@ -120,6 +136,8 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
 				
+				pstmt.setString(7, searchVO.getSearchWord());
+				
 			} else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("30")) {
 				
 				pstmt.setString(1, searchVO.getSearchWord());
@@ -133,6 +151,8 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
 				
+				pstmt.setString(7, searchVO.getSearchWord());
+				
 			} else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("40")) {
 				
                 pstmt.setString(1, searchVO.getSearchWord());
@@ -145,6 +165,8 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 				//rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
+				
+				pstmt.setString(7, searchVO.getSearchWord());
 				
 			}else {
 				log.debug("4.1 searchDiv  : {}", searchVO.getSearchDiv());
@@ -171,6 +193,9 @@ public class BookDAO implements PLog, WorkDiv<BookDTO> {
 				outVO.setAuthor(rs.getString("author"));
 				outVO.setBookInfo(rs.getString("book_info"));
 				outVO.setGenreName(rs.getString("genre_name"));
+				//outVO.setBookGenre(rs.getInt("book_genre"));
+				
+				outVO.setTotalCnt(rs.getInt("totalCnt"));
 				
 				list.add(outVO);
 			}

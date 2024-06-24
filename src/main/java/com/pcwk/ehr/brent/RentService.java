@@ -12,8 +12,15 @@ public class RentService implements PLog {
 		dao = new RentDAO();
 	}
 	
-	public int doSave(RentDTO param) {
-		return dao.doSave(param);
+	public int checkAndSave(RentDTO param) {
+		int flag = dao.rentCheck(param);
+		if(flag == 1) {
+			log.debug("이미 대출된 책입니다.");
+			return 0;
+		}else {
+			flag =dao.doSave(param);
+			return flag;
+		}
 	}
 	
 	public int rentCheck(RentDTO param) {

@@ -17,3 +17,8 @@
 .book-title {
 	footer : left;
 }
+
+.image{
+	display : inline-block;
+	/**/border : 1px dotted green;
+}

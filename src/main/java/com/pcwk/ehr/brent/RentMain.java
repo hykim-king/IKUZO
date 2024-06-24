@@ -16,7 +16,7 @@ public class RentMain implements PLog {
 	
 	public void doSave() {
 		log.debug("do save()");
-		int flag = service.doSave(rent);
+		int flag = service.checkAndSave(rent);
 		if(1 == flag) {
 			log.debug("성공 : {}", flag);
 		}else 
@@ -37,7 +37,7 @@ public class RentMain implements PLog {
 	public static void main(String[] args) {
 		RentMain r = new RentMain();
 		//r.doSave();
-		r.rentCheck();
+		//r.rentCheck();
 	}
 
 }

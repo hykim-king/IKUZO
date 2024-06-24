@@ -10,7 +10,7 @@ public class BFavoriteMain implements PLog {
 	public BFavoriteMain() {
 		dao = new BFavoriteDAO();
 		
-		fav = new BFavoriteDTO(10,"user2",322,"SYSDATE");
+		fav = new BFavoriteDTO(10,"admin2",322,"SYSDATE");
 	}
 	
 	public void doSave() {
@@ -34,7 +34,7 @@ public class BFavoriteMain implements PLog {
 	
 	public static void main(String[] args) {
 		BFavoriteMain f = new BFavoriteMain();
-		//f.doSave();
+		f.doSave();
 		//f.doDelete();
 	}
 

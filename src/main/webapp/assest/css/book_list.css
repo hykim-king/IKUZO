@@ -1,6 +1,5 @@
 @charset "UTF-8";
 .main {
-  border-style:dashed;
   height: auto;
 }
 .row_book {
@@ -55,7 +54,6 @@
   heith : auto;
   margin: 10px;
   padding : 40px;
-  /**/border : 1px dotted green;
   text-align: center;
 }
 
@@ -73,10 +71,6 @@
 .book-description p {
     font-size: 16px;
     line-height: 1.5;
-}
-
-.image {
- border-style:dashed;
 }
 
 .name {

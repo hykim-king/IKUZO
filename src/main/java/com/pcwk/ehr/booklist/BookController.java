@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.bfavorite.BFavoriteDTO;
+import com.pcwk.ehr.bfavorite.BFavoriteService;
 import com.pcwk.ehr.brent.RentDTO;
 import com.pcwk.ehr.brent.RentService;
 import com.pcwk.ehr.cmn.ControllerV;
@@ -28,6 +30,7 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 
 	BookService service;
 	RentService serviceR;
+	BFavoriteService serviceFav;
 	
 	public BookController() {
 		log.debug("---------------------");
@@ -36,6 +39,7 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 
 		service = new BookService();
 		serviceR = new RentService();
+		serviceFav = new BFavoriteService();
 	}
 
 	//doSelectOne
@@ -75,19 +79,28 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 		// page_no
 		// page_size
 		String pageNo = StringUtil.nvl(request.getParameter("page_no"), "1");
-		String pageSize = StringUtil.nvl(request.getParameter("page_size"), "10");
+		String pageSize = StringUtil.nvl(request.getParameter("page_size"), "5");
+		
+		String searchWord = StringUtil.nvl(request.getParameter("search_word"), "");
+		String searchDiv = StringUtil.nvl(request.getParameter("searchDiv"), "");
 
 		log.debug("pageNo:{}", pageNo);
 		log.debug("pageSize:{}", pageSize);
+		log.debug("searchWord:{}", searchWord);
+		log.debug("searchDiv:{}", searchDiv);
+		
+		
 
 		inVO.setPageNo(Integer.parseInt(pageNo));
 		inVO.setPageSize(Integer.parseInt(pageSize));
-
+		inVO.setSearchDiv(searchDiv);
+		inVO.setSearchWord(searchWord);
+		
 		log.debug("inVO:{}", inVO);
 
 		// service call
 		List<BookDTO> list = service.doRetrieve2(inVO);
-
+		
 		int i = 0;
 		for (BookDTO vo : list) {
 			log.debug("i : {} ,vo : {}", ++i, vo);
@@ -95,10 +108,23 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 
 		// UI 데이터 전달
 		request.setAttribute("list", list);
-
+		
+		
+		int bottomCount = 10;
+		int totalCnt = 0;
+		
+		if(null != list && list.size() > 0) {
+			BookDTO pagingVO = list.get(0);
+			totalCnt = pagingVO.getTotalCnt();
+			log.debug("totalCnt: {}", totalCnt);
+			
+			inVO.setTotalCnt(totalCnt);
+		}
+		
+		inVO.setBottomCount(bottomCount);
+		
 		// 검색 조건 UI로 전달
 		request.setAttribute("vo", inVO);
-		
 		log.debug("inVO: {}", inVO);
 		return new JView("/jsp/book_list.jsp");
 	}
@@ -141,15 +167,15 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 		inVO.setUserId(userId);
 		inVO.setBookCode(bookCode);
 		
-		int flag = this.serviceR.doSave(inVO);
+		int flag = this.serviceR.checkAndSave(inVO);
 		log.debug("flag:{}",flag);
 		
 		
 		String message = "";
 		if(flag == 1) {
-			message = "등록성공";
+			message = "대출되었습니다.";
 		}else {
-			message = "등록실패";
+			message = "이미 대출 되어있는 책 입니다.";
 		}
 		
 		MessageVO messageVO = new MessageVO();
@@ -173,7 +199,53 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 		return null;
 	}
 	
-	
+	public JView doFavSave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("---------------------");
+		log.debug("doFavSave()");
+		log.debug("---------------------");
+		
+		BFavoriteDTO inVO = new BFavoriteDTO();
+		
+		String userId = StringUtil.nvl(request.getParameter("userId"), "");
+		int bookCode = Integer.parseInt(StringUtil.nvl(request.getParameter("book_code"),"0"));
+		
+		log.debug("userId:{}",userId);
+		log.debug("bookCode:{}",bookCode);
+		
+		inVO.setUserId(userId);
+		inVO.setBookCode(bookCode);
+		
+		int flag = this.serviceFav.doFavSave(inVO);
+		log.debug("flag:{}",flag);
+		
+		String message = "";
+		if(flag == 1) {
+			message = "등록 성공";
+		}else {
+			message = "등록 실패";
+		}
+		
+		MessageVO messageVO = new MessageVO();
+		messageVO.setMessageId(String.valueOf(flag));
+		messageVO.setMsgContents(message);
+		
+		log.debug("messageVO:{}",messageVO);
+		
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(messageVO);
+		
+		log.debug("jsonStirng:{}", jsonString);
+		
+		//한글 깨짐 설정
+		response.setContentType("text/html; charset=UTF-8");
+		
+		//sussess data 화면에 출력
+		PrintWriter out = response.getWriter();
+		out.print(jsonString);
+		
+		return null;
+	}
+		
 	@Override
 	public JView doWork(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("---------------------");
@@ -186,6 +258,9 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 		log.debug("work_div : {}", workDiv);
 
 		switch(workDiv) {
+		case "doFavSave":
+			viewName = doFavSave(request, response);
+			break;
 		case "doSave":
 			viewName = doRentSave(request, response);
 			break;

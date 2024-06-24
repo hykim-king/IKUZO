@@ -76,8 +76,8 @@ public class BookMain implements PLog {
 		searchVO.setPageSize(10);
 		
 		//검색구분
-		searchVO.setSearchDiv("40");
-		searchVO.setSearchWord("시");
+		searchVO.setSearchDiv("10");
+		searchVO.setSearchWord("원피스");
 		
 		List<BookDTO> list = dao.doRetrieve2(searchVO);
 		
@@ -93,7 +93,7 @@ public class BookMain implements PLog {
 		//b.doUpdate();
 		//b.doDelete();
 		//b.doSelect();
-		//b.doRetrieve();
+		b.doRetrieve();
 		
 	}
 

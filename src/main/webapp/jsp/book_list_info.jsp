@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function(){
 	  //대출하기 버튼
 	  const doRentBtn = document.querySelector("#doRent")
 	  
+	  //즐겨찾기 버튼
+	  const doFavBtn = document.querySelector("#fav")
 	  
 	  //도서 내용
 	  const bookCode = document.querySelector("#book_code");
@@ -36,22 +38,63 @@ document.addEventListener("DOMContentLoaded", function(){
 	  
 	  const rentCode = document.querySelector('#book_code');
 	  
+	  //즐겨찾기 버튼
+	  doFavBtn.addEventListener("click",function(event){
+		  console.log('doFavBtn click: event'+event);
+		  fav();
+	  });
+	  
+	  //대출하기 버튼
 	  doRentBtn.addEventListener("click",function(event){
         console.log('doRentBtn click: event'+event);
         doRent();
       });
 	  
+	  //목록 이동 버튼
 	  moveToListBtn.addEventListener("click",function(event){
 		    console.log('moveToListBtn click: event'+event);
 		    moveToList();
 		  });
+	  
+	  function fav(){
+		  console.log('fav()');
+		  alert("즐겨찾기에 추가 하시겠습니까?");
+		  
+		  $.ajax({
+			    type: "GET", 
+			    url:"/IKUZO/ikuzo/book.ikuzo",
+			    asyn:"true",
+			    dataType:"html",
+			    data:{
+			        "work_div":"doFavSave",
+			        "userId" : "admin2",
+			        "book_code" : ${outVO.bookCode }  
+			    },
+			    success:function(response){//통신 성공
+			        console.log("success response:"+response);
+			        const messageVO = JSON.parse(response);
+		          console.log("messageId:" +messageVO.messageId);
+		          console.log("MsgContents:" +messageVO.MsgContents);
+		          
+		      if(messageVO.messageId === "1"){
+		    	  alert(messageVO.msgContents);
+		    	  window.location.reload();
+		       }else{
+		    	   alert(messageVO.msgContents);
+		       }
+			    },
+			    error:function(response){//실패시 처리
+			      console.log("error:"+response);
+			    }
+			});//--doFavSave ajax
+	  }//-- fav end
 	  
 	  //moveToList
 	  function moveToList() {
 		  console.log('moveToList()');
 		  alert("게시 목록으로 이동 합니다.");
 		  window.location.href = "/IKUZO/ikuzo/book.ikuzo?work_div=doRetrieve";
-	}
+		}//--moveToList end
 	 
 	  function rentcheck(){
 		  console.log('rentcheck()');
@@ -113,16 +156,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
 <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-left">
-  <input type="button" value="목록으로 돌아가기" class="btn btn-primary" id="moveToList">
+  <input type="button" value="목록으로 돌아가기" class="btn btn-success" id="moveToList">
   </div>
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
-    <input type="button" value="대출하기" class="btn btn-primary" id="doRent">
-    <input type="button" value="즐겨찾기" class="btn btn-primary" id="fav">
+    <input type="button" value="대출하기" class="btn btn-success" id="doRent">
+    <input type="button" value="즐겨찾기" class="btn btn-success" id="fav">
   </div>
   
 <!-- 버튼 end -->
  
 <form action="#" class="form-horizontal">
+  <img class="image" alt="책" src="/IKUZO/assest/img/book.png">
   <input type="hidden" name="book_code" id="book_code">
     <div class="row mb-3">
   <label for="book_seq" class="col-sm-2 col-form-label">도서번호</label>
@@ -165,12 +209,7 @@ document.addEventListener("DOMContentLoaded", function(){
       <label for="book_info" class="col-sm-2 col-form-label">내용</label>
         <textarea style="height: 200px; width: 500px" class="form-control" name="book_info" id="book_info">${outVO.bookInfo }</textarea>
     </div>
-<!--작가의 다른 책  -->
- <!--    <div class="">
-                
-    </div>
-    
- -->
+
 </form>
  
 <!-- footer 시작  -->
