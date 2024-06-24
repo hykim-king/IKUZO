@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/bookbook.css">
-<link rel="stylesheet" href="../css/index.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/index.css">
 <script>
     function loginAndUpdateGreeting() {
         $.ajax({
@@ -88,7 +88,7 @@
                     </ul>
                     <p class="more">
                         <a href="board01.jsp">
-                            <img src="../img/iconMore.png">
+                            <img src="/IKUZO/assest/img/iconMore.png">
                         </a>
                     </p>
                 </div>
@@ -111,7 +111,7 @@
                     </ul>
                     <p class="more2">
                         <a href="board01.jsp">
-                            <img src="../img/iconMore.png">
+                            <img src="/IKUZO/assest/img/iconMore.png">
                         </a>
                     </p>
                 </div>
