@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <a href="http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin">로그인</a>
                 </li>
                 <li>
-                    <a href="join.jsp">회원가입</a>
+                    <a href="http://localhost:8080/IKUZO/ikuzo/join.ikuzo?work_div=toJoin">회원가입</a>
                 </li>
             <% } else { %>
                 <li>
@@ -194,18 +194,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 <script>
     function logoutAndRedirect() {
-        $.ajax({
-            url: '<%= request.getContextPath() %>/login.do',
-            type: 'POST',
-            data: { work_div: 'logout' },
-            success: function(response) {
-                // 로그아웃 성공 후 메인 페이지로 리다이렉트
-                window.location.href = '<%= request.getContextPath() %>/index.jsp';
-            },
-            error: function(xhr, status, error) {
-                console.error('로그아웃 실패:', error);
-                alert('로그아웃 중 오류가 발생했습니다.');
-            }
-        });
+    	console.log('로그아웃');
+    	localStorage.removeItem('user');
     }
 </script>

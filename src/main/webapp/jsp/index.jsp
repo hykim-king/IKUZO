@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function(){
                       
                     </ul>
                     <p class="more">
-                        <a href="board01.jsp">
+                        <a href="http://localhost:8080/IKUZO/jsp/board01.jsp">
                             <img src="/IKUZO/assest/img/iconMore.png">
                         </a>
                     </p>
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <% } %>  
                     </ul>
                     <p class="more2">
-                        <a href="board01.jsp">
+                        <a href="http://localhost:8080/IKUZO/jsp/board02.jsp">
                             <img src="/IKUZO/assest/img/iconMore.png">
                         </a>
                     </p>

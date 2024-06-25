@@ -56,6 +56,7 @@ public class LoginController extends HttpServlet implements PLog, ControllerV {
             log.debug("session : {}", session);
             outVO.setFlag(1); // 로그인 성공
             session.setAttribute("user", outVO);
+            session.setMaxInactiveInterval(-1);
             log.debug("세션 생성");
             message = "성공";
         } else {

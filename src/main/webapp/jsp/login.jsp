@@ -305,7 +305,11 @@ function logoutAndRedirect() {
             <div class="option-box">
                 <p class="highlight">아직 회원이 아니신가요?</p>
                 <p style="font-size: 16px; color: #979797;">회원가입을 통해 도서관을 경험할 수 있습니다.</p>
+
                 <a href="http://localhost:8080/IKUZO/jsp/join.jsp" class="join-button">가입하기</a>
+
+                <a href="http://localhost:8080/IKUZO/ikuzo/join.ikuzo?work_div=toJoin" class="join-button">가입하기</a>
+
             </div>
         </div>
     </div>
