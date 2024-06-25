@@ -196,3 +196,82 @@ section{
     background-color: #27403d;
     color: white;
 }
+
+/* 도서 등록 페이지 시작 */
+#bookForm{
+  text-align : center;
+  margin-bottom : 20px;
+}
+
+#do_save_btn,
+#move_to_list_btn{
+  background-color : #27403d;
+  border-radius : 10px;
+  color : white;
+  margin : 0 auto;
+  text-align : center;
+  border : none;
+  box-shadow : 3px 3px 2px 1px rgba(0,0,0, .5);
+  padding : 15px; 
+  cursor : pointer;
+  font-weight : bold;
+}
+#move_to_list_btn{
+  color : #111;
+  background-color : #e4e4e4;
+}
+#bookForm label input{padding : 5px;}
+#bookForm input,
+#bookForm select,
+#bookForm textarea{
+  border : 1px solid #eee;
+  box-sizing : border-box;
+}
+#bookForm label input,
+#bookForm label select
+{
+  box-shadow : 3px 3px 2px 1px rgba(0,0,0, .5);
+  cursor : pointer;
+  outline: none;
+}
+#bookForm label:nth-child(2),
+#bookForm label:nth-child(3),
+#bookForm label:nth-child(4),
+#bookForm label:nth-child(5),
+#bookForm label:nth-child(6),
+#bookForm label:nth-child(7){
+  width : 33%;
+  height : auto;
+  display : block;
+  float : left; 
+  box-sizing : border-box;
+}
+#bookForm label:nth-child(2) input,
+#bookForm label:nth-child(4) input,
+#bookForm label:nth-child(5) input,
+#bookForm label:nth-child(6) input,
+#bookForm label:nth-child(7) input{ 
+  width : 95%;
+  height : 30px;  
+}
+#bookForm label:nth-child(5),
+#bookForm label:nth-child(6),
+#bookForm label:nth-child(7){
+  margin : 10px 0 20px 0;
+}
+#bookForm label:nth-child(3) select{
+  width : 95%;
+  height : 30px;
+}
+#bookForm label:nth-child(8) textarea{
+  width : 99%; 
+  height : auto;
+  display : block;
+  resize : none;
+  outline: none;  
+  margin : 0 auto;
+  box-shadow : 3px 3px 2px 1px rgba(0,0,0, .5);
+  border-radius : 10px;
+  padding : 10px;
+}
+/* 도서 등록 페이지 끝 */

@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
-<link rel="stylesheet" href="/IKUZO/assest/css/book_manage.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/book_manage.css?after">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="/IKUZO/assest/js/common.js"></script>
 <script>
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }      
       
       $.ajax({
-          type: "GET", 
+          type: "POST", 
           url:"/IKUZO/ikuzo/manage02.ikuzo",
           asyn:"true",
           dataType:"html",
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }      
       
       $.ajax({
-          type: "GET", 
+          type: "POST", 
           url:"/IKUZO/ikuzo/manage02.ikuzo",
           asyn:"true",
           dataType:"html",
@@ -384,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function(){
   
 <!-- container -->
 <section class="container">
-outVO:${outVO}
+<%-- outVO:${outVO} --%>
   <div class="inner-container">
 	<form action="#" class = "form-control" name = "manage_book_update_frm" id = "manage_book_update_frm">
      <input type = "hidden" name = "work_div" id = "work_div">
