@@ -12,9 +12,44 @@
 document.addEventListener("DOMContentLoaded", function(){
 	  console.log("DOMContentLoaded()");
 
+	const bookListBtn = document.querySelector("#bookList");
+	
+	const communityBtn = document.querySelector("#announcement");
+	
+	const communityBtn2 = document.querySelector("#comm-forum");
+	
+	//bookListBtn
+	 bookListBtn.addEventListener("click", function(event){
+		
+	 let list =	document.getElementById("bookList");
+	
+	window.location.replace("/IKUZO/ikuzo/book.ikuzo?work_div=doRetrieve");
+	
+	});//-- bookListBtn end
+	 
+	//communityBtn
+	 communityBtn.addEventListener("click", function(event){
+			    
+		 let comm = document.getElementById("announcement");
+			  
+		 window.location.replace("http://localhost:8080/IKUZO/jsp/board01.jsp");
+		 
+	 });//-- communityBtn end
+	 
+	  //communityBtn2
+	   communityBtn2.addEventListener("click", function(event){
+	          
+	     let comm2 = document.getElementById("comm-forum");
+	        
+	     window.location.replace("http://localhost:8080/IKUZO/jsp/board02.jsp");
+	     
+	   });//-- communityBtn2 end
+	 
+	 
+	
  //검색하기 버튼
  const searchInputBtn = document.querySelector("#headerSearchBtn");
-
+ 
  searchInputBtn.addEventListener("click", function(event){
 	 console.log("searchInputBtn click");
 	 doRetrieve();
@@ -115,20 +150,20 @@ document.addEventListener("DOMContentLoaded", function(){
         <button id="headerSearchBtn" type="button"><p>검색하기</p></button>
     </form>
 </header>
-
+<form>
 <nav class = "main_nav">
     <ul>
-        <li><a href="#">자료검색</a></li>
-        <li><a href="#">베스트셀러</a></li>
+        <li><a id="bookList" href="#">자료검색</a></li>
         <li>
-            <a href="#">커뮤니티</a>
+            <a  id="community" href="#">커뮤니티</a>
             <ul id="navSubMenu3">
-                <li><a href="board01.jsp">공지사항</a></li>
-                <li><a href="board02.jsp">소통마당</a></li>
+                <li><a id="announcement" href="http://localhost:8080/IKUZO/jsp/board01.jsp">공지사항</a></li>
+                <li><a id="comm-forum" href="http://localhost:8080/IKUZO/jsp/board02.jsp">소통마당</a></li>
             </ul>
         </li>
     </ul>
 </nav>
+</form>
 
 <script>
     function logoutAndRedirect() {

@@ -76,3 +76,8 @@
 .name {
   text-align: center;
 }
+
+.image {
+ border-style:dashed;
+ /**/border : 1px dotted green;
+}
