@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <a href="http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin">로그인</a>
                 </li>
                 <li>
-                    <a href="join.jsp">회원가입</a>
+                    <a href="http://localhost:8080/IKUZO/ikuzo/join.ikuzo?work_div=toJoin">회원가입</a>
                 </li>
             <% } else { %>
                 <li>
