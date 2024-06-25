@@ -38,9 +38,9 @@
 <head>
     <meta charset="UTF-8">
     <title>소통마당</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookbook.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/book_board.css">
-    <script src="${pageContext.request.contextPath}/asset/js/jquery_3_7_1.js"></script>
+    <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+    <link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
 <script>
 $(document).ready(function() {
@@ -50,7 +50,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST", // POST로 변경
-            url: "/IKUZO1/ikuzo/board.ikuzo",
+            url: "/IKUZO/ikuzo/board.ikuzo",
             async: true, // 비동기 통신
             dataType: "html",
             data: {

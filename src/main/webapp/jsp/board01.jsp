@@ -39,9 +39,9 @@
 <head>
     <meta charset="UTF-8">
     <title>공지행사</title>
-    <script src="${pageContext.request.contextPath}/asset/js/jquery_3_7_1.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookbook.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/book_board.css">
+    <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+    <link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
 <script>
 $(document).ready(function() {

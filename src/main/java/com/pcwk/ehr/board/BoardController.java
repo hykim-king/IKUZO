@@ -22,7 +22,7 @@ import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.cmn.StringUtil;
 
-@WebServlet("/IKUZO/ikuzo/board.ikuzo")
+// FrontControllerV에서 작동
 public class BoardController extends HttpServlet implements ControllerV, PLog {
 	private static final long serialVersionUID = 1L;
 
@@ -38,6 +38,22 @@ public class BoardController extends HttpServlet implements ControllerV, PLog {
 
 		service = new BoardService();
 	}
+	
+	public JView moveToBoardAdmin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		log.debug("-----------------");
+		log.debug("moveToBoardAdmin()");
+		log.debug("-----------------");
+		return new JView("/jsp/board01.jsp");
+	}	
+	
+	public JView moveToBoardUser(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		log.debug("-----------------");
+		log.debug("moveToBoardAdmin()");
+		log.debug("-----------------");
+		return new JView("/jsp/board02.jsp");
+	}	
 
 	public JView moveToReg(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -163,6 +179,12 @@ public class BoardController extends HttpServlet implements ControllerV, PLog {
             break;    
 		case "doDelete":
 			viewName = doDel(request, response);
+			break;
+		case "moveToBoardAdmin":
+			viewName = moveToBoardAdmin(request, response);
+			break;
+		case "moveToBoardUser":
+			viewName = moveToBoardUser(request, response);
 			break;
 		default:
 			log.debug("작업구분을 확인 하세요. workDiv : {} ", workDiv);

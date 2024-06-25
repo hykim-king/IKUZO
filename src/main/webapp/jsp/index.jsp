@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>북북 도서관</title>
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <link rel="stylesheet" href="/IKUZO/assest/css/index.css">
 <script>
