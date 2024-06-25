@@ -53,7 +53,7 @@ public class FrontControllerV extends HttpServlet implements PLog {
 //    	controllerMap.put("/IKUZO/ikuzo/index.ikuzo", new MainPageController());// 메인 페이지  
    	
 
-    	controllerMap.put("/IKUZO/ikuzo/mypage01.do", new LoanListController()); // 마이 페이지 [대출목록]    	
+    	controllerMap.put("/IKUZO/ikuzo/mypage01.ikuzo", new LoanListController()); // 마이 페이지 [대출목록]    	
 
 
     	controllerMap.put("/IKUZO/ikuzo/join.ikuzo", new JoinController());//회원가입 페이지

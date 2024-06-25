@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+import com.pcwk.ehr.board.BoardDTO;
 import com.pcwk.ehr.cmn.ControllerV;
 import com.pcwk.ehr.cmn.JView;
 import com.pcwk.ehr.cmn.PLog;
@@ -40,26 +40,23 @@ public class LoanListController extends HttpServlet implements ControllerV, PLog
     }
 
 	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		log.debug("---------------------");
+    	log.debug("doGet()");
+    	log.debug("---------------------");
+    	doWork(request,response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		log.debug("---------------------");
+    	log.debug("doPost()");
+    	log.debug("---------------------");
+    	doWork(request,response);
 	}
 
 	public JView doRetrieve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -98,12 +95,26 @@ public class LoanListController extends HttpServlet implements ControllerV, PLog
 		}
 		
 		//UI 데이터 전달
-				request.setAttribute("list", list);
+		request.setAttribute("list", list);
+		
+		int bottomCount = 10;
+		int totalCnt = 0;//총글수
+		
+		if(null!=list && list.size()>0) {
+			LoanListDTO pagingVO = list.get(0);
+			totalCnt = pagingVO.getTotalCnt();
+			log.debug("totalCnt", totalCnt);
+			
+			//inVO에 totalCnt 담기
+			inVO.setTotalCnt(totalCnt);
+		}
+		
+		inVO.setBottomCount(bottomCount);
 				
 		//검색조건 UI로 전달
 		request.setAttribute("vo", inVO);
 		
-		return viewName = new JView("/board/board_list.jsp");
+		return viewName = new JView("/jsp/myPage01.jsp");
     	
 	}	
 	@Override

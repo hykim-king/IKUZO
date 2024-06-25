@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/IKUZO/assest/css/bootstrap.css">
+
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <title>BOOKBOOK도서관 - 회원가입</title>
 <script src="/IKUZO/assest/js/jquery_3_7_1.js"></script>
@@ -357,6 +357,7 @@ section{
         .content form input[type="text"],
         .content form input[type="email"],
         .content form input[type="password"],
+        .content form input[type="re_user_pw"],
         .content form input[type="tel"] {
             width: 300px;
             padding: 10px;
@@ -368,6 +369,9 @@ section{
             box-sizing: border-box;
         }
 
+			 .content form input[type="button"] {
+			 }
+			 
         .content form input[type="submit"] {
             width: 150px;
             padding: 10px;
