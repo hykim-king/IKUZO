@@ -11,22 +11,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-   // 관리자 페이지 버튼
-   const hManageBtn = document.querySelector("#hManageBtn"); 
-   
-   hManageBtn.addEventListener('click', function(event){ 
-	   window.location.replace("http://localhost:8080/IKUZO/ikuzo/manage01.ikuzo?work_div=doRetrieve");
-   }); // click
-   
-   // 상단 로고
-   const hLogo = document.querySelector("#header #logo"); 
-   
-   hLogo.addEventListener('click', function(event){ 
-	   window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
-   }); // click
-     
-	
-	  console.log("DOMContentLoaded()");
+  console.log("DOMContentLoaded()");
 
 	const bookListBtn = document.querySelector("#bookList");
 	
