@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function(){
 			    dataType:"html",
 			    data:{
 			        "work_div":"doFavSave",
-			        "userId" : "admin2",
 			        "book_code" : ${outVO.bookCode }  
 			    },
 			    success:function(response){//통신 성공
@@ -118,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function(){
 			    dataType:"html",
 			    data:{
 			        "work_div":"doSave",
-			        "userId" : "admin2",
 			        "book_code" : ${outVO.bookCode }
 			    },
 			    success:function(response){
