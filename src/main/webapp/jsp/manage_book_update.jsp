@@ -17,7 +17,12 @@
 <script src="/IKUZO/assest/js/common.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-
+	   const isAdmin = "${sessionScope.user.isAdmin}";
+	    console.log(isAdmin);
+	    if(isAdmin !='Y'){
+	      window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
+	      alert("관리자가 아닙니다");
+	    }
 	const workDiv = document.querySelector("#work_div");
   const rentCode = document.querySelector("#rent_code");
   const bookCode = document.querySelector("#book_code");

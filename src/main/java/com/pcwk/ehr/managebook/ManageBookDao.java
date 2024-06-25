@@ -139,6 +139,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
+				// 검색어
+				pstmt.setString(7, searchVO.getSearchWord());
 			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
 				// 검색어
@@ -151,6 +153,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
+				// 검색어
+				pstmt.setString(7, searchVO.getSearchWord());
 			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("30")) {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
 				// 검색어
@@ -163,6 +167,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
+				// 검색어
+				pstmt.setString(7, searchVO.getSearchWord());
 			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("40")) {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
 				// 검색어
@@ -175,18 +181,8 @@ public class ManageBookDao implements WorkDiv<ManageBookDTO>, PLog {
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
-			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("50")) {
-				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
 				// 검색어
-				pstmt.setString(1, searchVO.getSearchWord());
-				// ROWNUM
-				pstmt.setInt(2, searchVO.getPageSize());
-				pstmt.setInt(3, searchVO.getPageNo());
-				pstmt.setInt(4, searchVO.getPageSize());
-				
-				// rnum
-				pstmt.setInt(5, searchVO.getPageSize());
-				pstmt.setInt(6, searchVO.getPageNo());
+				pstmt.setString(7, searchVO.getSearchWord());
 			}else {
 				// ROWNUM
 				pstmt.setInt(1, searchVO.getPageSize());

@@ -15,6 +15,16 @@
 <link rel="stylesheet" href="/WEB03/assest/css/book_manage.css">
 <link rel="stylesheet" href="/WEB02/assest/css/bootstrap.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+	const isAdmin = "${sessionScope.user.isAdmin}";
+	console.log(isAdmin);
+	if(isAdmin !='Y'){
+	  window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
+	  alert("관리자가 아닙니다");
+	}
+});
+</script>
 </head>
 <body>
 <!-- header 시작  -->  
