@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function(){
           },
           success:function(response){//통신 성공
               console.log("success response:"+response);
-              alert('확인용 김승희 천재');
+              alert('회원가입이 완료되었습니다.');
               window.location.href="http://localhost:8080/IKUZO/jsp/index.jsp";
            
               if(response){
