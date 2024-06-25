@@ -13,7 +13,7 @@ import com.pcwk.ehr.cmn.JView;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.StringUtil;
 
-@WebServlet("/login.do")
+//@WebServlet("/login.do") FrontControllerV에서 작동
 public class LoginController extends HttpServlet implements PLog, ControllerV {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +26,14 @@ public class LoginController extends HttpServlet implements PLog, ControllerV {
         service = new LoginService();
     }
 
+    private JView moveToLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("-----------------");
+    	log.debug("moveToSaveBook()");
+    	log.debug("-----------------");
+    	
+		return new JView("/jsp/login.jsp");
+	}
+    
     public JView login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("---------------------");
         log.debug("login()");
@@ -71,9 +79,12 @@ public class LoginController extends HttpServlet implements PLog, ControllerV {
         log.debug("workDiv : {}", workDiv);
 
         switch (workDiv) {
-            case "login":
-                viewName = login(request, response);
+            case "moveToLogin":
+                viewName = moveToLogin(request, response);
                 break;
+            case "login":
+            	viewName = login(request, response);
+            	break;
             case "logout":
                 processLogout(request, response); // 로그아웃 로직 추가
                 break;

@@ -10,8 +10,6 @@ List<ManageUserDTO> list =(List<ManageUserDTO>)request.getAttribute("list");
 
 SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
 %> 
-searchCon : <%=searchCon%>
-cPath:<%=cPath%>
 <!DOCTYPE html>
 <html>
 <head>
