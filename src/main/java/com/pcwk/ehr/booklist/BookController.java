@@ -79,7 +79,7 @@ public class BookController extends HttpServlet implements ControllerV, PLog {
 		// page_no
 		// page_size
 		String pageNo = StringUtil.nvl(request.getParameter("page_no"), "1");
-		String pageSize = StringUtil.nvl(request.getParameter("page_size"), "5");
+		String pageSize = StringUtil.nvl(request.getParameter("page_size"), "6");
 		
 		String searchWord = StringUtil.nvl(request.getParameter("search_word"), "");
 		String searchDiv = StringUtil.nvl(request.getParameter("searchDiv"), "");
