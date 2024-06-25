@@ -17,6 +17,7 @@ import com.pcwk.ehr.favorite.FavoriteController;
 import com.pcwk.ehr.findId.FindIdController;
 import com.pcwk.ehr.join.JoinController;
 import com.pcwk.ehr.login.LoginController;
+import com.pcwk.ehr.mainpage.MainPageController;
 import com.pcwk.ehr.managebook.ManageBookController;
 import com.pcwk.ehr.manageuser.ManageUserController;
 import com.pcwk.ehr.managebook.ManageBookController;
@@ -50,7 +51,7 @@ public class FrontControllerV extends HttpServlet implements PLog {
 //
     	controllerMap.put("/IKUZO/ikuzo/book.ikuzo", new BookController()); // 도서 목록 페이지    	
 //    	
-//    	controllerMap.put("/IKUZO/ikuzo/index.ikuzo", new MainPageController());// 메인 페이지  
+    	controllerMap.put("/IKUZO/ikuzo/index.ikuzo", new MainPageController());// 메인 페이지  
    	
 
     	controllerMap.put("/IKUZO/ikuzo/mypage01.ikuzo", new LoanListController()); // 마이 페이지 [대출목록]    	
