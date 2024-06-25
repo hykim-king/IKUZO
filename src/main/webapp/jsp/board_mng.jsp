@@ -14,6 +14,10 @@
     <script src="${pageContext.request.contextPath}/asset/js/jquery_3_7_1.js"></script>
   <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
     <link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
+<<<<<<< HEAD
+=======
+    <script src="/IKUZO/assest/js/jquery_3_7_1.js"></script>
+>>>>>>> 1373482124dba5b256277eb4d08859657af9d57e
 </head>
 <script>
 $(document).ready(function() {

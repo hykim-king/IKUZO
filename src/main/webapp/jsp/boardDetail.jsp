@@ -12,7 +12,7 @@
     <title>게시글 상세보기</title>
     <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
     <link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="/IKUZO/assest/js/jquery_3_7_1.js"></script>
 </head>
 <style>
 table { border-collapse: collapse; width: 100%; }  /* 이중선 제거 */

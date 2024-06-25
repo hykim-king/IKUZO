@@ -169,13 +169,13 @@ document.addEventListener("DOMContentLoaded", function(){
     <div class="row mb-3">
   <label for="book_seq" class="col-sm-2 col-form-label">도서번호</label>
 <!-- bookCode -->
-      <input type="text" style="width: 500px" class="form-control" name="book_seq"  id="book_seq" required="required"  value="${outVO.bookCode }" >
+      <input disabled type="text" style="width: 500px" class="form-control" name="book_seq"  id="book_seq" required="required"  value="${outVO.bookCode }" >
     </div> 
 <!-- bookName -->
     <div class="row mb-3">
       <label for="book_name" class="col-sm-2 col-form-label">제목</label>
     <div class="col-sm-10">
-      <input type="text" style="width: 500px" class="form-control" name="book_name" id="book_name" maxlength="70" required="required" value="${outVO.bookName }">
+      <input disabled type="text" style="width: 500px" class="form-control" name="book_name" id="book_name" maxlength="70" required="required" value="${outVO.bookName }">
     </div>
     </div>
  
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function(){
     <div class="row mb-3">
       <label for="isbn"  class="col-sm-2 col-form-label">isbn</label>
     <div class="col-sm-10">
-      <input type="text" style="width: 500px" class="form-control" name="isbn" id="isbn" value="${outVO.isbn }">
+      <input disabled type="text" style="width: 500px" class="form-control" name="isbn" id="isbn" value="${outVO.isbn }">
     </div>
     </div>
  
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function(){
     <div class="row mb-3">
       <label for="book_pub_date" class="col-sm-2 col-form-label" >발간날짜</label>
     <div class="col-sm-10">
-      <input type="text" style="width: 500px" class="form-control" name="book_pub_date" id="book_pub_date" value="${outVO.bookPubDate }">
+      <input disabled type="text" style="width: 500px" class="form-control" name="book_pub_date" id="book_pub_date" value="${outVO.bookPubDate }">
     </div>
     </div>
             
@@ -199,13 +199,13 @@ document.addEventListener("DOMContentLoaded", function(){
     <div class="row mb-3">
       <label for="publisher" class="col-sm-2 col-form-label">출판사</label>
     <div class="col-sm-10">
-      <input type="text" style="width: 500px" class="form-control"  name="publisher" id="publisher"  required="required" value="${outVO.publisher }">                
+      <input disabled type="text" style="width: 500px" class="form-control"  name="publisher" id="publisher"  required="required" value="${outVO.publisher }">                
     </div>
     </div>
 <!-- book_info -->
     <div class="row mb-3">
       <label for="book_info" class="col-sm-2 col-form-label">내용</label>
-        <textarea style="height: 200px; width: 500px" class="form-control" name="book_info" id="book_info">${outVO.bookInfo }</textarea>
+        <textarea disabled style="height: 200px; width: 500px" class="form-control" name="book_info" id="book_info">${outVO.bookInfo }</textarea>
     </div>
 
 </form>

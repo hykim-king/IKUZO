@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function(){
   <form action="#" id="book_frm">
   <input type="hidden" name="work_div" id="work_div" placeholder="작업구분">
   <input type="hidden" name="page_no" id="page_no"   placeholder="페이지번호">
-    <% 
+<% 
      if(null != list && list.size() > 0){
      for(BookDTO vo : list){ 
      %>
