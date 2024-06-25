@@ -9,18 +9,7 @@
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <link rel="stylesheet" href="/IKUZO/assest/css/index.css">
 <script>
-document.addEventListener("DOMContentLoaded", function(){
-	  // 로그인 버튼
-    const loginBtn = document.querySelector("#loginBtn"); 
-	  
-    loginBtn.addEventListener('click', function(event){ 
-    	moveToLogin();
-	  }); // click
-		 
-    function moveToLogin(){ 
-      window.location.replace("http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin");
-    }    
-	  
+document.addEventListener("DOMContentLoaded", function(){	  
     function loginAndUpdateGreeting() {
         $.ajax({
             url: '<%= request.getContextPath() %>/login.do',
@@ -75,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <%
                         } else {
                     %>
-                        <p id ="usernamePost" ><a id="loginBtn" href = "#">로그인이 필요합니다</a></p>
+                        <p id ="usernamePost" ><a id="loginBtn" href = "http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin">로그인이 필요합니다</a></p>
                     <%
                         }
                     %>

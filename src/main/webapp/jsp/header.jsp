@@ -10,6 +10,22 @@
 %>   --%>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+
+   // 관리자 페이지 버튼
+   const hManageBtn = document.querySelector("#hManageBtn"); 
+   
+   hManageBtn.addEventListener('click', function(event){ 
+	   window.location.replace("http://localhost:8080/IKUZO/ikuzo/manage01.ikuzo?work_div=doRetrieve");
+   }); // click
+   
+   // 상단 로고
+   const hLogo = document.querySelector("#header #logo"); 
+   
+   hLogo.addEventListener('click', function(event){ 
+	   window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
+   }); // click
+     
+	
 	  console.log("DOMContentLoaded()");
 
 	const bookListBtn = document.querySelector("#bookList");
@@ -108,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <header id="header">
     <div>
         <h1 id="logo">
-            <a href="http://localhost:8080/IKUZO/jsp/index.jsp">
+            <a href="#">
                 <img alt="logoImg" src="/IKUZO/assest/img/logoImg.png" id="logoImg">
             </a>
         </h1>
@@ -117,25 +133,27 @@ document.addEventListener("DOMContentLoaded", function(){
     <div id="headerMenu">
         <ul>
             <% if (session.getAttribute("user") == null) { %>
-                <li>
-                    <a href="login.jsp">로그인</a>
+                <li id = "hLoginBtn">
+                    <a href="http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin">로그인</a>
                 </li>
                 <li>
                     <a href="join.jsp">회원가입</a>
                 </li>
             <% } else { %>
                 <li>
-                    <a href="myPage01.jsp">마이페이지</a>
+                    <a href="/IKUZO/jsp/myPage01.jsp">마이페이지</a>
                 </li>
                 <li>
-                    <a href="myPageUpdate.jsp">회원정보수정</a>
+                    <a href="#">회원정보수정</a>
                 </li>
-                
-                <% if (session.getAttribute("isAdmin") != null && ((String)session.getAttribute("isAdmin")).equals("Y")) { %>
+                <li>
+                    <a id = "hManageBtn" href="#">관리자페이지</a>
+                </li>
+                <%-- <% if (session.getAttribute("isAdmin") != null && ((String)session.getAttribute("isAdmin")).equals("Y")) { %>
 						    <li>
 						        <a href="manage01.jsp">관리자페이지</a>
 						    </li>
-						    <% } %>
+						    <% } %> --%>
                 <li>
                    <a id="gnb_logout_button" href="#" onclick="logoutAndRedirect()">로그아웃</a>
                 </li>

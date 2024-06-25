@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="bookbook.css">
-<link rel="stylesheet" href="book_board.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
 </head>
 <body>
 <!-- header 시작  -->  
