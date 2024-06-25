@@ -298,14 +298,14 @@ function logoutAndRedirect() {
                 <p class="highlight">아이디, 비밀번호를 잊어 버렸나요?</p>
                 <p style="font-size: 16px; color: #979797;">지금 빠른 처리를 원하시면 <br/> BOOKBOOK 고객센터 02-111-1111로 전화주세요!</p>
                 <div class="inline-buttons">
-                    <a href="username-recovery.jsp">아이디 찾기</a>
-                    <a href="password-reset.jsp">비밀번호 재설정</a>
+                    <a href="http://localhost:8080/IKUZO/jsp/username-recovery.jsp">아이디 찾기</a>
+                    <a href="http://localhost:8080/IKUZO/jsp/password-reset.jsp">비밀번호 재설정</a>
                 </div>
             </div>
             <div class="option-box">
                 <p class="highlight">아직 회원이 아니신가요?</p>
                 <p style="font-size: 16px; color: #979797;">회원가입을 통해 도서관을 경험할 수 있습니다.</p>
-                <a href="join.jsp" class="join-button">가입하기</a>
+                <a href="http://localhost:8080/IKUZO/jsp/join.jsp" class="join-button">가입하기</a>
             </div>
         </div>
     </div>

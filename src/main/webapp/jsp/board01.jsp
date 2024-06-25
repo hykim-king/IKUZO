@@ -41,7 +41,7 @@
     <title>공지행사</title>
     <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
     <link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="/IKUZO/assest/js/jquery_3_7_1.js"></script>
 </head>
 <script>
 $(document).ready(function() {

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>BOOKBOOK도서관 - 비밀번호재설정</title>
-<link rel="stylesheet" href="../css/bookbook.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <style>
 /*section*/
 section{

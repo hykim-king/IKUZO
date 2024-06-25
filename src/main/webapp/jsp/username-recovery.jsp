@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>BOOKBOOK도서관 - 아이디찾기</title>
-    <link rel="stylesheet" href="../css/bookbook.css">
+    <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
     <style>
         section {
             width: 100%;
