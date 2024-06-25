@@ -17,7 +17,7 @@ cPath:<%=cPath%>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css?after">
 <link rel="stylesheet" href="/IKUZO/assest/css/book_manage.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
