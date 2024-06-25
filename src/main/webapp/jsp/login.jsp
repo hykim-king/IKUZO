@@ -299,7 +299,7 @@ function logoutAndRedirect() {
                 <p style="font-size: 16px; color: #979797;">지금 빠른 처리를 원하시면 <br/> BOOKBOOK 고객센터 02-111-1111로 전화주세요!</p>
                 <div class="inline-buttons">
                     <a href="http://localhost:8080/IKUZO/jsp/username-recovery.jsp">아이디 찾기</a>
-                    <a href="http://localhost:8080/IKUZO/jsp/password-reset.jsp">비밀번호 재설정</a>
+                    <a href="http://localhost:8080/IKUZO/jsp/password-reset.jsp">비밀번호 초기화</a>
                 </div>
             </div>
             <div class="option-box">
