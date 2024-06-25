@@ -32,14 +32,14 @@ public class LoanListDao implements WorkDiv<LoanListDTO>, PLog {
 		
 		//검색 조건에 대한 StringBuilder
 		StringBuilder sb = new StringBuilder(1000);
-		StringBuilder sbWhere = new StringBuilder(200);
+		StringBuilder sbAnd = new StringBuilder(200);
 		
 		if (null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("10")) {
-			sbWhere.append("WHERE book_name LIKE ?||'%' \n");
+			sbAnd.append("AND book_name LIKE ?||'%' \n");
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
-			sbWhere.append("WHERE genre_name LIKE ?||'%' \n");			
+			sbAnd.append("AND genre_name LIKE ?||'%' \n");			
 		}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("30")) {
-			sbWhere.append("WHERE author = ? \n");			
+			sbAnd.append("AND author LIKE ?||'%' \n");			
 		}
 
 		
@@ -49,25 +49,33 @@ public class LoanListDao implements WorkDiv<LoanListDTO>, PLog {
 		
 		List<LoanListDTO> list = new ArrayList<LoanListDTO>();
 		
-		sb.append(" select ab.*                                               \n");
-		sb.append(" from(                                                     \n");
-		sb.append("         select b.*                                        \n");
-		sb.append("         from(                                             \n");
-		sb.append("                 select rownum num, a.*                    \n");
-		sb.append("                 from(                                     \n");
-		sb.append("                         select t1.BOOK_NAME,              \n");
-		sb.append("                                 t2.GENRE_NAME,            \n");
-		sb.append("                                 t1.AUTHOR                 \n");
-		sb.append("                         from book t1, b_genre t2          \n");
-		sb.append("                         where t1.book_genre=t2.book_genre \n");
-		sb.append("                         )a                                \n");
-		sb.append("                         where rownum<= ( ? * (? - 1)+?)   \n");
-		sb.append("                 )b                                        \n");
-		sb.append("                 where  num>= (? * (? -1) + 1)             \n");
-		sb.append("         )ab                                               \n");
-		sb.append("	        -- WHERE 조건                                     \n");
+		sb.append(" select ab.*, d.*                                              \n");
+		sb.append("  from(                                                        \n");
+		sb.append("          select b.*                                           \n");
+		sb.append("          from(                                                \n");
+		sb.append("                  select rownum num, a.*                      \n");
+		sb.append("                  from(                                        \n");
+		sb.append("                          select t1.BOOK_NAME,                 \n");
+		sb.append("                                  t2.GENRE_NAME,               \n");
+		sb.append("                                  t1.AUTHOR                    \n");
+		sb.append("                          from book t1, b_genre t2             \n");
+		sb.append("                          where t1.book_genre=t2.book_genre    \n");
+		sb.append("                          )a                                   \n");
+//		sb.append(" 	where ROWNUM <=(:pageSize * (:pageNo -1)+:pageSize)       \n");		
+		sb.append("                       where rownum<= ( ? * (? - 1)+?)         \n");
 		//--WHERE-------------------------------------------------------
-		sb.append(sbWhere.toString());
+		sb.append(sbAnd.toString());
+		sb.append("                  )b                                           \n");
+//		sb.append(" 				WHERE num >=(:pageSize * (:pageNo -1)+1)     \n");		
+		sb.append("                 where  num>= (? * (? -1) + 1)                \n");
+		sb.append("          )ab,(                                                \n");
+		sb.append("                 select count(*)totalCnt                       \n");
+		sb.append("                 from book tt1, b_genre tt2                    \n");
+		sb.append("                 where tt1.book_genre=tt2.book_genre           \n");
+		//--WHERE-------------------------------------------------------
+		sb.append(sbAnd.toString());
+		sb.append("                 )d                                            \n");
+		
 
 		log.debug("1.sql: {} \n", sb.toString());
 		log.debug("2.conn: {} \n", conn);
@@ -83,62 +91,53 @@ public class LoanListDao implements WorkDiv<LoanListDTO>, PLog {
 			// paging
 			if (null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("10")) {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
-				//검색어 : 책이름
-				pstmt.setString(1, searchVO.getSearchWord());
 				// ROWNUM
-				pstmt.setInt(2, searchVO.getPageSize());
-				pstmt.setInt(3, searchVO.getPageNo());
-				pstmt.setInt(4, searchVO.getPageSize());
+				pstmt.setInt(1, searchVO.getPageSize());
+				pstmt.setInt(2, searchVO.getPageNo());
+				pstmt.setInt(3, searchVO.getPageSize());
+				
+				//검색어 : 책이름
+				pstmt.setString(4, searchVO.getSearchWord());
+				
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
 				
-				// 검색어 
+				//검색어 : 책이름
 				pstmt.setString(7, searchVO.getSearchWord());
 			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("20")) {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
-				// 검색어 : 장르이름
-				pstmt.setString(1, searchVO.getSearchWord());
 				// ROWNUM
-				pstmt.setInt(2, searchVO.getPageSize());
-				pstmt.setInt(3, searchVO.getPageNo());
-				pstmt.setInt(4, searchVO.getPageSize());
+				pstmt.setInt(1, searchVO.getPageSize());
+				pstmt.setInt(2, searchVO.getPageNo());
+				pstmt.setInt(3, searchVO.getPageSize());
+				
+				// 검색어 : 장르이름
+				pstmt.setString(4, searchVO.getSearchWord());
 				
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
-				// 검색어
+				
+				// 검색어 : 장르이름
 				pstmt.setString(7, searchVO.getSearchWord());
+
 			}else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("30")) {
 				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
+				// ROWNUM
+				pstmt.setInt(1, searchVO.getPageSize());
+				pstmt.setInt(2, searchVO.getPageNo());
+				pstmt.setInt(3, searchVO.getPageSize());
+				
 				// 검색어 : 저자이름
-				pstmt.setString(1, searchVO.getSearchWord());
-				// ROWNUM
-				pstmt.setInt(2, searchVO.getPageSize());
-				pstmt.setInt(3, searchVO.getPageNo());
-				pstmt.setInt(4, searchVO.getPageSize());
+				pstmt.setString(4, searchVO.getSearchWord());
 				
 				// rnum
 				pstmt.setInt(5, searchVO.getPageSize());
 				pstmt.setInt(6, searchVO.getPageNo());
-				// 검색어
+				// 검색어 : 저자이름
 				pstmt.setString(7, searchVO.getSearchWord());
-			}
-			// seq
-			else if(null != searchVO.getSearchDiv() && searchVO.getSearchDiv().equals("40")) {
-				log.debug("4.1 searchDiv : {}", searchVO.getSearchDiv());
-				// 검색어 : num번호
-				pstmt.setString(1, searchVO.getSearchWord());
-				// ROWNUM
-				pstmt.setInt(2, searchVO.getPageSize());
-				pstmt.setInt(3, searchVO.getPageNo());
-				pstmt.setInt(4, searchVO.getPageSize());
-				
-				// rnum
-				pstmt.setInt(5, searchVO.getPageSize());
-				pstmt.setInt(6, searchVO.getPageNo());
-				// 검색어
-				pstmt.setString(7, searchVO.getSearchWord());
+			
 			}else {
 				// ROWNUM
 				pstmt.setInt(1, searchVO.getPageSize());
@@ -161,6 +160,8 @@ public class LoanListDao implements WorkDiv<LoanListDTO>, PLog {
 				outVO.setBookName(rs.getString("BOOK_NAME"));
 				outVO.setGenreName(rs.getString("GENRE_NAME"));
 				outVO.setAuthor(rs.getString("AUTHOR"));
+				
+				outVO.setTotalCnt(rs.getInt("totalCnt"));
 				
 				list.add(outVO);
 			} // while

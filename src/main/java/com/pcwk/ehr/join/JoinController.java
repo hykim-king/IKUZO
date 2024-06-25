@@ -102,7 +102,7 @@ public class JoinController extends HttpServlet implements ControllerV, PLog{
     	log.debug("toJoin()");
     	log.debug("---------------------");
     	
-    	return new JView("/ikuzo/join.jsp");
+    	return new JView("/jsp/join.jsp");
 	}	
 	
 	public JView idCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
