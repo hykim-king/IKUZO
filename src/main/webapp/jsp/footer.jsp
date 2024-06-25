@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <footer>
    <div class="inner">
-   <div class="footer-message"> LIBRARY 도서관</div>
+   <div class="footer-message"> BOOKBOOK도서관</div>
       <div class= "footer-message2">
 		    <div class="footer-contact">개인정보처리방침</div>
 		    <div class="footer-contact">Tel 02-111-1111</div>

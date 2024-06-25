@@ -26,6 +26,7 @@ MainPageDao dao = new MainPageDao();
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <link rel="stylesheet" href="/IKUZO/assest/css/index.css">
 <script>
+document.addEventListener("DOMContentLoaded", function(){	  
     function loginAndUpdateGreeting() {
         $.ajax({
             url: '<%= request.getContextPath() %>/login.do',
@@ -50,6 +51,7 @@ MainPageDao dao = new MainPageDao();
             }
         });
     }
+});		 
 </script>
 
 </head>
@@ -66,7 +68,7 @@ MainPageDao dao = new MainPageDao();
             <div id="sectionDiv">
                 <div id="sectionBannerDiv">
                     <ul>
-                        <!-- 배너 이미지 목록 -->
+                       <a href="#"><img src = "/IKUZO/assest/img/BANNER.png"></a>
                     </ul>
                 </div>
                 <div id="sectionLoginDiv">
@@ -79,7 +81,7 @@ MainPageDao dao = new MainPageDao();
                     <%
                         } else {
                     %>
-                        <p id ="usernamePost" ><a href = "login.jsp">로그인이 필요합니다</a></p>
+                        <p id ="usernamePost" ><a id="loginBtn" href = "http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin">로그인이 필요합니다</a></p>
                     <%
                         }
                     %>

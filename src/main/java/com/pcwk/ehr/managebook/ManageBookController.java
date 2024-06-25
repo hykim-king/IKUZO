@@ -283,9 +283,11 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
 		log.debug("login account check : {}", session.getAttribute("user"));
 		
 		String modId = "";
-		if(session != null && null != session.getAttribute("user")) { LoginDTO
-		member = (LoginDTO) session.getAttribute("user"); modId =
-		member.getUserId(); }else {
+		if(session != null && null != session.getAttribute("user")) {
+			LoginDTO member = (LoginDTO) session.getAttribute("user");
+			modId = member.getUserId();
+		}
+		else{
 		
 		}
 		
