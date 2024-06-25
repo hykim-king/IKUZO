@@ -309,7 +309,7 @@ section{
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 80vh; /* 화면 높이의 80%를 차지하도록 설정 */
+            height: 100vh; /* 화면 높이의 80%를 차지하도록 설정 */
         }
 
         .content {
