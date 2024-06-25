@@ -10,9 +10,10 @@
 <head>
     <meta charset="UTF-8">
     <title>게시글 편집</title>
-    <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
+    <script src="/IKUZO/assest/js/jquery_3_7_1.js"></script>
+    <script src="${pageContext.request.contextPath}/asset/js/jquery_3_7_1.js"></script>
+  <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
     <link rel="stylesheet" href="/IKUZO/assest/css/book_board.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
 <script>
 $(document).ready(function() {
@@ -146,9 +147,6 @@ function doDelete() {
 }
 </script>
 <body>
-<!-- header 시작  -->
-<%@ include file="header.jsp" %>
-<!-- header 끝  -->
 <!-- container -->
 <div class="container">
   
@@ -200,5 +198,3 @@ function doDelete() {
 
 </body>
 </html>
-
-
