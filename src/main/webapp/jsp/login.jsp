@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>BOOKBOOK도서관 - 로그인 하면 다양한 서비스를 이용할 수 있어요!</title>
-<link rel="stylesheet" href="../css/bookbook.css">
+<link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <style>
     body {
         font-family: Arial, sans-serif;
