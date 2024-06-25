@@ -85,17 +85,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
 <div class="genre">
  <nav class="b_nav">
-    <button type="button" class="btn btn-success" onclick="location.href='#'">전체</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">소설</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">시/에세이</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">가정/육아</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">건강</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">자기계발</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">역사/문화</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">과학</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">외국어</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">만화</button></li>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">여행</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">전체</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">소설</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">시/에세이</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">가정/육아</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">건강</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">자기계발</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">역사/문화</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">과학</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">외국어</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">만화</button>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">여행</button>
 </nav>
 </div>
 
