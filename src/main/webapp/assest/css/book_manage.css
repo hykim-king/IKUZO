@@ -312,7 +312,9 @@ section{
   padding : 10px;
 }
 #do_update,
-#move_to_list{
+#move_to_list,
+#do_due_date_update,
+#do_returned{
   background-color : #27403d;
   border-radius : 10px;
   color : white;
@@ -324,7 +326,8 @@ section{
   cursor : pointer;
   font-weight : bold;
 }
-#move_to_list{
+#move_to_list,
+#do_returned{
   color : #111;
   background-color : #e4e4e4;
 }
