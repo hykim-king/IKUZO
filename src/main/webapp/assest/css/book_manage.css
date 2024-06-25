@@ -276,6 +276,12 @@ section{
 }
 /* 도서 등록 페이지 끝 */
 
+/* 도서 수정 페이지 시작 */
+#manage_book_update_frm{
+	/**/background-color : green;
+}
+/* 도서 수정 페이지 끝 */
+
 /* 페이징 네비게이션 시작 */
 .pagination{
 	margin-top : 30px;

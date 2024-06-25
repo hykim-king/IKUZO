@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }      
       
       $.ajax({
-          type: "GET", 
+          type: "POST", 
           url:"/IKUZO/ikuzo/manage02.ikuzo",
           asyn:"true",
           dataType:"html",

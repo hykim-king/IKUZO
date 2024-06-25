@@ -20,6 +20,12 @@ SearchDTO searchCon =(SearchDTO)request.getAttribute("vo");
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+    const isAdmin = "${sessionScope.user.isAdmin}";
+    console.log(isAdmin);
+    if(isAdmin =='N'){
+      window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
+      alert("관리자가 아닙니다");
+    }	
 	  // isEmpty 함수 정의
     function isEmpty(value) {
         return (value == null || value.length === 0);

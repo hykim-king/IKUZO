@@ -22,6 +22,12 @@
 <script src="/IKUZO/assest/js/common.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function(){   
+	  const isAdmin = "${sessionScope.user.isAdmin}";
+	  console.log(isAdmin);
+	  if(isAdmin =='N'){
+		  window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
+		  alert("관리자가 아닙니다");
+	  }
     // 페이지 이동 버튼
     const manageUserbtn = document.querySelector("#manageUserbtn"); 
     const manageBookbtn = document.querySelector("#manageBookbtn"); 
