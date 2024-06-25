@@ -20,28 +20,60 @@
 <title>Book List</title>
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <link rel="stylesheet" href="/IKUZO/assest/css/book_list.css">
+
 <script>
+//장르별 버튼 function
+function doRetrieve(name) {
+    console.log("doRetrieve()");
+    
+    let row = document.getElementById("Btnform");
+    
+    row.work_div.value = "doRetrieve";
+    row.page_no.value = "1";
+    row.searchDiv.value = "40";
+    row.search_word.value = name;
+    
+    row.submit();
+  }
+//-- //장르별 버튼 function end
+
+//doRetrieveAll
+  function doRetrieveAll(){
+	  console.log("doRetrieveAll()");
+	  
+	  let row = document.getElementById("Btnform");
+	    
+	    row.work_div.value = "doRetrieve";
+	    row.page_no.value = "1";
+	    
+	    row.submit();
+	}
+//--doRetrieveAll end
+
 document.addEventListener("DOMContentLoaded", function(){
 	console.log("DOMContentLoaded()");
 	
+	//전체
+	const allBtn = document.querySelectorAll("#all");
+	
+	//장르
+  const fictionBtn = document.querySelectorAll("#fiction")
+  const	poemBtn    = document.querySelectorAll("#poem")
+  const	homeBtn    = document.querySelectorAll("#home")
+  const	healthBtn  = document.querySelectorAll("#health")
+  const	selfBtn    = document.querySelectorAll("#self-development")
+  const	historyBtn = document.querySelectorAll("#history")
+  const	scienceBtn = document.querySelectorAll("#science")
+  const	foreignBtn = document.querySelectorAll("#foreign-language")
+  const	comicBtn   = document.querySelectorAll("#comic")
+  const	travelBtn  = document.querySelectorAll("#travel")
+	
+  
+  
     //도서 한권 선택
 	const books = document.querySelectorAll(".book");
     
-  function doRetrieve() {
-	  console.log("doRetrieve()");
-	  
-	  let row = document.getElementById("row_book");
-	  
-	  row.work_div.value = "doRetrieve";
-	  row.page_no.value = "1";
-	  
-	  console.log("row.search_div.value:"+row.search_div.value);
-	  console.log("row.page_size.value:"+row.page_size.value);
-	  
-	  
-	  
-	  row.submit();
-  }
+ 
 	
 	books.forEach(function(book){
         //double click
@@ -58,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
 });
 
+//pageRetrieve
 	function pageRetrieve(url,pageNo){
 		 console.log("url:"+url);
 		 console.log("pageNo:"+pageNo);
@@ -83,27 +116,31 @@ document.addEventListener("DOMContentLoaded", function(){
 <section class="main">
 
 
-<div class="genre">
+<form class="genre" id="Btnform">
  <nav class="b_nav">
-    <button type="button" class="btn btn-success" onclick="location.href='#'">전체</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">소설</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">시/에세이</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">가정/육아</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">건강</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">자기계발</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">역사/문화</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">과학</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">외국어</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">만화</button>
-    <button type="button" class="btn btn-success" onclick="location.href='#'">여행</button>
+ <input type="hidden" name="work_div" id="work_div" placeholder="작업구분">
+ <input type="hidden" name="page_no" id="page_no"   placeholder="페이지번호">
+ <input type="hidden" id="searchDiv" name="searchDiv">
+ <input type="hidden" id="search_word" name="search_word">
+    <button type="button" id="all" class="btn btn-success"              onclick="doRetrieveAll()">전체</button>
+    <button type="button" id="fiction" class="btn btn-success"          onclick="doRetrieve('소설')">소설</button>
+    <button type="button" id="poem" class="btn btn-success"             onclick="doRetrieve('시/에세이')">시/에세이</button>
+    <button type="button" id="home" class="btn btn-success"             onclick="doRetrieve('가정/육아')">가정/육아</button>
+    <button type="button" id="health" class="btn btn-success"           onclick="doRetrieve('건강')">건강</button>
+    <button type="button" id="self-development" class="btn btn-success" onclick="doRetrieve('자기계발')">자기계발</button>
+    <button type="button" id="history" class="btn btn-success"          onclick="doRetrieve('역사/문화')">역사/문화</button>
+    <button type="button" id="science" class="btn btn-success"          onclick="doRetrieve('과학')">과학</button>
+    <button type="button" id="foreign-language" class="btn btn-success" onclick="doRetrieve('외국어')">외국어</button>
+    <button type="button" id="comic" class="btn btn-success"            onclick="doRetrieve('만화')">만화</button>
+    <button type="button" id="travel" class="btn btn-success"           onclick="doRetrieve('여행')">여행</button>
 </nav>
-</div>
+</form>
 
   <div class="row_book">
   <form action="#" id="book_frm">
   <input type="hidden" name="work_div" id="work_div" placeholder="작업구분">
   <input type="hidden" name="page_no" id="page_no"   placeholder="페이지번호">
-<% 
+    <% 
      if(null != list && list.size() > 0){
      for(BookDTO vo : list){ 
      %>
