@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
     <form id="headerSearchForm" action="#" method="GET"> <!-- 검색할 서블릿 주소를 설정하세요 -->
-        <legend>검색</legend>
         <input type="hidden" name="work_div" id="work_div" placeholder="작업구분">
         <input type="hidden" name="page_no" id="page_no"   placeholder="페이지번호">
         <input type="hidden" name="seq"     id="seq"       placeholder="순번">

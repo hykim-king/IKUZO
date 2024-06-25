@@ -16,7 +16,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/WEB02/assets/images/favicon.ico" type="image/x-icon">
-
+<link rel="stylesheet" href="/IKUZO/assest/css/bootstrap.css">
 <title>Book List</title>
 <link rel="stylesheet" href="/IKUZO/assest/css/bookbook.css">
 <link rel="stylesheet" href="/IKUZO/assest/css/book_list.css">
@@ -81,25 +81,21 @@ document.addEventListener("DOMContentLoaded", function(){
   <!-- header 끝  -->
   
 <section class="main">
-<div>
-  <h2 class="mb-0 " style="font-size: 2rem">전체 도서</h2>
-</div>
+
 
 <div class="genre">
  <nav class="b_nav">
-  <ul class="b_ul">
-    <li><button type="button" class="btn" onclick="location.href='#'">전체</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">소설</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">시/에세이</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">가정/육아</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">건강</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">자기계발</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">역사/문화</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">과학</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">외국어</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">만화</button></li>
-    <li><button type="button" class="btn" onclick="location.href='#'">여행</button></li>
-  </ul>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">전체</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">소설</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">시/에세이</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">가정/육아</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">건강</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">자기계발</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">역사/문화</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">과학</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">외국어</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">만화</button></li>
+    <button type="button" class="btn btn-success" onclick="location.href='#'">여행</button></li>
 </nav>
 </div>
 
@@ -154,6 +150,8 @@ document.addEventListener("DOMContentLoaded", function(){
   <!-- footer 시작  -->
   <%@ include file="footer.jsp" %>
   <!-- footer 끝  -->
+  
+ <script src="/IKUZO/assest/js/bootstrap.bundle.min.js"></script> 
 
 </body>
 </html>
