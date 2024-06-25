@@ -13,13 +13,19 @@ public class LoanListDTO extends DTO{
 	private String regDt         ;//등록날짜
 	private String modId         ;//수정자
 	private String modDt         ;//수정날짜
+	private int rentCode         ;//대출번호
+	private String userId        ;//회원아이디
+	private String rentDate      ;//대출날짜
+	private String dueDate       ;//반납예정일
+	private int extraSum         ;//연체금액
 	
 	
 	public LoanListDTO () {}
 
 
-	public LoanListDTO(int num, int bookCode, int bookGenre, String genreName, String bookName, String author, String regId,
-			String regDt, String modId, String modDt) {
+	public LoanListDTO(int num, int bookCode, int bookGenre, String genreName, String bookName, String author,
+			String regId, String regDt, String modId, String modDt, int rentCode, String userId, String rentDate,
+			String dueDate, int extraSum) {
 		super();
 		this.num = num;
 		this.bookCode = bookCode;
@@ -31,6 +37,11 @@ public class LoanListDTO extends DTO{
 		this.regDt = regDt;
 		this.modId = modId;
 		this.modDt = modDt;
+		this.rentCode = rentCode;
+		this.userId = userId;
+		this.rentDate = rentDate;
+		this.dueDate = dueDate;
+		this.extraSum = extraSum;
 	}
 
 
@@ -134,16 +145,65 @@ public class LoanListDTO extends DTO{
 	}
 
 
-	@Override
-	public String toString() {
-		return "BookDTO [num=" + num + ", bookCode=" + bookCode + ", bookGenre=" + bookGenre + ", genreName="
-				+ genreName + ", bookName=" + bookName + ", author=" + author + ", regId=" + regId + ", regDt=" + regDt
-				+ ", modId=" + modId + ", modDt=" + modDt + ", toString()=" + super.toString() + "]";
+	public int getRentCode() {
+		return rentCode;
 	}
 
 
-	
-	
+	public void setRentCode(int rentCode) {
+		this.rentCode = rentCode;
+	}
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+
+	public String getRentDate() {
+		return rentDate;
+	}
+
+
+	public void setRentDate(String rentDate) {
+		this.rentDate = rentDate;
+	}
+
+
+	public String getDueDate() {
+		return dueDate;
+	}
+
+
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
+	}
+
+
+	public int getExtraSum() {
+		return extraSum;
+	}
+
+
+	public void setExtraSum(int extraSum) {
+		this.extraSum = extraSum;
+	}
+
+
+	@Override
+	public String toString() {
+		return "LoanListDTO [num=" + num + ", bookCode=" + bookCode + ", bookGenre=" + bookGenre + ", genreName="
+				+ genreName + ", bookName=" + bookName + ", author=" + author + ", regId=" + regId + ", regDt=" + regDt
+				+ ", modId=" + modId + ", modDt=" + modDt + ", rentCode=" + rentCode + ", userId=" + userId
+				+ ", rentDate=" + rentDate + ", dueDate=" + dueDate + ", extraSum=" + extraSum + ", toString()="
+				+ super.toString() + "]";
+	}
+
 
 	
 

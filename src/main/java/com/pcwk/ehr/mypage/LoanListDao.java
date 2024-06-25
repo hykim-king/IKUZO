@@ -49,32 +49,38 @@ public class LoanListDao implements WorkDiv<LoanListDTO>, PLog {
 		
 		List<LoanListDTO> list = new ArrayList<LoanListDTO>();
 		
-		sb.append(" select ab.*, d.*                                              \n");
-		sb.append("  from(                                                        \n");
-		sb.append("          select b.*                                           \n");
-		sb.append("          from(                                                \n");
-		sb.append("                  select rownum num, a.*                      \n");
-		sb.append("                  from(                                        \n");
-		sb.append("                          select t1.BOOK_NAME,                 \n");
-		sb.append("                                  t2.GENRE_NAME,               \n");
-		sb.append("                                  t1.AUTHOR                    \n");
-		sb.append("                          from book t1, b_genre t2             \n");
-		sb.append("                          where t1.book_genre=t2.book_genre    \n");
-		sb.append("                          )a                                   \n");
-//		sb.append(" 	where ROWNUM <=(:pageSize * (:pageNo -1)+:pageSize)       \n");		
-		sb.append("                       where rownum<= ( ? * (? - 1)+?)         \n");
+		sb.append(" select b.*, c.*                                                                                         \n");
+		sb.append(" from(                                                                                                   \n");
+		sb.append("     select a.*                                                                                          \n");
+		sb.append("     from(                                                                                               \n");
+		sb.append("         select tt1.book_name, tt2.genre_name, tt1.author,  TO_CHAR(tt1.rent_date,'YYYY-MM-DD')rent_date,\n");
+		sb.append("                TO_CHAR(tt1.due_date,'YYYY-MM-DD')due_date, tt1.extra_sum, rownum as num                 \n");
+		sb.append("         from (                                                                                          \n");
+		sb.append("                 select t1.book_name as book_name, t1.author as author , t1.book_genre as book_genre,    \n");
+		sb.append("                         t2.rent_date as rent_date, t2.due_date as due_date, t2.extra_sum as extra_sum,  \n");
+		sb.append("                         t2.user_id as user_id                                                           \n");
+		sb.append("                 from book t1, rent t2                                                                   \n");
+		sb.append("                 where t1.book_code=t2.book_code                                                         \n");
+		sb.append("                 )TT1, b_genre tt2                                                                       \n");
+		sb.append("         where tt1.book_genre=tt2.book_genre                                                             \n");
+//		sb.append("         and rownum <=10                                                                                 \n");
+//		sb.append(" 	    and ROWNUM <=(:pageSize * (:pageNo -1)+:pageSize)                                               \n");		
+		sb.append("         and rownum<= ( ? * (? - 1)+?)                                                                   \n");
+//		sb.append("         and tt2.genre_name LIKE '소설%'                                                                 \n");
 		//--WHERE-------------------------------------------------------
 		sb.append(sbAnd.toString());
-		sb.append("                  )b                                           \n");
-//		sb.append(" 				WHERE num >=(:pageSize * (:pageNo -1)+1)     \n");		
-		sb.append("                 where  num>= (? * (? -1) + 1)                \n");
-		sb.append("          )ab,(                                                \n");
-		sb.append("                 select count(*)totalCnt                       \n");
-		sb.append("                 from book tt1, b_genre tt2                    \n");
-		sb.append("                 where tt1.book_genre=tt2.book_genre           \n");
+		sb.append("         )a                                                                                              \n");
+//		sb.append("     where num>=1                                                                                        \n");
+//		sb.append(" 	WHERE num >=(:pageSize * (:pageNo -1)+1)                                                            \n");		
+		sb.append("     where  num>= (? * (? -1) + 1)                                                                       \n");
+		sb.append("     )b,(                                                                                                \n");
+		sb.append("             select count(*)totalCnt                                                                     \n");
+		sb.append("             from book m1, b_genre m2                                                                    \n");
+		sb.append("             where m1.book_genre=m2.book_genre                                                           \n");
+//		sb.append("             and m2.genre_name LIKE '소설%'                                                               \n");
 		//--WHERE-------------------------------------------------------
 		sb.append(sbAnd.toString());
-		sb.append("                 )d                                            \n");
+		sb.append("         )c                                                                                              \n");
 		
 
 		log.debug("1.sql: {} \n", sb.toString());
@@ -160,6 +166,9 @@ public class LoanListDao implements WorkDiv<LoanListDTO>, PLog {
 				outVO.setBookName(rs.getString("BOOK_NAME"));
 				outVO.setGenreName(rs.getString("GENRE_NAME"));
 				outVO.setAuthor(rs.getString("AUTHOR"));
+				outVO.setRentDate(rs.getString("rent_date"));
+				outVO.setDueDate(rs.getString("due_date"));
+				outVO.setExtraSum(rs.getInt("extra_sum"));
 				
 				outVO.setTotalCnt(rs.getInt("totalCnt"));
 				

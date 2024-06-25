@@ -150,6 +150,9 @@ function pageRetrieve(url,pageNo){
             <th class="rent_book">도서제목</th>
             <th class="rent_genre">장르</th>
             <th class="rent_author">작가</th>
+            <th class="rent_date">대출날짜</th>
+            <th class="due_date">반납예정일</th>
+            <th class="extra_sum">연체금액</th>
         </tr>
     </thead>
     <tbody>
@@ -164,6 +167,9 @@ function pageRetrieve(url,pageNo){
             <td class="user_id"><%=vo.getBookName()%></td>
             <td class="user_name"><%=vo.getGenreName()%></td>
             <td class="rent_author"><%=vo.getAuthor()%></td>
+            <td class="rent_date"><%=vo.getRentDate()%></td>
+            <td class="due_date"><%=vo.getDueDate()%></td>
+            <td class="extra_sum"><%=vo.getExtraSum()%></td>
         </tr>
         
       <% }
