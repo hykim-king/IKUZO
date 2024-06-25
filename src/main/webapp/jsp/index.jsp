@@ -49,7 +49,7 @@
             <div id="sectionDiv">
                 <div id="sectionBannerDiv">
                     <ul>
-                        <!-- 배너 이미지 목록 -->
+                       <a href="#"><img src = "/IKUZO/assest/img/BANNER.png"></a>
                     </ul>
                 </div>
                 <div id="sectionLoginDiv">
