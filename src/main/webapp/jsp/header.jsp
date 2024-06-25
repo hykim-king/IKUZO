@@ -18,6 +18,15 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	const communityBtn2 = document.querySelector("#comm-forum");
 	
+	const moveToMain = document.querySelector("#logoImg");
+	
+	moveToMain.addEventListener("click", function(event){
+		
+	 let main = document.getElementById("logoImg");
+	 
+	 window.location.replace("http://localhost:8080/IKUZO/jsp/index.jsp");
+	});
+	
 	//bookListBtn
 	 bookListBtn.addEventListener("click", function(event){
 		
@@ -99,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <header id="header">
     <div>
         <h1 id="logo">
-            <a href="index.jsp">
+            <a href="http://localhost:8080/IKUZO/jsp/index.jsp">
                 <img alt="logoImg" src="/IKUZO/assest/img/logoImg.png" id="logoImg">
             </a>
         </h1>
