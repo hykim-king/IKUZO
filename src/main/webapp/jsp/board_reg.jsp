@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 작성</title>
-<script src="/IKUZO/asset/js/jquery_3_7_1.js"></script>
+<script src="/IKUZO/assest/js/jquery_3_7_1.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
@@ -84,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function(){
        
        <div>
 
-        </select>
        </div>
        
        <div>
