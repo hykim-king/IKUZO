@@ -1,6 +1,23 @@
+<%@page import="com.pcwk.ehr.mainpage.MainPageDTO"%>
+<%@page import="com.pcwk.ehr.mainpage.MainPageDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="com.pcwk.ehr.login.LoginDTO" %>
+<%
+MainPageDao dao = new MainPageDao();
+   SearchDTO searchVO = new SearchDTO();
+   searchVO.setPageNo(1);
+   searchVO.setPageSize(10);
+
+   List<MainPageDTO> listY = dao.doRetrieveAdimY(searchVO);
+   for(MainPageDTO voY :listY) {
+                System.out.println(voY);
+            }
+   List<MainPageDTO> listN = dao.doRetrieveAdimN(searchVO);
+   for(MainPageDTO voN :listN) {
+                System.out.println(voN);
+            }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,20 +88,19 @@
             
             <div class="boardGroup">
                 <div id="noticeBoard1" class="listWrap">
-                    <h2>공지사항</h2>
+                     <h2>공지사항</h2>
                     <ul>
+                    <%
+                    for(MainPageDTO voY :listY) {
+                    %>
                         <li>
-                            <a>공지사항 1</a>
-                            <span class="date">2022.02.22</span>
+                            <a><%=voY.getTitle()%></a>
+                            <span class="date"><%=voY.getModDt()%></span>
                         </li>
-                        <li>
-                            <a>공지사항 2</a>
-                            <span class="date">2022.02.22</span>
-                        </li>
-                        <li>
-                            <a>공지사항 3</a>
-                            <span class="date">2022.02.22</span>
-                        </li>
+                    <%
+                    }
+                    %>  
+                      
                     </ul>
                     <p class="more">
                         <a href="board01.jsp">
@@ -96,18 +112,14 @@
                 <div id="noticeBoard2" class="listWrap">
                     <h2>소통마당</h2>
                     <ul>
+                    <%
+                    for(MainPageDTO voN :listN) {
+                    %>
                         <li>
-                            <a>공지사항 1</a>
-                            <span class="date">2022.02.22</span>
+                            <a><%=voN.getTitle()%></a>
+                            <span class="date"><%=voN.getModDt()%></span>
                         </li>
-                        <li>
-                            <a>공지사항 2</a>
-                            <span class="date">2022.02.22</span>
-                        </li>
-                        <li>
-                            <a>공지사항 3</a>
-                            <span class="date">2022.02.22</span>
-                        </li>
+                    <% } %>  
                     </ul>
                     <p class="more2">
                         <a href="board01.jsp">
