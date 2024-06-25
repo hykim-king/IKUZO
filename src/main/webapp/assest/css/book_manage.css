@@ -278,7 +278,55 @@ section{
 
 /* 도서 수정 페이지 시작 */
 #manage_book_update_frm{
-	/**/background-color : green;
+  text-align : center;
+  margin-bottom : 20px;
+}
+#manage_book_update_frm input{
+	text-align : center;
+	margin : 10px auto;
+  width : 99%;
+  height : 40px;  
+  box-shadow : 3px 3px 2px 1px rgba(0,0,0, .5);
+  cursor : pointer;
+  outline: none;  
+  border : 1px solid #eee;
+  box-sizing : border-box;
+  border-radius : 10px;
+  padding : 10px;  
+}
+#manage_book_update_frm input[readonly]{
+  background-color : #27403d;
+	color : white;
+  cursor : not-allowed;	
+}
+#manage_book_update_frm  textarea{
+  width : 99%; 
+  height : auto;
+  display : block;
+  resize : none;
+  outline: none;  
+  margin : 10px auto 0 auto;
+  border : 1px solid #eee; 
+  box-shadow : 3px 3px 2px 1px rgba(0,0,0, .5);
+  border-radius : 10px;
+  padding : 10px;
+}
+#do_update,
+#move_to_list{
+  background-color : #27403d;
+  border-radius : 10px;
+  color : white;
+  margin : 0 auto;
+  text-align : center;
+  border : none;
+  box-shadow : 3px 3px 2px 1px rgba(0,0,0, .5);
+  padding : 15px; 
+  cursor : pointer;
+  font-weight : bold;
+}
+#move_to_list{
+  color : #111;
+  background-color : #e4e4e4;
 }
 /* 도서 수정 페이지 끝 */
 

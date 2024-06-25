@@ -389,9 +389,9 @@ document.addEventListener("DOMContentLoaded", function(){
 	<form action="#" class = "form-control" name = "manage_book_update_frm" id = "manage_book_update_frm">
      <input type = "hidden" name = "work_div" id = "work_div">
 	   <c:if test ="${outVO.rentCode != 0}">
-	   <label for = "rent_code">대출 코드<input name = "rent_code" id="rent_code" type = "text" class = "form-control" value = "${outVO.rentCode}"></label><br>       
+	   <label style = "display : none;" for = "rent_code">대출 코드<input name = "rent_code" id="rent_code" type = "text" class = "form-control" value = "${outVO.rentCode}" readonly></label><br>       
 	   </c:if>
-	   <label for = "book_code">도서 코드<input name = "book_code" id="book_code" type = "text" class = "form-control" value = "${outVO.bookCode}"></label><br>       
+	   <label for = "book_code">도서 코드<input name = "book_code" id="book_code" type = "text" class = "form-control" value = "${outVO.bookCode}" readonly></label><br>       
 	   <label for = "book_name">도서 제목<input name = "book_name" id="book_name" type = "text" class = "form-control" value = "${outVO.bookName}" required></label><br>       
 	   <label for = "book_genre">장르 번호<input name = "book_genre" id="book_genre" type = "text" class = "form-control" value = "${outVO.bookGenre}" required></label><br>       
 	   <label for = "author">작가<input name = "author" id="author" type = "text" class = "form-control" value = "${outVO.author}" required></label><br>       
@@ -400,10 +400,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	   <label for = "book_pub_date">출판일<input name = "book_pub_date" id="book_pub_date" type = "text" class = "form-control" value = "${outVO.bookPubDate}" required></label><br>       
 	   <label for = "book_info">책소개<textarea id="book_info" name = "bookInfo" class="form-control" placeholder="책 소개" rows="10" cols="10" required>${outVO.bookInfo}</textarea></label><br>       
 	   <label for = "rent_date">대출일<input name = "rent_date" id="rent_date" type = "text" class = "form-control" value = "${outVO.rentDate}"></label><br>       
-	   <label for = "due_date">반납예정일<input name = "due_date" id="due_date" type = "text" class = "form-control" value = "${outVO.dueDate}"></label><br>       
-	   <label for = "returned_date">반납일<input name = "returned_date" id="returned_date" type = "text" class = "form-control" value = "${outVO.retunredDate}"></label><br>       
-	   <label for = "rent_yn">대출가능여부<input name = "rent_yn" id="rent_yn" type = "text" class = "form-control" value = "${outVO.rentYn}"></label>          
-	   <label for = "noreturn_count">대출연장여부<input name = "noreturn_count" id="noreturn_count" type = "text" class = "form-control" value = "${outVO.noreturnCount}"></label>          
+	   <label for = "due_date">반납예정일<input name = "due_date" id="due_date" type = "text" class = "form-control" value = "${outVO.dueDate}" readonly></label><br>       
+	   <label for = "returned_date">반납일<input name = "returned_date" id="returned_date" type = "text" class = "form-control" value = "${outVO.retunredDate}" readonly></label><br>       
+	   <label for = "rent_yn">대출가능여부<input name = "rent_yn" id="rent_yn" type = "text" class = "form-control" value = "${outVO.rentYn}" readonly></label>          
+	   <label for = "noreturn_count">대출연장여부<input name = "noreturn_count" id="noreturn_count" type = "text" class = "form-control" value = "${outVO.noreturnCount}" readonly></label>          
 	</form>
 	
 	<button type="button" id = "do_update">수정</button>

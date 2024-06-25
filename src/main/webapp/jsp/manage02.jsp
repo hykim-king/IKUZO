@@ -276,7 +276,7 @@ function pageRetrieve(url, pageNo){
 <!-- header 끝  -->
   
 <!-- container -->
-session : ${sessionScope.user}
+<%-- session : ${sessionScope.user} --%>
 <section class="container">
     <div class="inner-container">
        <div class="page-title-group">
