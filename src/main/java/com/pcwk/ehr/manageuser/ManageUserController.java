@@ -2,6 +2,7 @@ package com.pcwk.ehr.manageuser;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
     	String pageNo = StringUtil.nvl(request.getParameter("page_no"), "1");
     	String pageSize = StringUtil.nvl(request.getParameter("page_size"), "10");
     	
-    	String searchWord = StringUtil.nvl(request.getParameter("search_word"), "");    	
+    	String searchWord = StringUtil.nvl(request.getParameter("manage_user_search_word"), "");    	
     	String searchDiv = StringUtil.nvl(request.getParameter("search_div"), "");
     	String isAdmin = StringUtil.nvl(request.getParameter("is_admin"), ""); 
     	
@@ -125,24 +126,44 @@ public class ManageUserController extends HttpServlet implements ControllerV, PL
     	log.debug("doDel()");
     	log.debug("-----------------");
     	
-    	ManageUserDTO inVO = new ManageUserDTO();
-    	String userIds = StringUtil.nvl(request.getParameter("userIds"), "0");
+    	// HTTP 요청에서 bookCodes를 받아옵니다.
+    	String userIdsJson = request.getParameter("userIds");
+    	log.debug("userIdsJson" + userIdsJson);
     	
-    	inVO.setUserId(userIds);
-    	log.debug("inVO" + inVO);
+    	// Gson을 사용하여 JSON 문자열을 배열로 변환합니다.
+        Gson userIdsgson = new Gson();
+    	String[] userIds = userIdsgson.fromJson(userIdsJson, String[].class);
+    	log.debug("userIds" + Arrays.toString(userIds));
     	
-    	int flag = service.doDelete(inVO);
-    	log.debug("flag : {}", flag);
+    	// 삭제 결과를 저장할 변수
+        int totalDeleted = 0;
     	
+        if (userIds != null && userIds.length > 0) {
+        	// 각 bookCode에 대해 삭제 작업을 수행합니다.
+            for (String userId : userIds) {
+            	ManageUserDTO inVO = new ManageUserDTO();
+            	inVO.setUserId(userId.trim()); // 공백 제거  	
+            	log.debug("inVO" + inVO);
+            	
+            	int flag = service.doDelete(inVO); // 각 bookCode에 대한 삭제 실행            	
+            	log.debug("flag : {}", flag);
+            	totalDeleted += flag; // 삭제된 행 수를 누적합니다.
+            }
+        }else {
+        	log.debug("userIds가 null이거나 길이가 0입니다.");
+        }
+    	
+        log.debug("총 {} 건 삭제되었습니다.", totalDeleted);
+        
     	String message = "";
-    	if (1 == flag) {
-			message = "삭제 성공";
+    	if (totalDeleted > 0) {
+			message = "삭제 성공 " + totalDeleted + "건 삭제되었습니다.";
 		}else {
 			message = "삭제 실패입니다";
 		}
     	
     	MessageVO messageVO = new MessageVO();    	
-    	messageVO.setMessageId(String.valueOf(flag));
+    	messageVO.setMessageId(totalDeleted > 0 ? "1" : "0"); // 성공 여부에 따라 messageId 설정
     	messageVO.setMsgContents(message);
     	log.debug("messageVO : {}", messageVO);
     	

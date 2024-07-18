@@ -55,14 +55,10 @@ public class FrontControllerV extends HttpServlet implements PLog {
    	
 
     	controllerMap.put("/IKUZO/ikuzo/mypage01.ikuzo", new LoanListController()); // 마이 페이지 [대출목록]    	
-
-
-    	controllerMap.put("/IKUZO/ikuzo/join.ikuzo", new JoinController());//회원가입 페이지
-    	controllerMap.put("/IKUZO/ikuzo/findId.ikuzo",  new FindIdController()); // 계정 찾기 페이지
-    	controllerMap.put("/IKUZO/ikuzo/resetPw.ikuzo", new ResetPwController()); // 비밀번호 초기화 페이지
     	controllerMap.put("/IKUZO/ikuzo/favorite.ikuzo", new FavoriteController()); // 마이 페이지 [즐겨찾기]
+    	
     	controllerMap.put("/IKUZO/ikuzo/login.ikuzo", new LoginController()); // 로그인 페이지
-    	controllerMap.put("/IKUZO/ikuzo/myPageUpdate.ikuzo", new MyPageUpdateController()); // 마이페이지 [업데이트]
+    	controllerMap.put("/IKUZO/ikuzo/join.ikuzo", new JoinController()); // 회원가입 페이지
     }
 
 	/**

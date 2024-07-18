@@ -15,7 +15,12 @@
 <script src="/IKUZO/assest/js/common.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-	
+   const isAdmin = "${sessionScope.user.isAdmin}";
+    console.log(isAdmin);
+    if(isAdmin !='Y'){
+      window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
+      alert("관리자가 아닙니다");
+    }
     // 등록화면 진입 확인
     console.log("DOMContentLoaded");
     

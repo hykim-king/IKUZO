@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const modifiyBookBtns = document.querySelectorAll(".profile_edit .active"); 
     
     // 도서 검색창
-    const searchWord = document.querySelector("#search_word");
+    const manageBookSearchWord = document.querySelector("#manage_book_search_word");
     
     // tbody 내의 모든 행을 가져옵니다
     const rows = document.querySelectorAll(".notice-board tbody tr");
@@ -122,12 +122,11 @@ document.addEventListener("DOMContentLoaded", function(){
     }); // forEach 끝
     
     // 검색창 엔터 후 이벤트 시작
-    searchWord.addEventListener("keydown", function(event){
-      console.log("keydown", event.key, event.keyCode);
-      
-      if(event.keyCode == 13){
-        console.log(`input.value:${input.value}`);
-        doRetrieve();
+    manageBookSearchWord.addEventListener("keydown", function(event){
+      if(event.keyCode == 13){    	  
+    	  console.log(manageBookSearchWord.value);
+    	  event.preventDefault();
+        doRetrieve(); 
       }
     });
     // 검색창 엔터 후 이벤트 끝
@@ -146,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function(){
             if (checkbox.checked) {
                 // 현재 행의 book_code를 찾습니다
                 bookCode = row.querySelector("td.book_code").innerText;
-                bookCodes.push(bookCode);
+                bookCodes.push(bookCode);                
             }
         });
     }
@@ -168,8 +167,8 @@ document.addEventListener("DOMContentLoaded", function(){
         doCheckRow();
 
         // bookCodes를 출력합니다 (필요에 따라 이 배열을 사용할 수 있습니다)
-        console.log(bookCode);        
-        console.log(bookCodes);        
+        console.log("bookCode 확인 : ",bookCode);        
+        console.log("bookCodes 확인 : ", bookCodes);       
         
         // bookCodes 체크 여부
         if(isEmpty(bookCodes) == true){
@@ -186,9 +185,10 @@ document.addEventListener("DOMContentLoaded", function(){
             dataType:"html",
             data:{
                 "work_div":"doDelete",
-                "bookCodes": bookCode
+                "bookCodes": JSON.stringify(bookCodes)
             },
-            success:function(response){//통신 성공
+            success:function(response){//통신 성공     
+				        console.log("bookCodes 확인2 : ", bookCodes);       
                 console.log("success response:"+response);
                 const messageVO = JSON.parse(response);
                 console.log("messageVO.messageId:"+ messageVO.messageId);             
@@ -235,8 +235,8 @@ document.addEventListener("DOMContentLoaded", function(){
       frm.work_div.value = "doRetrieve";
       frm.page_no.value = "1";
       
-      console.log("frm.search_div.value : " + frm.search_div.value);
-      console.log("frm.search_word.value : " + frm.search_word.value);
+      console.log("frm.mb_search_div.value : " + frm.mb_search_div.value);
+      console.log("frm.manage_book_search_word.value : " + frm.manage_book_search_word.value);
       console.log("frm.page_size.value : " + frm.page_size.value);
       
       // 서버로 보낼 액션 설정
@@ -260,6 +260,9 @@ function pageRetrieve(url, pageNo){
   
   // 폼 데이터 설정
   frm.page_no.value = pageNo;
+  frm.page_size.value = "${vo.pageSize}";
+  frm.mb_search_div.value = "${vo.searchDiv}";
+  frm.rent_yn.value = "${vo.rentYn}";
    
   // url
   frm.action = url;
@@ -294,7 +297,6 @@ function pageRetrieve(url, pageNo){
             </div>
         </div>    
     </div>
-
 <div class="category-box">
     <div class="category-wrap">
         <div class="redAlert">
@@ -304,7 +306,6 @@ function pageRetrieve(url, pageNo){
             <a href="#" id ="saveBookBtn">추가</a>
         </div>
     </div>
-
     <div class="category-wrap category-wrap2">
         <form action="<%=cPath%>/ikuzo/manage02.ikuzo" name = "manage_book_frm" id = "manage_book_frm">
         <input type = "hidden" name = "work_div" id = "work_div">
@@ -316,19 +317,19 @@ function pageRetrieve(url, pageNo){
                 <option value="30" >30페이지</option>
                 <option value="40" >40페이지</option>
             </select>
-            <select style = "cursor : pointer;" name = "rent_yn" id="rent_yn">
-                <option value="" selected>대여 여부</option>
-                <option value="10" >가능</option>
-                <option value="20" >불가능</option>
-            </select>
-            <select name = "search_div" id="search_div">
+            <select style="cursor: pointer;" name="rent_yn" id="rent_yn">
+						    <option value="">대여 여부</option>
+						    <option value="10">가능</option>
+						    <option value="20">불가능</option>
+						</select>
+            <select name = "mb_search_div" id="mb_search_div">
                 <option value="" selected="selected">전체</option>
                 <option value="10">도서제목</option>
                 <option value="20">장르</option>
                 <option value="30">작가</option>
                 <option value="40">출판사</option>
             </select>
-            <input type="search" name="search_word" id = "search_word" placeholder="검색어를 입력해주세요" value="<%if(null != searchCon){out.print(searchCon.getSearchWord());}%>">
+            <input type="search" name="manage_book_search_word" id = "manage_book_search_word" placeholder="검색어를 입력해주세요" value="<%if(null != searchCon){out.print(searchCon.getSearchWord());}%>">
         </form>
         <button type="button" class="btn-control" id = "doRetrieve">
             <span class="icon"></span>
@@ -391,6 +392,15 @@ int pageSize = pageingVO.getPageSize();
 
 // 페이지 번호
 int pageNo = pageingVO.getPageNo();
+
+// 도서 대여 여부 확인 
+String rentYn = pageingVO.getRentYn();
+
+// 도서 검색어
+String searchWord = pageingVO.getSearchWord();
+
+// 도서 검색구분
+String searchDiv = pageingVO.getSearchDiv();
 
 // pageRetrieve(url, 2);
 out.print(StringUtil.renderingPaging(totalCnt, pageNo, pageSize, bottomCnt, "/IKUZO/ikuzo/manage02.ikuzo", "pageRetrieve"));

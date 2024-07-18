@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function(){
   console.log("DOMContentLoaded()");
 
 	const bookListBtn = document.querySelector("#bookList");
+
+	const searchWord = document.querySelector("#search_word");
 	
 	const communityBtn = document.querySelector("#announcement");
 	
@@ -25,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		
 	 let main = document.getElementById("logoImg");
 	 
-	 window.location.replace("http://localhost:8080/IKUZO/jsp/index.jsp");
+	 window.location.replace("/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
 	});
 	
 	//bookListBtn
@@ -54,20 +56,28 @@ document.addEventListener("DOMContentLoaded", function(){
 	     window.location.replace("http://localhost:8080/IKUZO/jsp/board02.jsp");
 	     
 	   });//-- communityBtn2 end
-	 
-	 
 	
- //검색하기 버튼
+ // 헤더 검색하기 버튼
  const searchInputBtn = document.querySelector("#headerSearchBtn");
  
  searchInputBtn.addEventListener("click", function(event){
 	 console.log("searchInputBtn click");
-	 doRetrieve();
+	 headerDoRetrieve();
  });
  
+  // 헤더 검색창 엔터 후 이벤트 시작
+  searchWord.addEventListener("keydown", function(event){
+    console.log("keydown", event.key, event.keyCode);
+    
+    if(event.keyCode == 13){
+      console.log(`searchWord.value:${searchWord.value}`);
+      event.preventDefault();
+      headerDoRetrieve();
+    }
+  });
  
- function doRetrieve(){
-	 console.log("doRetrieve()");
+ function headerDoRetrieve(){
+	 console.log("headerDoRetrieve()");
 	 
 	 let frm = document.getElementById("headerSearchForm");
 	 
@@ -119,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function(){
         <ul>
             <% if (session.getAttribute("user") == null) { %>
                 <li id = "hLoginBtn">
-                    <a href="http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin">로그인</a>
+                    <a href="http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=toLogin">로그인</a>
                 </li>
                 <li>
                     <a href="http://localhost:8080/IKUZO/ikuzo/join.ikuzo?work_div=toJoin">회원가입</a>
@@ -132,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <a href="#">회원정보수정</a>
                 </li>
                 <li>
-                    <a id = "hManageBtn" href="#">관리자페이지</a>
+                    <a id = "hManageBtn" href="http://localhost:8080/IKUZO/ikuzo/manage01.ikuzo?work_div=doRetrieve">관리자페이지</a>
                 </li>
                 <%-- <% if (session.getAttribute("isAdmin") != null && ((String)session.getAttribute("isAdmin")).equals("Y")) { %>
 						    <li>
@@ -140,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function(){
 						    </li>
 						    <% } %> --%>
                 <li>
-                   <a id="gnb_logout_button" href="#" onclick="logoutAndRedirect()">로그아웃</a>
+                   <a id="gnb_logout_button" href="#">로그아웃</a>
                 </li>
             <% } %>
         </ul>
@@ -178,8 +188,15 @@ document.addEventListener("DOMContentLoaded", function(){
 </form>
 
 <script>
+		const logOutBtn = document.querySelector("#gnb_logout_button");
+		logOutBtn.addEventListener("click", function(event){
+		  console.log('logOut click event'+event);
+		  alert("로그아웃 되었습니다");
+		  logoutAndRedirect();
+		});
+
     function logoutAndRedirect() {
     	console.log('로그아웃');
-    	localStorage.removeItem('user');
+    	window.location.replace("/IKUZO/ikuzo/login.ikuzo?work_div=logout");
     }
 </script>

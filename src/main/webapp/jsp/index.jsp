@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <%
                         } else {
                     %>
-                        <p id ="usernamePost" ><a id="loginBtn" href = "http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=moveToLogin">로그인이 필요합니다</a></p>
+                        <p id ="usernamePost" ><a id="loginBtn" href = "http://localhost:8080/IKUZO/ikuzo/login.ikuzo?work_div=toLogin">로그인이 필요합니다</a></p>
                     <%
                         }
                     %>
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function(){
                       
                     </ul>
                     <p class="more">
-                        <a href="http://localhost:8080/IKUZO/jsp/board01.jsp">
+                        <a href="/IKUZO/ikuzo/board.ikuzo?work_div=moveToBoardAdmin">
                             <img src="/IKUZO/assest/img/iconMore.png">
                         </a>
                     </p>
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <% } %>  
                     </ul>
                     <p class="more2">
-                        <a href="http://localhost:8080/IKUZO/jsp/board02.jsp">
+                        <a href="/IKUZO/ikuzo/board.ikuzo?work_div=moveToBoardUser">
                             <img src="/IKUZO/assest/img/iconMore.png">
                         </a>
                     </p>

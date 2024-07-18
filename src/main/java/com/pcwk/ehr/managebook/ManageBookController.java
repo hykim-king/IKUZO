@@ -3,6 +3,7 @@ package com.pcwk.ehr.managebook;
 import java.io.IOException;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -60,20 +61,20 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
     	String pageNo = StringUtil.nvl(request.getParameter("page_no"), "1");
     	String pageSize = StringUtil.nvl(request.getParameter("page_size"), "10");
     	
-    	String searchWord = StringUtil.nvl(request.getParameter("search_word"), "");    	
-    	String searchDiv = StringUtil.nvl(request.getParameter("search_div"), "");    	
+    	String mbsearchWord = StringUtil.nvl(request.getParameter("manage_book_search_word"), "");    	
+    	String mbsearchDiv = StringUtil.nvl(request.getParameter("mb_search_div"), "");    	
     	String rentYn = StringUtil.nvl(request.getParameter("rent_yn"), "");    	
     	
     	log.debug("pageNo : {}", pageNo);
     	log.debug("pageSize : {}", pageSize);
-    	log.debug("searchWord : {}", searchWord);
-    	log.debug("searchDiv : {}", searchDiv);
+    	log.debug("mbsearchWord : {}", mbsearchWord);
+    	log.debug("searchDiv : {}", mbsearchDiv);
     	log.debug("rentYn : {}", rentYn);
     	
     	inVO.setPageNo(Integer.parseInt(pageNo));
     	inVO.setPageSize(Integer.parseInt(pageSize));
-    	inVO.setSearchDiv(searchDiv);
-    	inVO.setSearchWord(searchWord);
+    	inVO.setSearchDiv(mbsearchDiv);
+    	inVO.setSearchWord(mbsearchWord);
     	inVO.setRentYn(rentYn);
 
     	log.debug("inVO : {}", inVO);
@@ -200,26 +201,46 @@ public class ManageBookController extends HttpServlet implements ControllerV, PL
 		log.debug("-----------------");
     	log.debug("doDel()");
     	log.debug("-----------------");
+
+    	// HTTP 요청에서 bookCodes를 받아옵니다.
+        String bookCodesJson = request.getParameter("bookCodes");
+        log.debug("bookCodesJson" + bookCodesJson);
+        
+        // Gson을 사용하여 JSON 문자열을 배열로 변환합니다.
+        Gson bookCodesgson = new Gson();
+    	String[] bookCodes = bookCodesgson.fromJson(bookCodesJson, String[].class);
+    	log.debug("bookCodes" + Arrays.toString(bookCodes));
     	
-    	ManageBookDTO inVO = new ManageBookDTO();
-    	String bookCodesStr = StringUtil.nvl(request.getParameter("bookCodes"), "0");
-    	int bookCodes = Integer.parseInt(bookCodesStr); // String을 int로 변환
+    	// 삭제 결과를 저장할 변수
+        int totalDeleted = 0;
     	
-    	inVO.setBookCode(bookCodes);
-    	log.debug("inVO" + inVO);
-    	
-    	int flag = service.doDelete(inVO);
-    	log.debug("flag : {}", flag);
+        if (bookCodes != null && bookCodes.length > 0) {
+        	// 각 bookCode에 대해 삭제 작업을 수행합니다.
+            for (String bookCode : bookCodes) {
+            	ManageBookDTO inVO = new ManageBookDTO();
+            	inVO.setBookCode(Integer.parseInt(bookCode.trim())); // 공백 제거 후 Integer로 변환          	
+            	log.debug("inVO" + inVO);
+            	
+            	int flag = service.doDelete(inVO); // 각 bookCode에 대한 삭제 실행            	
+            	log.debug("flag : {}", flag);
+            	totalDeleted += flag; // 삭제된 행 수를 누적합니다.
+            }
+        }else {
+        	log.debug("bookCodes가 null이거나 길이가 0입니다.");
+        }
+        
+        log.debug("총 {} 건 삭제되었습니다.", totalDeleted);
     	
     	String message = "";
-    	if (1 == flag) {
-			message = "삭제 성공";
+    	if (totalDeleted > 0) {
+			message = "삭제 성공 " + totalDeleted + "건 삭제되었습니다.";
 		}else {
 			message = "삭제 실패입니다";
 		}
     	
+    	// JSON 형태로 결과를 반환할 MessageVO 생성
     	MessageVO messageVO = new MessageVO();    	
-    	messageVO.setMessageId(String.valueOf(flag));
+    	messageVO.setMessageId(totalDeleted > 0 ? "1" : "0"); // 성공 여부에 따라 messageId 설정
     	messageVO.setMsgContents(message);
     	log.debug("messageVO : {}", messageVO);
     	

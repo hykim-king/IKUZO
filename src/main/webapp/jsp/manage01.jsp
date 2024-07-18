@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const doRetrievebtn = document.querySelector("#doRetrieve");	
 
     // 검색창
-    const searchWord = document.querySelector("#search_word");
+    const manageUserSearchWord = document.querySelector("#manage_user_search_word");
     
     // tbody 내의 모든 행을 가져옵니다
     const rows = document.querySelectorAll(".notice-board tbody tr");
@@ -69,11 +69,12 @@ document.addEventListener("DOMContentLoaded", function(){
       doRetrieve();   
     });    
     // 검색창 엔터 후 이벤트 시작
-    searchWord.addEventListener("keydown", function(event){
+    manageUserSearchWord.addEventListener("keydown", function(event){
       console.log("keydown", event.key, event.keyCode);
       
       if(event.keyCode == 13){
-        console.log(`input.value:${input.value}`);
+        console.log(`manageUserSearchWord.value:${input.value}`);
+        event.preventDefault();
         doRetrieve();
       }
     });
@@ -152,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function(){
             dataType:"html",
             data:{
                 "work_div":"doDelete",
-                "userIds": userId
+                "userIds": JSON.stringify(userIds)
             },
             success:function(response){//통신 성공
                 console.log("success response:"+response);
@@ -198,8 +199,8 @@ document.addEventListener("DOMContentLoaded", function(){
       frm.work_div.value = "doRetrieve";
       frm.page_no.value = "1";
       
-      console.log("frm.search_div.value : " + frm.search_div.value);
-      console.log("frm.search_word.value : " + frm.search_word.value);
+      console.log("frm.search_div.value : " + frm.mu_search_div.value);
+      console.log("frm.manage_user_search_word.value : " + frm.manage_user_search_word.value);
       console.log("frm.page_size.value : " + frm.page_size.value);
       
       // 서버로 보낼 액션 설정
@@ -224,6 +225,9 @@ function pageRetrieve(url, pageNo){
   
   // 폼 데이터 설정
   frm.page_no.value = pageNo;
+  frm.page_size.value = "${vo.pageSize}";
+  frm.mu_search_div.value = "${vo.searchDiv}";
+  frm.is_admin.value = "${vo.isAdmin}";  
    
   // url
   frm.action = url;
@@ -265,8 +269,6 @@ function pageRetrieve(url, pageNo){
     </div>
 
     <div class="category-wrap category-wrap2">
-    <p>searchDiv : <%=searchCon.getSearchDiv()%></p>
-    <p>page : ${page}</p>
         <form action="<%=cPath%>/ikuzo/manage01.ikuzo" method="get" name = "manage_user_frm" id = "manage_user_frm">
         <input type = "hidden" name = "work_div" id = "work_div">
         <input type="hidden" name="page_no" id="page_no" placeholder="페이지 번호">
@@ -282,12 +284,12 @@ function pageRetrieve(url, pageNo){
                 <option value="10" >관리자</option>
                 <option value="20" >회원</option>
             </select>
-            <select style = "cursor : pointer;" name="search_div" id = "search_div">
+            <select style = "cursor : pointer;" name="mu_search_div" id = "mu_search_div">
                 <option value="" selected="selected">전체</option>
                 <option value="10" >아이디</option>
                 <option value="20" >이름</option>
             </select>
-            <input type="search" name="search_word" id = "search_word" placeholder="검색어를 입력해주세요" value="<%if(null != searchCon){out.print(searchCon.getSearchWord());}%>">
+            <input type="search" name="manage_user_search_word" id = "manage_user_search_word" placeholder="검색어를 입력해주세요" value="<%if(null != searchCon){out.print(searchCon.getSearchWord());}%>">
         </form>
         <button type="button" class="btn-control" id = "doRetrieve">
             <span class="icon"></span>

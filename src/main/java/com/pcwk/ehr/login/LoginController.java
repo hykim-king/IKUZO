@@ -25,14 +25,6 @@ public class LoginController extends HttpServlet implements PLog, ControllerV {
         log.debug("-----------------");
         service = new LoginService();
     }
-
-    private JView moveToLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		log.debug("-----------------");
-    	log.debug("moveToSaveBook()");
-    	log.debug("-----------------");
-    	
-		return new JView("/jsp/login.jsp");
-	}
     
     public JView login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("---------------------");
@@ -41,7 +33,8 @@ public class LoginController extends HttpServlet implements PLog, ControllerV {
 
         String userId = StringUtil.nvl(request.getParameter("user_id"), "");
         String userPw = StringUtil.nvl(request.getParameter("user_pw"), "");
-
+        JView viewName = null;
+        
         LoginDTO inVO = new LoginDTO();
         inVO.setUserId(userId);
 
@@ -64,61 +57,65 @@ public class LoginController extends HttpServlet implements PLog, ControllerV {
         }
 
         out.print(message);
-        out.flush();
-        out.close();
-        return null;
-    }
-
-    @Override
-    public JView doWork(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("-----------------");
-        log.debug("doWork()");
-        log.debug("-----------------");
-
-        JView viewName = null;
-        String workDiv = StringUtil.nvl(request.getParameter("work_div"), "");
-        log.debug("workDiv : {}", workDiv);
-
-        switch (workDiv) {
-            case "moveToLogin":
-                viewName = moveToLogin(request, response);
-                break;
-            case "login":
-            	viewName = login(request, response);
-            	break;
-            case "logout":
-                processLogout(request, response); // 로그아웃 로직 추가
-                break;
-            default:
-                log.debug("작업구분을 확인 하세요. workDiv : {}", workDiv);
-                break;
-        }
-
         return viewName;
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("doGet 메서드 진입");
-        doWork(request, response);
-        log.debug("doGet 메서드 종료");
-    }
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        log.debug("doGet 메서드 진입");
+//        doWork(request, response);
+//        log.debug("doGet 메서드 종료");
+//    }
+//
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        log.debug("doPost 메서드 진입");
+//        doWork(request, response);
+//        log.debug("doPost 메서드 종료");
+//    }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("doPost 메서드 진입");
-        doWork(request, response);
-        log.debug("doPost 메서드 종료");
-    }
-
-    private void processLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public JView processLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("-------------------");
+		log.debug("logout()");
+		log.debug("-------------------");
+		JView viewName= new JView ("/jsp/login.jsp");
         HttpSession session = request.getSession(false); // 세션이 존재하면 반환, 존재하지 않으면 null 반환
-
+        log.debug("session()" + session);
+        
+        // 로그아웃 후 index.jsp로 이동
         if (session != null) {
             session.invalidate(); // 세션 무효화
             log.debug("세션 삭제");
+        } else {
+        	
         }
-
-        // 로그아웃 후 리다이렉트할 페이지 설정 (예시: index.jsp)
-        String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/index.jsp");
+        
+        return viewName;
+    }
+    
+    @Override
+    public JView doWork(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	log.debug("-----------------");
+    	log.debug("doWork()");
+    	log.debug("-----------------");
+    	
+    	JView viewName = null;
+    	String workDiv = StringUtil.nvl(request.getParameter("work_div"), "");
+    	log.debug("workDiv : {}", workDiv);
+    	
+    	switch (workDiv) {
+    	case "login":
+    		viewName = login(request, response);
+    		break;
+    	case "logout":
+    		viewName = processLogout(request, response); // 로그아웃 로직 추가
+    		break;
+    	case "toLogin" :
+    		viewName = new JView("/jsp/login.jsp");
+    		break;
+    	default:
+    		log.debug("작업구분을 확인 하세요. workDiv : {}", workDiv);
+    		break;
+    	}
+    	
+    	return viewName;
     }
 }

@@ -10,7 +10,7 @@
         font-family: Arial, sans-serif;
     }
     #container{
-        padding: 120px;
+        padding: 140px 0 100px 0;
         text-align: center;
     }
     .content-wrapper {
@@ -127,47 +127,53 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $("#loginBtn").click(function(event) {
-                event.preventDefault(); // 폼의 기본 동작을 막음
-                var userId = $("#userId").val();
-                var userPw = $("#userPw").val();
+<script>
+$(document).ready(function() {
+    $("#loginBtn").click(function(event) {
+    	  event.preventDefault(); // 폼의 기본 동작을 막음
+        loginFunction();
+    });
 
-                
-                $("#logoutBtn").click(function(event) {
-                    event.preventDefault(); // 기본 동작 막기
-                    logoutAndRedirect(); // 로그아웃 함수 호출
-                });
-                
-                $.ajax({
-                    type: "GET",
-                    url: "/IKUZO/ikuzo/login.ikuzo", // 상대 경로로 설정
-                    dataType: "text",
-                    data: {
-                        "work_div": "login",
-                        "user_id": userId,
-                        "user_pw": userPw
-                    },
-                    success: function(data) {
-                        console.log("success data: " + data);
+    function loginFunction(event) {        
+        var userId = $("#userId").val();
+        var userPw = $("#userPw").val();
 
-                        if (data.trim() === "성공") {
-                            alert('로그인 성공! 환영합니다.');
-                            window.location.href = "/IKUZO/jsp/index.jsp"; // 로그인 성공 후 이동할 페이지 경로 수정
-                        } else {
-                            alert('아이디와 비밀번호를 확인하세요.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("에러 발생: " + error);
-                    }
-                });
-            });
+        $.ajax({
+            type: "GET",
+            url: "/IKUZO/ikuzo/login.ikuzo", // 상대 경로로 설정
+            dataType: "html",
+            data: {
+                "work_div": "login",
+                "user_id": userId,
+                "user_pw": userPw
+            },
+            success: function(data) {
+                console.log("success data: " + data);
+
+                if (data.trim() === "성공") {
+                    alert('로그인 성공! 환영합니다.');
+                    window.location.replace("http://localhost:8080/IKUZO/ikuzo/index.ikuzo?work_div=doRetrieve");
+                } else {
+                    alert('아이디와 비밀번호를 확인하세요.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("에러 발생: " + error);
+            }
         });
+    }
 
-       
-    </script>
+    const loginDivs = document.querySelectorAll("#login_form input");
+    loginDivs.forEach(function(loginDiv) {
+        loginDiv.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                loginFunction(event); // 이벤트 객체 전달
+            }
+        }); // forEach의 콜백 함수 닫는 괄호 추가
+    });
+});
+</script>
 
 
 

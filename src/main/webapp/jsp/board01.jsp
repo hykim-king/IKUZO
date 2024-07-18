@@ -3,7 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.pcwk.ehr.board.BoardDao" %>
 <%@ page import="com.pcwk.ehr.board.BoardDTO" %>
-
+<%@ include file="/jsp/common.jsp" %>  
 <%
     // 한 페이지에 보여질 게시글 수
     int pageSize = 10;
@@ -48,9 +48,23 @@ $(document).ready(function() {
     $('.board-title').click(function(event) {
         event.preventDefault(); // 기본 링크 동작을 막음
         var seq = $(this).data('seq'); // 클릭한 게시글의 seq를 가져옴
+        console.log(seq);
 
-        $.ajax({
-            type: "POST", // POST로 변경
+        // 폼 요소 선택
+        let frm = document.getElementById("board_frm");
+        
+        // 폼 데이터 설정
+        frm.work_div.value = "boardDetail";
+        
+        //seq
+        frm.seq.value = seqValue;
+        frm.action = "<%=cPath%>" + "/IKUZO/ikuzo/board.ikuzo";
+        
+        // 폼 제출
+        frm.submit();
+        
+/*         $.ajax({
+            type: "GET", // POST로 변경
             url: "/IKUZO/ikuzo/board.ikuzo",
             async: true, // 비동기 통신
             dataType: "html",
@@ -59,9 +73,7 @@ $(document).ready(function() {
                 "seq": seq // 클릭한 게시글의 seq를 전달
             },
              success: function(data) {
-               console.log("success ");
-                 // boardDetail2.jsp로 이동
-                 window.location.href = "boardDetail.jsp";
+               console.log("success");
             },
             error: function(xhr, status, error) {
                 console.log('데이터를 불러오는 중 에러가 발생했습니다.');
@@ -69,7 +81,7 @@ $(document).ready(function() {
                 console.log("에러: " + error);
                 console.log("응답 텍스트: " + xhr.responseText);
             }
-        });
+        }); */
     });
 });
 </script>
@@ -107,6 +119,29 @@ $(document).ready(function() {
                     <a href="#">도서관 소식</a>
                 </div>
             </div>
+            
+            <div class="category-wrap category-wrap2">
+			        <form action="<%=cPath%>/ikuzo/board.ikuzo" method="get" name = "board_frm" id = "board_frm">
+			        <input type = "hidden" name = "work_div" id = "work_div">
+			        <input type="hidden" name="page_no" id="page_no" placeholder="페이지 번호">
+			        <input type="hidden" name="seq" id="seq" placeholder="순번">
+			            <select style = "cursor : pointer;" name = "page_size" id="page_size">
+			                <option value="10" >10페이지</option>
+			                <option value="20" >20페이지</option>
+			                <option value="30" >30페이지</option>
+			                <option value="40" >40페이지</option>
+			            </select>
+			            <select style = "cursor : pointer;" name="board_search_div" id = "board_search_div">
+			                <option value="" selected="selected">전체</option>
+			                <option value="10" >아이디</option>
+			                <option value="20" >이름</option>
+			            </select>
+			            <input type="search" name="board_search_word" id = "board_search_word" placeholder="검색어를 입력해주세요">
+			        </form>
+			        <button type="button" class="btn-control" id = "doRetrieve">
+			            <span class="icon"></span>
+			        </button>   
+            </div>  
         </div>
 
         <table class="notice-board">
